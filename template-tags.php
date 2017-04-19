@@ -19,9 +19,25 @@ function get_bylines( $post = null ) {
 	} elseif ( is_int( $post ) ) {
 		$post = get_post( $post );
 	}
-	$terms = wp_get_object_terms( $post->ID, 'byline', array(
-		'orderby'    => 'term_order',
-	) );
+	if ( ! $post ) {
+		return array();
+	}
+	$taxonomy = 'byline';
+	$terms = get_object_term_cache( $post->ID, $taxonomy );
+	if ( false === $terms ) {
+		$terms = wp_get_object_terms( $post->ID, $taxonomy, array( 'orderby' => 'term_order' ) );
+		if ( ! is_wp_error( $terms ) ) {
+			$term_ids = wp_list_pluck( $terms, 'term_id' );
+			wp_cache_add( $post->ID, $term_ids, $taxonomy . '_relationships' );
+		}
+	}
+
+	/**
+	 * Filters the list of terms attached to the given post.
+	 *
+	 * @see get_the_terms()
+	 */
+	$terms = apply_filters( 'get_the_terms', $terms, $post->ID, $taxonomy );
 	if ( ! $terms || is_wp_error( $terms ) ) {
 		return array();
 	}
