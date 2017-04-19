@@ -26,6 +26,28 @@ module.exports = function( grunt ) {
 			},
 		},
 
+		sass: {
+			options: {
+				sourceComments: false
+			},
+			compile: {
+				files: {
+					'assets/css/bylines.css' : 'assets/css/scss/bylines.scss',
+				}
+			}
+		},
+
+		postcss: {
+			options: {
+				processors: [
+					require('autoprefixer')(),
+				]
+			},
+			dist: {
+				src: 'assets/css/*.css'
+			}
+		},
+
 		makepot: {
 			target: {
 				options: {
@@ -43,8 +65,12 @@ module.exports = function( grunt ) {
 		},
 	} );
 
+	grunt.loadNpmTasks( 'grunt-sass' );
+	grunt.loadNpmTasks( 'grunt-postcss' );
 	grunt.loadNpmTasks( 'grunt-wp-i18n' );
 	grunt.loadNpmTasks( 'grunt-wp-readme-to-markdown' );
+	grunt.registerTask( 'default', [ 'styles' ] );
+	grunt.registerTask( 'styles', [ 'sass', 'postcss' ] );
 	grunt.registerTask( 'i18n', ['addtextdomain', 'makepot'] );
 	grunt.registerTask( 'readme', ['wp_readme_to_markdown'] );
 

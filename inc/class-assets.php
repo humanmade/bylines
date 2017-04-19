@@ -31,5 +31,7 @@ class Assets {
 
 		$mtime = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/js/bylines.js' );
 		wp_enqueue_script( 'bylines', plugins_url( 'assets/js/bylines.js?mtime=' . $mtime, dirname( __FILE__ ) ), array( 'jquery', 'bylines-select2', 'jquery-ui-core' ) );
+		$mtime = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/css/bylines.css' );
+		wp_enqueue_style( 'bylines', plugins_url( 'assets/css/bylines.css?mtime=' . $mtime, dirname( __FILE__ ) ) );
 	}
 }

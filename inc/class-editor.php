@@ -89,6 +89,7 @@ class Editor {
 		ob_start();
 		?>
 		<li>
+			<span class="byline-remove">x</span>
 			<span class="display-name"><?php echo wp_kses_post( $args['display_name'] ); ?></span>
 			<input type="hidden" name="bylines[]" value="<?php echo esc_attr( $args['term'] ); ?>">
 		</li>

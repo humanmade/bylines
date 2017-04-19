@@ -1,0 +1,23 @@
+ul.bylines-list {
+	li {
+		border: 1px solid #ddd;
+		background-color: #FFF;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		padding-left: 10px;
+		padding-right: 10px;
+		position: relative;
+		.byline-remove {
+			position: absolute;
+			right: 5px;
+			width: 10px;
+			z-index: 1;
+		}
+		&:hover,
+		&.ui-sortable-helper {
+			cursor: pointer;
+		}
+		&.ui-sortable-helper {
+		}
+	}
+}
