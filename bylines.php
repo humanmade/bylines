@@ -17,6 +17,7 @@ add_action( 'init', array( 'Bylines\Content_Model', 'action_init_late_register_t
 
 add_action( 'admin_enqueue_scripts', array( 'Bylines\Assets', 'action_admin_enqueue_scripts' ) );
 add_action( 'add_meta_boxes', array( 'Bylines\Editor', 'action_add_meta_boxes_late' ), 100 );
+add_action( 'save_post', array( 'Bylines\Editor', 'action_save_post_bylines_metabox' ), 10, 2 );
 
 /**
  * Autoload without Composer

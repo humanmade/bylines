@@ -103,4 +103,30 @@ class Test_Bylines extends WP_UnitTestCase {
 		// @todo Ensure the order persists.
 	}
 
+	/**
+	 * Saving bylines generically
+	 */
+	public function test_save_bylines() {
+		$post_id = $this->factory->post->create();
+		$b1 = Byline::create( array(
+			'slug'  => 'b1',
+			'display_name' => 'Byline 1',
+		) );
+		$b2 = Byline::create( array(
+			'slug'  => 'b2',
+			'display_name' => 'Byline 2',
+		) );
+		// Mock a POST request.
+		$_POST = array(
+			'bylines' => array(
+				$b1->term_id,
+				$b2->term_id,
+			),
+		);
+		do_action( 'save_post', $post_id, get_post( $post_id ) );
+		$bylines = get_bylines( $post_id );
+		$this->assertCount( 2, $bylines );
+		$this->assertEquals( array( 'b1', 'b2' ), wp_list_pluck( $bylines, 'slug' ) );
+	}
+
 }
