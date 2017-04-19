@@ -42,6 +42,7 @@ class Content_Model {
 				'orderby' => 'term_order',
 			),
 			'show_ui'      => true,
+			'show_in_quick_edit' => false,
 			'meta_box_cb'  => false,
 		);
 		register_taxonomy( 'byline', null, $args );
