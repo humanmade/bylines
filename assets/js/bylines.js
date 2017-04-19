@@ -5,10 +5,17 @@
 			ajax: {
 				url: window.ajaxurl + '?action=bylines_search',
 				dataType: 'json',
+				data: function( params ) {
+					var ignored = [];
+					$('.bylines-list input').each(function(){
+						ignored.push( $(this).val() );
+					});
+					return {
+						q: params.term,
+						ignored: ignored,
+					};
+				},
 			},
-			select: function(e) {
-				console.log( e );
-			}
 		});
 		bylinesSearch.on('select2:select',function(e) {
 			var template = wp.template('bylines-byline-partial');

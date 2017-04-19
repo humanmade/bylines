@@ -27,6 +27,14 @@ class Admin_Ajax {
 		if ( ! empty( $_GET['q'] ) ) {
 			$term_args['search'] = sanitize_text_field( $_GET['q'] );
 		}
+		if ( ! empty( $_GET['ignored'] ) ) {
+			$term_args['exclude'] = array();
+			foreach ( $_GET['ignored'] as $val ) {
+				if ( is_numeric( $val ) ) {
+					$term_args['exclude'][] = (int) $val;
+				}
+			}
+		}
 		$terms = get_terms( $term_args );
 		if ( $terms && ! is_wp_error( $terms ) ) {
 			foreach ( $terms as $term ) {
