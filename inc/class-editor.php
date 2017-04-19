@@ -7,6 +7,8 @@
 
 namespace Bylines;
 
+use Bylines\Objects\Byline;
+
 /**
  * Customizations to the editor experience
  */
@@ -68,9 +70,19 @@ class Editor {
 		$dirty_bylines = $_POST['bylines'];
 		$bylines = array();
 		foreach ( $dirty_bylines as $dirty_byline ) {
-			// @todo support for users.
-			$term_id = (int) $dirty_byline;
-			$bylines[] = $term_id;
+			if ( is_numeric( $dirty_byline ) ) {
+				$bylines[] = (int) $dirty_byline;
+			} elseif ( 'u' === $dirty_byline[0] ) {
+				$user_id = (int) substr( $dirty_byline, 1 );
+				$byline = Byline::get_by_user_id( $user_id );
+				if ( ! $byline ) {
+					$byline = Byline::create_from_user( $user_id );
+					if ( is_wp_error( $byline ) ) {
+						continue;
+					}
+				}
+				$bylines[] = $byline->term_id;
+			}
 		}
 		wp_set_object_terms( $post_id, $bylines, 'byline' );
 	}

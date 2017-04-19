@@ -51,15 +51,14 @@ class Byline {
 	 * @return Byline|WP_Error
 	 */
 	public static function create_from_user( $user ) {
-		global $wpdb;
 		if ( is_int( $user ) ) {
 			$user = get_user_by( 'id', $user );
 		}
 		if ( ! is_a( $user, 'WP_User' ) ) {
 			return new WP_Error( 'missing-user', __( "User doesn't exist", 'bylines' ) );
 		}
-		$existing_id = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM {$wpdb->termmeta} WHERE meta_key='user_id' AND meta_value=%d", $user->ID ) );
-		if ( $existing_id ) {
+		$existing = self::get_by_user_id( $user->ID );
+		if ( $existing ) {
 			return new WP_Error( 'existing-byline', __( 'User already has a byline.', 'bylines' ) );
 		}
 		$byline = self::create( array(
@@ -91,6 +90,21 @@ class Byline {
 	 * @return Byline|false
 	 */
 	public static function get_by_term_id( $term_id ) {
+		return new Byline( $term_id );
+	}
+
+	/**
+	 * Get a byline object based on its user id.
+	 *
+	 * @param integer $user_id ID for the byline's user.
+	 * @return Byline|false
+	 */
+	public static function get_by_user_id( $user_id ) {
+		global $wpdb;
+		$term_id = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM {$wpdb->termmeta} WHERE meta_key='user_id' AND meta_value=%d", $user_id ) );
+		if ( ! $term_id ) {
+			return false;
+		}
 		return new Byline( $term_id );
 	}
 
