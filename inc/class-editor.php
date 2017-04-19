@@ -28,15 +28,17 @@ class Editor {
 	 */
 	public static function render_bylines_metabox() {
 		?>
-		<ul>
-			<?php foreach ( get_bylines() as $byline ) : ?>
-				<li><?php echo self::get_rendered_byline_partial( array(
+		<ul class="bylines-list">
+			<?php
+			foreach ( get_bylines() as $byline ) {
+				echo self::get_rendered_byline_partial( array(
 					'display_name' => $byline->display_name,
 					'term'         => $byline->term_id,
-				) ); ?></li>
-			<?php endforeach; ?>
+				) );
+			}
+			?>
 		</ul>
-		<select class="bylines-select2"></select>
+		<select class="bylines-select2 bylines-search" style="min-width: 200px"></select>
 		<script type="text/html" id="tmpl-bylines-byline-partial">
 			<?php echo self::get_rendered_byline_partial( array(
 				'display_name' => '{{ data.display_name }}',
@@ -86,8 +88,10 @@ class Editor {
 		$args = array_merge( $defaults, $args );
 		ob_start();
 		?>
-		<span class="display-name"><?php echo wp_kses_post( $args['display_name'] ); ?></span>
-		<input type="hidden" name="bylines[]" value="<?php echo esc_attr( $args['term'] ); ?>">
+		<li>
+			<span class="display-name"><?php echo wp_kses_post( $args['display_name'] ); ?></span>
+			<input type="hidden" name="bylines[]" value="<?php echo esc_attr( $args['term'] ); ?>">
+		</li>
 		<?php
 		return ob_get_clean();
 	}
