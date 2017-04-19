@@ -38,6 +38,9 @@ class Content_Model {
 			'public'       => false,
 			'hierarchical' => false,
 			'sort'         => true,
+			'args'         => array(
+				'orderby' => 'term_order',
+			),
 			'show_ui'      => true,
 			'meta_box_cb'  => false,
 		);

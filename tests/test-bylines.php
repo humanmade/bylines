@@ -13,6 +13,33 @@ use Bylines\Objects\Byline;
 class Test_Bylines extends WP_UnitTestCase {
 
 	/**
+	 * Create a new byline from thin air
+	 */
+	public function test_create_byline() {
+		$byline = Byline::create( array(
+			'display_name' => 'Foo Bar',
+			'slug'         => 'foobar',
+		) );
+		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
+		$this->assertEquals( 'Foo Bar', $byline->display_name );
+		$this->assertEquals( 'foobar', $byline->slug );
+	}
+
+	/**
+	 * Creating a byline but missing arguments
+	 */
+	public function test_create_byline_missing_arguments() {
+		$byline = Byline::create( array() );
+		$this->assertInstanceOf( 'WP_Error', $byline );
+		$this->assertEquals( 'missing-slug', $byline->get_error_code() );
+		$byline = Byline::create( array(
+			'slug' => 'foobar',
+		) );
+		$this->assertInstanceOf( 'WP_Error', $byline );
+		$this->assertEquals( 'missing-display_name', $byline->get_error_code() );
+	}
+
+	/**
 	 * Creating a byline from an existing user
 	 */
 	public function test_create_byline_from_user() {
@@ -27,6 +54,7 @@ class Test_Bylines extends WP_UnitTestCase {
 		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
 		$this->assertEquals( $user_id, $byline->user_id );
 		$this->assertEquals( 'Foo Bar', $byline->display_name );
+		$this->assertEquals( 'foobar', $byline->slug );
 		$this->assertEquals( 'Foo', $byline->first_name );
 		$this->assertEquals( 'Bar', $byline->last_name );
 		$this->assertEquals( 'foobar@gmail.com', $byline->user_email );
@@ -54,4 +82,25 @@ class Test_Bylines extends WP_UnitTestCase {
 		$this->assertInstanceOf( 'WP_Error', $byline );
 		$this->assertEquals( 'existing-byline', $byline->get_error_code() );
 	}
+
+	/**
+	 * Getting bylines generically
+	 */
+	public function test_get_bylines() {
+		$b1 = Byline::create( array(
+			'slug'  => 'b1',
+			'display_name' => 'Byline 1',
+		) );
+		$b2 = Byline::create( array(
+			'slug'  => 'b2',
+			'display_name' => 'Byline 2',
+		) );
+		$post_id = $this->factory->post->create();
+		wp_set_object_terms( $post_id, array( $b1->term_id, $b2->term_id ), 'byline' );
+		$bylines = get_bylines( $post_id );
+		$this->assertCount( 2, $bylines );
+		$this->assertEquals( array( 'b1', 'b2' ), wp_list_pluck( $bylines, 'slug' ) );
+		// @todo Ensure the order persists.
+	}
+
 }

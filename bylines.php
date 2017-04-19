@@ -15,7 +15,7 @@
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_register_taxonomies' ) );
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_late_register_taxonomy_for_object_type' ), 100 );
 
-add_action( 'add_meta_boxes', array( 'Bylines\Editor', 'action_add_meta_boxes' ) );
+add_action( 'add_meta_boxes', array( 'Bylines\Editor', 'action_add_meta_boxes_late' ), 100 );
 
 /**
  * Autoload without Composer
@@ -37,3 +37,6 @@ spl_autoload_register( function( $class ) {
 	}
 
 });
+
+// Template tags should always be available.
+require_once dirname( __FILE__ ) . '/template-tags.php';
