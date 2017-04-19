@@ -79,6 +79,10 @@ class Admin_Ajax {
 				'user_id'       => $user->ID,
 			);
 		}
+		// Sort alphabetically by display name.
+		usort( $bylines, function( $a, $b ) {
+			return strcmp( $a['display_name'], $b['display_name'] );
+		});
 		$response = array(
 			'results'    => $bylines,
 		);
