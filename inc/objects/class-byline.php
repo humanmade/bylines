@@ -62,13 +62,13 @@ class Byline {
 		if ( $existing_id ) {
 			return new WP_Error( 'existing-byline', __( 'User already has a byline.', 'bylines' ) );
 		}
-		$term = wp_insert_term( $user->display_name, 'byline', array(
-			'slug'     => $user->user_nicename,
+		$byline = self::create( array(
+			'display_name'    => $user->display_name,
+			'slug'            => $user->user_nicename,
 		) );
-		if ( is_wp_error( $term ) ) {
-			return $term;
+		if ( is_wp_error( $byline ) ) {
+			return $byline;
 		}
-		$byline = new Byline( $term['term_id'] );
 		// Clone applicable user fields.
 		$user_fields = array(
 			'user_login',
