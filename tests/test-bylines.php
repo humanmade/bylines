@@ -100,7 +100,11 @@ class Test_Bylines extends WP_UnitTestCase {
 		$bylines = get_bylines( $post_id );
 		$this->assertCount( 2, $bylines );
 		$this->assertEquals( array( 'b1', 'b2' ), wp_list_pluck( $bylines, 'slug' ) );
-		// @todo Ensure the order persists.
+		// Ensure the order persists.
+		wp_set_object_terms( $post_id, array( $b2->term_id, $b1->term_id ), 'byline' );
+		$bylines = get_bylines( $post_id );
+		$this->assertCount( 2, $bylines );
+		$this->assertEquals( array( 'b2', 'b1' ), wp_list_pluck( $bylines, 'slug' ) );
 	}
 
 	/**

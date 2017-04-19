@@ -19,7 +19,9 @@ function get_bylines( $post = null ) {
 	} elseif ( is_int( $post ) ) {
 		$post = get_post( $post );
 	}
-	$terms = get_the_terms( $post, 'byline' );
+	$terms = wp_get_object_terms( $post->ID, 'byline', array(
+		'orderby'    => 'term_order',
+	) );
 	if ( ! $terms || is_wp_error( $terms ) ) {
 		return array();
 	}

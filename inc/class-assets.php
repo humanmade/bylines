@@ -30,6 +30,6 @@ class Assets {
 		wp_enqueue_style( 'bylines-select2', plugins_url( 'assets/lib/select2/css/select2.min.css', dirname( __FILE__ ) ), array(), '4.0.3' );
 
 		$mtime = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/js/bylines.js' );
-		wp_enqueue_script( 'bylines', plugins_url( 'assets/js/bylines.js?mtime=' . $mtime, dirname( __FILE__ ) ), array( 'jquery', 'bylines-select2' ) );
+		wp_enqueue_script( 'bylines', plugins_url( 'assets/js/bylines.js?mtime=' . $mtime, dirname( __FILE__ ) ), array( 'jquery', 'bylines-select2', 'jquery-ui-core' ) );
 	}
 }

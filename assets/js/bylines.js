@@ -15,6 +15,7 @@
 			$('.bylines-list').append( template( e.params.data ) );
 			bylinesSearch.val(null).trigger('change');
 		});
+		$('.bylines-list').sortable();
 	});
 
 }(jQuery))
