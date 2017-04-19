@@ -35,6 +35,7 @@ class Editor {
 				) ); ?></li>
 			<?php endforeach; ?>
 		</ul>
+		<select class="bylines-select2"></select>
 		<script type="text/html" id="tmpl-bylines-byline-partial">
 			<?php echo self::get_rendered_byline_partial( array(
 				'display_name' => '{{ data.display_name }}',
