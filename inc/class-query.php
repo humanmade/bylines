@@ -78,11 +78,7 @@ class Query {
 	public static function filter_posts_join( $join, $query ) {
 		global $wpdb;
 
-		if ( ! $query->is_author() ) {
-			return $join;
-		}
-
-		if ( empty( $query->bylines_having_terms ) ) {
+		if ( ! $query->is_author() || empty( $query->bylines_having_terms ) ) {
 			return $join;
 		}
 
@@ -113,11 +109,7 @@ class Query {
 	public static function filter_posts_groupby( $groupby, $query ) {
 		global $wpdb;
 
-		if ( ! $query->is_author() ) {
-			return $groupby;
-		}
-
-		if ( empty( $query->bylines_having_terms ) ) {
+		if ( ! $query->is_author() || empty( $query->bylines_having_terms ) ) {
 			return $groupby;
 		}
 
