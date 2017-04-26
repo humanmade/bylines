@@ -65,6 +65,10 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		wp_set_object_terms( $this->post_id3, $bylines, 'byline' );
 		$this->go_to( get_author_posts_url( $this->user_id1 ) );
 		$this->assertEquals( 3, $GLOBALS['wp_query']->found_posts );
+		// Apply the filter to disable MAX IF
+		add_filter( 'bylines_query_post_author', '__return_false' );
+		$this->go_to( get_author_posts_url( $this->user_id1 ) );
+		$this->assertEquals( 1, $GLOBALS['wp_query']->found_posts );
 	}
 
 	/**

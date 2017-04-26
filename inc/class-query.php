@@ -61,7 +61,9 @@ class Query {
 			}
 			$terms_implode = rtrim( $terms_implode, ' OR' );
 			$query->bylines_having_terms = rtrim( $query->bylines_having_terms, ' OR' );
-			$where = preg_replace( '/(\b(?:' . $wpdb->posts . '\.)?post_author\s*=\s*(\d+))/', '(' . $maybe_both_query . ' ' . $terms_implode . ')', $where );
+			// post_author = 2 OR post_author IN (2).
+			$regex = '/(\b(?:' . $wpdb->posts . '\.)?post_author\s*(=\s*[\d+]|IN\s*\([\d+]\)))/';
+			$where = preg_replace( $regex, '(' . $maybe_both_query . ' ' . $terms_implode . ')', $where );
 		}
 
 		return $where;
