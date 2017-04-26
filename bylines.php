@@ -15,6 +15,11 @@
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_register_taxonomies' ) );
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_late_register_taxonomy_for_object_type' ), 100 );
 
+// Query modifications.
+add_filter( 'posts_where', array( 'Bylines\Query', 'filter_posts_where' ), 10, 2 );
+add_filter( 'posts_join', array( 'Bylines\Query', 'filter_posts_join' ), 10, 2 );
+add_filter( 'posts_groupby', array( 'Bylines\Query', 'filter_posts_groupby' ), 10, 2 );
+
 add_action( 'wp_ajax_bylines_search', array( 'Bylines\Admin_Ajax', 'handle_bylines_search' ) );
 add_action( 'admin_enqueue_scripts', array( 'Bylines\Assets', 'action_admin_enqueue_scripts' ) );
 add_action( 'add_meta_boxes', array( 'Bylines\Editor', 'action_add_meta_boxes_late' ), 100 );
