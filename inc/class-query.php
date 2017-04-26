@@ -7,10 +7,45 @@
 
 namespace Bylines;
 
+use Bylines\Objects\Byline;
+
 /**
  * Modifications to the main query, and helper query methods
  */
 class Query {
+
+	/**
+	 * Fix for author pages 404ing or not properly displaying on author pages
+	 *
+	 * If an author has no posts, we only want to force the queried object to be
+	 * the author if they're a member of the blog.
+	 *
+	 * If the author does have posts, it doesn't matter that they're not an author.
+	 *
+	 * @param WP_Query $query Query object.
+	 */
+	public static function action_pre_get_posts( $query ) {
+		if ( ! $query->is_author() ) {
+			return;
+		}
+
+		$author_name = $query->get( 'author_name' );
+		if ( ! $author_name ) {
+			return;
+		}
+
+		$term = get_term_by( 'slug', $author_name, 'byline' );
+		if ( $term ) {
+			$byline = Byline::get_by_term_id( $term->term_id );
+			$query->queried_object = $byline;
+			$query->queried_object_id = $byline->term_id;
+		} else {
+			$query->queried_object = null;
+			$query->queried_object_id = null;
+			$query->is_author = false;
+			$query->is_archive = false;
+		}
+	}
 
 	/**
 	 * Modify the WHERE clause on author queries.
