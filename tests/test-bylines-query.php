@@ -75,15 +75,6 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 	 * Queried object is overloaded on the author archive
 	 */
 	public function test_query_overload_queried_object_author_archive() {
-		// Byline without a user attached and no posts.
-		$byline1 = Byline::create( array(
-			'display_name'   => 'Byline 1',
-			'slug'           => 'byline-1',
-		) );
-		$this->go_to( '?author_name=' . $byline1->slug );
-		$this->assertEquals( $byline1, get_queried_object() );
-		$this->assertEquals( $byline1->term_id, get_queried_object_id() );
-		$this->assertEquals( 0, $GLOBALS['wp_query']->found_posts );
 		// Byline without a user attached and one post.
 		$byline2 = Byline::create( array(
 			'display_name'   => 'Byline 2',
@@ -117,6 +108,20 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		$this->go_to( get_author_posts_url( $this->user_id2 ) );
 		$this->assertEquals( $user2, get_queried_object() );
 		$this->assertEquals( 1, $GLOBALS['wp_query']->found_posts );
+	}
+
+	/**
+	 * Overload queried object for byline without a user attached and no posts.
+	 */
+	public function test_query_overload_byline_without_user_with_posts() {
+		$byline1 = Byline::create( array(
+			'display_name'   => 'Byline 1',
+			'slug'           => 'byline-1',
+		) );
+		$this->go_to( '?author_name=' . $byline1->slug );
+		$this->assertEquals( $byline1, get_queried_object() );
+		$this->assertEquals( $byline1->term_id, get_queried_object_id() );
+		$this->assertEquals( 0, $GLOBALS['wp_query']->found_posts );
 	}
 
 	/**
