@@ -82,7 +82,8 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 	 * Query isn't modified when a non-existant user id is passed
 	 */
 	public function test_query_not_modified_when_user_id_doesnt_exist() {
-		$this->markTestSkipped( 'Needs implementing' );
+		$this->go_to( '?author=' . BYLINES_IMPOSSIBLY_HIGH_NUMBER );
+		$this->assertTrue( ! isset( $GLOBALS['wp_query']->bylines_having_terms ) );
 	}
 
 }
