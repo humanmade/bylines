@@ -12,6 +12,19 @@
  * @package         Bylines
  */
 
+/**
+ * Warn when minimum version requirements aren't met
+ */
+function bylines_action_admin_notices_warn_requirements() {
+	echo '<div class="error message"><p>' . __( 'Bylines requires at least WordPress 4.4 and PHP 5.3. Please make sure you meet these minimum requirements.', 'bylines' ) . '</p></div>';
+}
+
+if ( version_compare( $GLOBALS['wp_version'], '4.4', '<' )
+	|| version_compare( PHP_VERSION, '5.3', '<' ) ) {
+	add_action( 'admin_notices', 'bylines_action_admin_notices_warn_requirements' );
+	return;
+}
+
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_register_taxonomies' ) );
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_late_register_taxonomy_for_object_type' ), 100 );
 
