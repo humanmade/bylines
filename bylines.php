@@ -28,6 +28,9 @@ if ( version_compare( $GLOBALS['wp_version'], '4.4', '<' )
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_register_taxonomies' ) );
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_late_register_taxonomy_for_object_type' ), 100 );
 
+// Admin customizations.
+add_action( 'admin_init', array( 'Bylines\Admin', 'action_admin_init' ) );
+
 // Query modifications.
 add_action( 'pre_get_posts', array( 'Bylines\Query', 'action_pre_get_posts' ) );
 add_filter( 'posts_where', array( 'Bylines\Query', 'filter_posts_where' ), 10, 2 );
