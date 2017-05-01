@@ -101,7 +101,7 @@ class Byline {
 	 */
 	public static function get_by_user_id( $user_id ) {
 		global $wpdb;
-		$term_id = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM {$wpdb->termmeta} WHERE meta_key='user_id' AND meta_value=%d", $user_id ) );
+		$term_id = $wpdb->get_var( $wpdb->prepare( "SELECT term_id FROM {$wpdb->termmeta} WHERE meta_key=%s", 'user_id_' . $user_id ) );
 		if ( ! $term_id ) {
 			return false;
 		}
