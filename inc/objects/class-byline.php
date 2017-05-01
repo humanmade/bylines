@@ -147,6 +147,11 @@ class Byline {
 		if ( isset( $this->$attribute ) ) {
 			return $this->$attribute;
 		}
+
+		if ( 'link' === $attribute ) {
+			return get_term_link( $this->term_id, 'byline' );
+		}
+
 		if ( in_array( $attribute, array( 'display_name', 'slug' ), true ) ) {
 			$field = 'display_name' === $attribute ? 'name' : 'slug';
 			return get_term_field( $field, $this->term_id, 'byline', 'raw' );
