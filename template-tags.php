@@ -49,3 +49,49 @@ function get_bylines( $post = null ) {
 	}
 	return $bylines;
 }
+
+/**
+ * Renders the bylines display names, without links to their posts.
+ *
+ * Equivalent to the_authors() template tag.
+ */
+function the_bylines() {
+	echo bylines_render( get_bylines() );
+}
+
+/**
+ * Display one or more bylines, according to arguments provided.
+ *
+ * @param array $bylines Set of bylines to display.
+ * @param array $args    Arguments to affect display.
+ */
+function bylines_render( $bylines, $args = array() ) {
+	if ( empty( $bylines ) ) {
+		return '';
+	}
+	$defaults = array(
+		'between'           => ', ',
+		'between_last_two'  => __( ' and ', 'bylines' ),
+		'between_last_many' => __( ', and ', 'bylines' ),
+	);
+	$args = array_merge( $defaults, $args );
+	$total = count( $bylines );
+	$current = 0;
+	$output = '';
+	foreach ( $bylines as $byline ) {
+		$current++;
+		if ( $current > 1 ) {
+			if ( $current === $total ) {
+				if ( 2 === $total ) {
+					$output .= $args['between_last_two'];
+				} else {
+					$output .= $args['between_last_many'];
+				}
+			} elseif ( $total >= 2 ) {
+				$output .= $args['between'];
+			}
+		}
+		$output .= $byline->display_name;
+	}
+	return $output;
+}
