@@ -44,4 +44,15 @@ class Test_Bylines_Object extends WP_UnitTestCase {
 		), $metas );
 	}
 
+	/**
+	 * Verify a byline can be fetched by its slug.
+	 */
+	public function test_byline_get_by_term_slug() {
+		$byline = Byline::create( array(
+			'slug'         => 'foo',
+			'display_name' => 'Foo',
+		) );
+		$this->assertEquals( $byline, Byline::get_by_term_slug( 'foo' ) );
+	}
+
 }
