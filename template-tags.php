@@ -53,20 +53,61 @@ function get_bylines( $post = null ) {
 /**
  * Renders the bylines display names, without links to their posts.
  *
- * Equivalent to the_authors() template tag.
+ * Equivalent to the_author() template tag.
  */
 function the_bylines() {
-	echo bylines_render( get_bylines() );
+	echo bylines_render( get_bylines(), function( $byline ) {
+		return $byline->display_name;
+	} );
+}
+
+/**
+ * Renders the bylines display names, with links to their posts.
+ *
+ * Equivalent to the_author_posts_link() template tag.
+ */
+function the_bylines_posts_links() {
+	echo bylines_render( get_bylines(), function( $byline ) {
+		$args = array(
+			'before_html' => '',
+			'href' => $byline->link,
+			'rel' => 'author',
+			// translators: Posts by a given author.
+			'title' => sprintf( __( 'Posts by %1$s', 'bylines' ), apply_filters( 'the_author', $byline->display_name ) ),
+			'class' => 'author url fn',
+			'text' => apply_filters( 'the_author', $byline->display_name ),
+			'after_html' => '',
+		);
+		/**
+		 * Arguments for determining the display of bylines with posts links
+		 *
+		 * @param array  $args   Arguments determining the rendering of the byline.
+		 * @param Byline $byline The byline to be rendered.
+		 */
+		$args = apply_filters( 'bylines_posts_links', $args, $byline );
+		$single_link = sprintf(
+			'<a href="%1$s" title="%2$s" class="%3$s" rel="%4$s">%5$s</a>',
+			esc_url( $args['href'] ),
+			esc_attr( $args['title'] ),
+			esc_attr( $args['class'] ),
+			esc_attr( $args['rel'] ),
+			esc_html( $args['text'] )
+		);
+		return $args['before_html'] . $single_link . $args['after_html'];
+	} );
 }
 
 /**
  * Display one or more bylines, according to arguments provided.
  *
- * @param array $bylines Set of bylines to display.
- * @param array $args    Arguments to affect display.
+ * @param array    $bylines         Set of bylines to display.
+ * @param callable $render_callback Callback to return rendered byline.
+ * @param array    $args            Arguments to affect display.
  */
-function bylines_render( $bylines, $args = array() ) {
-	if ( empty( $bylines ) ) {
+function bylines_render( $bylines, $render_callback, $args = array() ) {
+	if ( empty( $bylines )
+		|| empty( $render_callback )
+		|| ! is_callable( $render_callback ) ) {
 		return '';
 	}
 	$defaults = array(
@@ -91,7 +132,7 @@ function bylines_render( $bylines, $args = array() ) {
 				$output .= $args['between'];
 			}
 		}
-		$output .= $byline->display_name;
+		$output .= $render_callback( $byline );
 	}
 	return $output;
 }

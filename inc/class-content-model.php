@@ -7,6 +7,8 @@
 
 namespace Bylines;
 
+use Bylines\Objects\Byline;
+
 /**
  * Declaration of the content model
  */
@@ -55,6 +57,32 @@ class Content_Model {
 		foreach ( self::get_byline_supported_post_types() as $post_type ) {
 			register_taxonomy_for_object_type( 'byline', $post_type );
 		}
+	}
+
+	/**
+	 * Filter byline term links to look like author links
+	 *
+	 * @param string $link     Term link URL.
+	 * @param object $term     Term object.
+	 * @param string $taxonomy Taxonomy slug.
+	 * @return string
+	 */
+	public static function filter_term_link( $link, $term, $taxonomy ) {
+		global $wp_rewrite;
+
+		if ( 'byline' !== $taxonomy ) {
+			return $link;
+		}
+		$byline = Byline::get_by_term_id( $term->term_id );
+		$author_nicename = $byline ? $byline->slug : '';
+		$permastruct = $wp_rewrite->get_author_permastruct();
+		if ( $permastruct ) {
+			$link = str_replace( '%author%', $author_nicename, $permastruct );
+			$link = home_url( user_trailingslashit( $link ) );
+		} else {
+			$link = add_query_arg( 'author_name', rawurlencode( $author_nicename ), home_url() );
+		}
+		return $link;
 	}
 
 	/**

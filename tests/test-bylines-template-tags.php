@@ -100,4 +100,24 @@ class Test_Bylines_Template_Tags extends WP_UnitTestCase {
 		the_bylines();
 	}
 
+	/**
+	 * Render two bylines, with the link to its post
+	 */
+	public function test_template_tag_the_bylines_posts_links_two_byline() {
+		global $post;
+		$b1 = Byline::create( array(
+			'slug'  => 'b1',
+			'display_name' => 'Byline 1',
+		) );
+		$b2 = Byline::create( array(
+			'slug'  => 'b2',
+			'display_name' => 'Byline 2',
+		) );
+		$post_id = $this->factory->post->create();
+		$post = get_post( $post_id );
+		wp_set_object_terms( $post_id, array( $b2->term_id, $b1->term_id ), 'byline' );
+		$this->expectOutputString( '<a href="' . $b2->link . '" title="Posts by Byline 2" class="author url fn" rel="author">Byline 2</a> and <a href="' . $b1->link . '" title="Posts by Byline 1" class="author url fn" rel="author">Byline 1</a>' );
+		the_bylines_posts_links();
+	}
+
 }
