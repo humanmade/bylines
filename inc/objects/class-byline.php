@@ -94,6 +94,20 @@ class Byline {
 	}
 
 	/**
+	 * Get a byline object based on its term slug.
+	 *
+	 * @param string $slug Slug for the byline term.
+	 * @return Byline|false
+	 */
+	public static function get_by_term_slug( $slug ) {
+		$term = get_term_by( 'slug', $slug, 'byline' );
+		if ( ! $term || is_wp_error( $term ) ) {
+			return false;
+		}
+		return new Byline( $term->term_id );
+	}
+
+	/**
 	 * Get a byline object based on its user id.
 	 *
 	 * @param integer $user_id ID for the byline's user.
