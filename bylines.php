@@ -46,6 +46,7 @@ if ( version_compare( $GLOBALS['wp_version'], '4.4', '<' )
 
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_register_taxonomies' ) );
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_late_register_taxonomy_for_object_type' ), 100 );
+add_filter( 'update_term_metadata', array( 'Bylines\Content_Model', 'filter_update_term_metadata' ), 10, 4 );
 
 // Admin customizations.
 add_action( 'admin_init', array( 'Bylines\Admin', 'action_admin_init' ) );

@@ -58,6 +58,34 @@ class Content_Model {
 	}
 
 	/**
+	 * Store user id as a term meta key too, for faster querying
+	 *
+	 * @param mixed   $check      Whether or not the update should be short-circuited.
+	 * @param integer $object_id  ID for the byline term object.
+	 * @param string  $meta_key   Meta key being updated.
+	 * @param string  $meta_value New meta value.
+	 */
+	public static function filter_update_term_metadata( $check, $object_id, $meta_key, $meta_value ) {
+		if ( 'user_id' !== $meta_key ) {
+			return $check;
+		}
+		$term = get_term_by( 'id', $object_id, 'byline' );
+		if ( 'byline' !== $term->taxonomy ) {
+			return $check;
+		}
+		$metas = get_term_meta( $object_id );
+		foreach ( $metas as $key => $meta ) {
+			if ( 0 === strpos( $key, 'user_id_' ) ) {
+				delete_term_meta( $object_id, $key );
+			}
+		}
+		if ( $meta_value ) {
+			update_term_meta( $object_id, 'user_id_' . $meta_value, 'user_id' );
+		}
+		return $check;
+	}
+
+	/**
 	 * Get the supported post types for bylines
 	 */
 	public static function get_byline_supported_post_types() {
