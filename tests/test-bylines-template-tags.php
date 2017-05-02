@@ -6,6 +6,7 @@
  */
 
 use Bylines\Objects\Byline;
+use Bylines\Utils;
 
 /**
  * Test functionality related to the Bylines object
@@ -23,7 +24,7 @@ class Test_Bylines_Template_Tags extends WP_UnitTestCase {
 		) );
 		$post_id = $this->factory->post->create();
 		$post = get_post( $post_id );
-		wp_set_object_terms( $post_id, array( $b1->term_id ), 'byline' );
+		Utils::set_post_bylines( $post_id, array( $b1 ) );
 		$this->expectOutputString( 'Byline 1' );
 		the_bylines();
 	}
@@ -43,7 +44,7 @@ class Test_Bylines_Template_Tags extends WP_UnitTestCase {
 		) );
 		$post_id = $this->factory->post->create();
 		$post = get_post( $post_id );
-		wp_set_object_terms( $post_id, array( $b2->term_id, $b1->term_id ), 'byline' );
+		Utils::set_post_bylines( $post_id, array( $b2, $b1 ) );
 		$this->expectOutputString( 'Byline 2 and Byline 1' );
 		the_bylines();
 	}
@@ -67,7 +68,7 @@ class Test_Bylines_Template_Tags extends WP_UnitTestCase {
 		) );
 		$post_id = $this->factory->post->create();
 		$post = get_post( $post_id );
-		wp_set_object_terms( $post_id, array( $b2->term_id, $b3->term_id, $b1->term_id ), 'byline' );
+		Utils::set_post_bylines( $post_id, array( $b2, $b3, $b1 ) );
 		$this->expectOutputString( 'Byline 2, Byline 3, and Byline 1' );
 		the_bylines();
 	}
@@ -95,7 +96,7 @@ class Test_Bylines_Template_Tags extends WP_UnitTestCase {
 		) );
 		$post_id = $this->factory->post->create();
 		$post = get_post( $post_id );
-		wp_set_object_terms( $post_id, array( $b2->term_id, $b4->term_id, $b3->term_id, $b1->term_id ), 'byline' );
+		Utils::set_post_bylines( $post_id, array( $b2, $b4, $b3, $b1 ) );
 		$this->expectOutputString( 'Byline 2, Byline 4, Byline 3, and Byline 1' );
 		the_bylines();
 	}
@@ -115,7 +116,7 @@ class Test_Bylines_Template_Tags extends WP_UnitTestCase {
 		) );
 		$post_id = $this->factory->post->create();
 		$post = get_post( $post_id );
-		wp_set_object_terms( $post_id, array( $b2->term_id, $b1->term_id ), 'byline' );
+		Utils::set_post_bylines( $post_id, array( $b2, $b1 ) );
 		$this->expectOutputString( '<a href="' . $b2->link . '" title="Posts by Byline 2" class="author url fn" rel="author">Byline 2</a> and <a href="' . $b1->link . '" title="Posts by Byline 1" class="author url fn" rel="author">Byline 1</a>' );
 		the_bylines_posts_links();
 	}

@@ -6,6 +6,7 @@
  */
 
 use Bylines\Objects\Byline;
+use Bylines\Utils;
 
 /**
  * Test functionality related to modifying the main query
@@ -31,9 +32,9 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		) );
 		$byline1 = Byline::create_from_user( $this->user_id1 );
 		$byline2 = Byline::create_from_user( $this->user_id2 );
-		$bylines = array( $byline1->term_id, $byline2->term_id );
-		wp_set_object_terms( $this->post_id1, $bylines, 'byline' );
-		wp_set_object_terms( $this->post_id2, $bylines, 'byline' );
+		$bylines = array( $byline1, $byline2 );
+		Utils::set_post_bylines( $this->post_id1, $bylines );
+		Utils::set_post_bylines( $this->post_id2, $bylines );
 		// User 1.
 		$this->go_to( get_author_posts_url( $this->user_id1 ) );
 		$this->assertEquals( 2, $GLOBALS['wp_query']->found_posts );
@@ -61,8 +62,8 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		// Create a new post with a byline.
 		$this->post_id3 = $this->factory->post->create();
 		$byline1 = Byline::create_from_user( $this->user_id1 );
-		$bylines = array( $byline1->term_id );
-		wp_set_object_terms( $this->post_id3, $bylines, 'byline' );
+		$bylines = array( $byline1 );
+		Utils::set_post_bylines( $this->post_id3, $bylines );
 		$this->go_to( get_author_posts_url( $this->user_id1 ) );
 		$this->assertEquals( 3, $GLOBALS['wp_query']->found_posts );
 		// Apply the filter to disable MAX IF.
@@ -95,7 +96,7 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		) );
 		$this->post_id1 = $this->factory->post->create();
 		$bylines = array( $byline2->term_id );
-		wp_set_object_terms( $this->post_id1, $bylines, 'byline' );
+		Utils::set_post_bylines( $this->post_id1, array( $byline2 ) );
 		$this->go_to( '?author_name=' . $byline2->slug );
 		$this->assertEquals( $byline2, get_queried_object() );
 		$this->assertEquals( $byline2->term_id, get_queried_object_id() );

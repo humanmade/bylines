@@ -71,7 +71,7 @@ class Editor {
 		$bylines = array();
 		foreach ( $dirty_bylines as $dirty_byline ) {
 			if ( is_numeric( $dirty_byline ) ) {
-				$bylines[] = (int) $dirty_byline;
+				$bylines[] = Byline::get_by_term_id( $dirty_byline );
 			} elseif ( 'u' === $dirty_byline[0] ) {
 				$user_id = (int) substr( $dirty_byline, 1 );
 				$byline = Byline::get_by_user_id( $user_id );
@@ -81,10 +81,10 @@ class Editor {
 						continue;
 					}
 				}
-				$bylines[] = $byline->term_id;
+				$bylines[] = $byline;
 			}
 		}
-		wp_set_object_terms( $post_id, $bylines, 'byline' );
+		Utils::set_post_bylines( $post_id, $bylines );
 	}
 
 	/**
