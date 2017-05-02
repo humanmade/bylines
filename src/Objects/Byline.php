@@ -70,10 +70,12 @@ class Byline {
 		}
 		// Clone applicable user fields.
 		$user_fields = array(
-			'user_login',
 			'first_name',
 			'last_name',
 			'user_email',
+			'user_login',
+			'user_url',
+			'description',
 		);
 		update_term_meta( $byline->term_id, 'user_id', $user->ID );
 		foreach ( $user_fields as $field ) {
@@ -152,9 +154,16 @@ class Byline {
 			return get_term_link( $this->term_id, 'byline' );
 		}
 
-		if ( in_array( $attribute, array( 'display_name', 'slug' ), true ) ) {
-			$field = 'display_name' === $attribute ? 'name' : 'slug';
-			return get_term_field( $field, $this->term_id, 'byline', 'raw' );
+		// These two fields are actually on the Term object.
+		if ( 'display_name' === $attribute ) {
+			$attribute = 'name';
+		}
+		if ( 'user_nicename' === $attribute ) {
+			$attribute = 'slug';
+		}
+
+		if ( in_array( $attribute, array( 'name', 'slug' ), true ) ) {
+			return get_term_field( $attribute, $this->term_id, 'byline', 'raw' );
 		}
 		return get_term_meta( $this->term_id, $attribute, true );
 	}

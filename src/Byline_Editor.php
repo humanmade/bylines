@@ -54,11 +54,11 @@ class Byline_Editor {
 			return;
 		}
 		foreach ( self::get_fields() as $key => $args ) {
-			if ( ! isset( $_POST[ $key ] ) ) {
+			if ( ! isset( $_POST[ 'bylines-' . $key ] ) ) {
 				continue;
 			}
 			$sanitize = isset( $args['sanitize'] ) ? $args['sanitize'] : 'sanitize_text_field';
-			update_term_meta( $term_id, $key, $sanitize( $_POST[ $key ] ) );
+			update_term_meta( $term_id, $key, $sanitize( $_POST[ 'bylines-' . $key ] ) );
 		}
 	}
 
@@ -81,6 +81,16 @@ class Byline_Editor {
 				'label'    => __( 'Email', 'bylines' ),
 				'type'     => 'email',
 			),
+			'user_url'     => array(
+				'label'    => __( 'Website', 'bylines' ),
+				'type'     => 'url',
+				'sanitize' => 'esc_url_raw',
+			),
+			'description'  => array(
+				'label'    => __( 'Biographical Info', 'bylines' ),
+				'type'     => 'textarea',
+				'sanitize' => 'wp_filter_post_kses',
+			),
 		);
 	}
 
@@ -96,16 +106,21 @@ class Byline_Editor {
 			'label'           => '',
 		);
 		$args = array_merge( $defaults, $args );
+		$key = 'bylines-' . $args['key'];
 		ob_start();
 		?>
-		<tr class="<?php echo esc_attr( 'form-field term-' . $args['key'] . '-wrap' ); ?>">
+		<tr class="<?php echo esc_attr( 'form-field term-' . $key . '-wrap' ); ?>">
 			<th scope="row">
 				<?php if ( ! empty( $args['label'] ) ) : ?>
-					<label for="<?php echo esc_attr( $args['key'] ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
+					<label for="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $args['label'] ); ?></label>
 				<?php endif; ?>
 			</th>
 			<td>
-				<input name="<?php echo esc_attr( $args['key'] ); ?>" type="<?php echo esc_attr( $args['type'] ); ?>" value="<?php echo esc_attr( $args['value'] ); ?>" />
+				<?php if ( 'textarea' === $args['type'] ) : ?>
+					<textarea name="<?php echo esc_attr( $key ); ?>"><?php echo esc_textarea( $args['value'] ); ?></textarea>
+				<?php else : ?>
+					<input name="<?php echo esc_attr( $key ); ?>" type="<?php echo esc_attr( $args['type'] ); ?>" value="<?php echo esc_attr( $args['value'] ); ?>" />
+				<?php endif; ?>
 			</td>
 		</tr>
 		<?php
