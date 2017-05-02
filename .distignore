@@ -22,8 +22,8 @@ phpcs.ruleset.xml
 README.md
 wp-cli.local.yml
 tests
-vendor
 node_modules
+includes/dev.php
 *.sql
 *.tar.gz
 *.zip
