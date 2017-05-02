@@ -12,7 +12,7 @@ use Bylines\Objects\Byline;
 /**
  * Customizations to the editor experience
  */
-class Editor {
+class Post_Editor {
 
 	/**
 	 * Deregister the author meta box, and register Bylines meta boxes
