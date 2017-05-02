@@ -52,6 +52,7 @@ add_filter( 'update_term_metadata', array( 'Bylines\Content_Model', 'filter_upda
 // Admin customizations.
 add_action( 'admin_init', array( 'Bylines\Admin', 'action_admin_init' ) );
 add_filter( 'manage_edit-byline_columns', array( 'Bylines\Byline_Editor', 'filter_manage_edit_byline_columns' ) );
+add_action( 'byline_edit_form_fields', array( 'Bylines\Byline_Editor', 'action_byline_edit_form_fields' ) );
 
 // Query modifications.
 add_action( 'pre_get_posts', array( 'Bylines\Query', 'action_pre_get_posts' ) );
