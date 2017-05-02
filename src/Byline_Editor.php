@@ -35,7 +35,40 @@ class Byline_Editor {
 	 */
 	public static function action_byline_edit_form_fields( $term ) {
 		$byline = Byline::get_by_term_id( $term->term_id );
-		$fields = array(
+		foreach ( self::get_fields() as $key => $args ) {
+			$args['key'] = $key;
+			$args['value'] = $byline->$key;
+			echo self::get_rendered_byline_partial( $args );
+		}
+		wp_nonce_field( 'byline-edit', 'byline-edit-nonce' );
+	}
+
+	/**
+	 * Handle saving of term meta
+	 *
+	 * @param integer $term_id ID for the term being edited.
+	 */
+	public static function action_edited_byline( $term_id ) {
+		if ( empty( $_POST['byline-edit-nonce'] )
+			|| ! wp_verify_nonce( $_POST['byline-edit-nonce'], 'byline-edit' ) ) {
+			return;
+		}
+		foreach ( self::get_fields() as $key => $args ) {
+			if ( ! isset( $_POST[ $key ] ) ) {
+				continue;
+			}
+			$sanitize = isset( $args['sanitize'] ) ? $args['sanitize'] : 'sanitize_text_field';
+			update_term_meta( $term_id, $key, $sanitize( $_POST[ $key ] ) );
+		}
+	}
+
+	/**
+	 * Get the fields to be rendered in the byline editor
+	 *
+	 * @return array
+	 */
+	public static function get_fields() {
+		return array(
 			'first_name'   => array(
 				'label'    => __( 'First Name', 'bylines' ),
 				'type'     => 'text',
@@ -49,11 +82,6 @@ class Byline_Editor {
 				'type'     => 'email',
 			),
 		);
-		foreach ( $fields as $key => $args ) {
-			$args['key'] = $key;
-			$args['value'] = $byline->$key;
-			echo self::get_rendered_byline_partial( $args );
-		}
 	}
 
 	/**
