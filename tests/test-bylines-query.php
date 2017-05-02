@@ -5,6 +5,8 @@
  * @package Bylines
  */
 
+use Bylines\Objects\Byline;
+
 /**
  * Test functionality related to modifying the main query
  */
@@ -27,8 +29,8 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		$this->post_id2 = $this->factory->post->create( array(
 			'post_author' => $this->user_id2,
 		) );
-		$byline1 = Bylines\Objects\Byline::create_from_user( $this->user_id1 );
-		$byline2 = Bylines\Objects\Byline::create_from_user( $this->user_id2 );
+		$byline1 = Byline::create_from_user( $this->user_id1 );
+		$byline2 = Byline::create_from_user( $this->user_id2 );
 		$bylines = array( $byline1->term_id, $byline2->term_id );
 		wp_set_object_terms( $this->post_id1, $bylines, 'byline' );
 		wp_set_object_terms( $this->post_id2, $bylines, 'byline' );
@@ -58,7 +60,7 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		$this->assertEquals( 2, $GLOBALS['wp_query']->found_posts );
 		// Create a new post with a byline.
 		$this->post_id3 = $this->factory->post->create();
-		$byline1 = Bylines\Objects\Byline::create_from_user( $this->user_id1 );
+		$byline1 = Byline::create_from_user( $this->user_id1 );
 		$bylines = array( $byline1->term_id );
 		wp_set_object_terms( $this->post_id3, $bylines, 'byline' );
 		$this->go_to( get_author_posts_url( $this->user_id1 ) );
@@ -73,7 +75,7 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 	 * Overload queried object for byline without a user attached and no posts.
 	 */
 	public function test_query_overload_byline_without_user_without_posts() {
-		$byline1 = Bylines\Objects\Byline::create( array(
+		$byline1 = Byline::create( array(
 			'display_name'   => 'Byline 1',
 			'slug'           => 'byline-1',
 		) );
@@ -87,7 +89,7 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 	 * Overload queried object for byline without a user attached and with posts.
 	 */
 	public function test_query_overload_byline_without_user_with_posts() {
-		$byline2 = Bylines\Objects\Byline::create( array(
+		$byline2 = Byline::create( array(
 			'display_name'   => 'Byline 2',
 			'slug'           => 'byline-2',
 		) );
