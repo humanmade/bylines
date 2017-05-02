@@ -16,3 +16,8 @@ ul.bylines-list li {
 
 .form-field.term-description-wrap {
   display: none; }
+
+.column-byline_name img {
+  float: left;
+  margin-right: 10px;
+  margin-top: 1px; }
