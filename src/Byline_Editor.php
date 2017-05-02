@@ -25,7 +25,32 @@ class Byline_Editor {
 		if ( isset( $columns['description'] ) ) {
 			unset( $columns['description'] );
 		}
-		return $columns;
+		// Add our own columns too.
+		$new_columns = array();
+		foreach ( $columns as $key => $title ) {
+			$new_columns[ $key ] = $title;
+			if ( 'name' === $key ) {
+				$new_columns['byline_user_email'] = __( 'Email', 'bylines' );
+			}
+		}
+		return $new_columns;
+	}
+
+	/**
+	 * Render and return custom column
+	 *
+	 * @param string $retval      Value being returned.
+	 * @param string $column_name Name of the column.
+	 * @param int    $term_id     Term ID.
+	 */
+	public static function filter_manage_byline_custom_column( $retval, $column_name, $term_id ) {
+		if ( 'byline_user_email' === $column_name ) {
+			$byline = Byline::get_by_term_id( $term_id );
+			if ( $byline->user_email ) {
+				$retval = '<a href="' . esc_url( 'mailto:' . $byline->user_email ) . '">' . esc_html( $byline->user_email ) . '</a>';
+			}
+		}
+		return $retval;
 	}
 
 	/**
