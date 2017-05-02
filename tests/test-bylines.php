@@ -5,8 +5,6 @@
  * @package Bylines
  */
 
-use Bylines\Objects\Byline;
-
 /**
  * Test functionality related to bylines
  */
@@ -16,7 +14,7 @@ class Test_Bylines extends WP_UnitTestCase {
 	 * Create a new byline from thin air
 	 */
 	public function test_create_byline() {
-		$byline = Byline::create( array(
+		$byline = Bylines\Objects\Byline::create( array(
 			'display_name' => 'Foo Bar',
 			'slug'         => 'foobar',
 		) );
@@ -29,10 +27,10 @@ class Test_Bylines extends WP_UnitTestCase {
 	 * Creating a byline but missing arguments
 	 */
 	public function test_create_byline_missing_arguments() {
-		$byline = Byline::create( array() );
+		$byline = Bylines\Objects\Byline::create( array() );
 		$this->assertInstanceOf( 'WP_Error', $byline );
 		$this->assertEquals( 'missing-slug', $byline->get_error_code() );
-		$byline = Byline::create( array(
+		$byline = Bylines\Objects\Byline::create( array(
 			'slug' => 'foobar',
 		) );
 		$this->assertInstanceOf( 'WP_Error', $byline );
@@ -50,7 +48,7 @@ class Test_Bylines extends WP_UnitTestCase {
 			'user_email'      => 'foobar@gmail.com',
 			'user_login'      => 'foobar',
 		) );
-		$byline = Byline::create_from_user( $user_id );
+		$byline = Bylines\Objects\Byline::create_from_user( $user_id );
 		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
 		$this->assertEquals( $user_id, $byline->user_id );
 		$this->assertEquals( 'Foo Bar', $byline->display_name );
@@ -65,7 +63,7 @@ class Test_Bylines extends WP_UnitTestCase {
 	 * Creating a byline from a user that doesn't exist
 	 */
 	public function test_create_byline_from_missing_user() {
-		$byline = Byline::create_from_user( BYLINES_IMPOSSIBLY_HIGH_NUMBER );
+		$byline = Bylines\Objects\Byline::create_from_user( BYLINES_IMPOSSIBLY_HIGH_NUMBER );
 		$this->assertInstanceOf( 'WP_Error', $byline );
 		$this->assertEquals( 'missing-user', $byline->get_error_code() );
 	}
@@ -76,9 +74,9 @@ class Test_Bylines extends WP_UnitTestCase {
 	public function test_create_byline_from_existing_user_byline() {
 		$user_id = $this->factory->user->create();
 		// Create the first byline.
-		Byline::create_from_user( $user_id );
+		Bylines\Objects\Byline::create_from_user( $user_id );
 		// Attempt creating the second byline.
-		$byline = Byline::create_from_user( $user_id );
+		$byline = Bylines\Objects\Byline::create_from_user( $user_id );
 		$this->assertInstanceOf( 'WP_Error', $byline );
 		$this->assertEquals( 'existing-byline', $byline->get_error_code() );
 	}
@@ -87,11 +85,11 @@ class Test_Bylines extends WP_UnitTestCase {
 	 * Getting bylines generically
 	 */
 	public function test_get_bylines() {
-		$b1 = Byline::create( array(
+		$b1 = Bylines\Objects\Byline::create( array(
 			'slug'  => 'b1',
 			'display_name' => 'Byline 1',
 		) );
-		$b2 = Byline::create( array(
+		$b2 = Bylines\Objects\Byline::create( array(
 			'slug'  => 'b2',
 			'display_name' => 'Byline 2',
 		) );
@@ -112,11 +110,11 @@ class Test_Bylines extends WP_UnitTestCase {
 	 */
 	public function test_save_bylines() {
 		$post_id = $this->factory->post->create();
-		$b1 = Byline::create( array(
+		$b1 = Bylines\Objects\Byline::create( array(
 			'slug'  => 'b1',
 			'display_name' => 'Byline 1',
 		) );
-		$b2 = Byline::create( array(
+		$b2 = Bylines\Objects\Byline::create( array(
 			'slug'  => 'b2',
 			'display_name' => 'Byline 2',
 		) );
@@ -138,7 +136,7 @@ class Test_Bylines extends WP_UnitTestCase {
 	 */
 	public function test_save_bylines_create_new_user() {
 		$post_id = $this->factory->post->create();
-		$b1 = Byline::create( array(
+		$b1 = Bylines\Objects\Byline::create( array(
 			'slug'  => 'b1',
 			'display_name' => 'Byline 1',
 		) );
@@ -146,7 +144,7 @@ class Test_Bylines extends WP_UnitTestCase {
 			'display_name'  => 'Foo Bar',
 			'user_nicename' => 'foobar',
 		) );
-		$this->assertFalse( Byline::get_by_user_id( $user_id ) );
+		$this->assertFalse( Bylines\Objects\Byline::get_by_user_id( $user_id ) );
 		// Mock a POST request.
 		$_POST = array(
 			'bylines' => array(
@@ -158,7 +156,7 @@ class Test_Bylines extends WP_UnitTestCase {
 		$bylines = get_bylines( $post_id );
 		$this->assertCount( 2, $bylines );
 		$this->assertEquals( array( 'foobar', 'b1' ), wp_list_pluck( $bylines, 'slug' ) );
-		$byline = Byline::get_by_user_id( $user_id );
+		$byline = Bylines\Objects\Byline::get_by_user_id( $user_id );
 		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
 		$this->assertEquals( 'Foo Bar', $byline->display_name );
 	}
@@ -168,7 +166,7 @@ class Test_Bylines extends WP_UnitTestCase {
 	 */
 	public function test_save_bylines_existing_user() {
 		$post_id = $this->factory->post->create();
-		$b1 = Byline::create( array(
+		$b1 = Bylines\Objects\Byline::create( array(
 			'slug'  => 'b1',
 			'display_name' => 'Byline 1',
 		) );
@@ -176,7 +174,7 @@ class Test_Bylines extends WP_UnitTestCase {
 			'display_name'  => 'Foo Bar',
 			'user_nicename' => 'foobar',
 		) );
-		$byline = Byline::create_from_user( $user_id );
+		$byline = Bylines\Objects\Byline::create_from_user( $user_id );
 		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
 		// Mock a POST request.
 		$_POST = array(

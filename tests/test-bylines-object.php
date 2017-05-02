@@ -5,8 +5,6 @@
  * @package Bylines
  */
 
-use Bylines\Objects\Byline;
-
 /**
  * Test functionality related to the Bylines object
  */
@@ -18,7 +16,7 @@ class Test_Bylines_Object extends WP_UnitTestCase {
 	public function test_byline_reassign_user_remaining_meta() {
 		$user_id1 = $this->factory->user->create();
 		$user_id2 = $this->factory->user->create();
-		$byline = Byline::create_from_user( $user_id1 );
+		$byline = Bylines\Objects\Byline::create_from_user( $user_id1 );
 		$this->assertEquals( $user_id1, $byline->user_id );
 		$metas = get_term_meta( $byline->term_id );
 		$metas = array_keys( $metas );
@@ -48,11 +46,11 @@ class Test_Bylines_Object extends WP_UnitTestCase {
 	 * Verify a byline can be fetched by its slug.
 	 */
 	public function test_byline_get_by_term_slug() {
-		$byline = Byline::create( array(
+		$byline = Bylines\Objects\Byline::create( array(
 			'slug'         => 'foo',
 			'display_name' => 'Foo',
 		) );
-		$this->assertEquals( $byline, Byline::get_by_term_slug( 'foo' ) );
+		$this->assertEquals( $byline, Bylines\Objects\Byline::get_by_term_slug( 'foo' ) );
 	}
 
 }
