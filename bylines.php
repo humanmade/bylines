@@ -60,8 +60,8 @@ add_filter( 'posts_groupby', array( 'Bylines\Query', 'filter_posts_groupby' ), 1
 
 add_action( 'wp_ajax_bylines_search', array( 'Bylines\Admin_Ajax', 'handle_bylines_search' ) );
 add_action( 'admin_enqueue_scripts', array( 'Bylines\Assets', 'action_admin_enqueue_scripts' ) );
-add_action( 'add_meta_boxes', array( 'Bylines\Editor', 'action_add_meta_boxes_late' ), 100 );
-add_action( 'save_post', array( 'Bylines\Editor', 'action_save_post_bylines_metabox' ), 10, 2 );
+add_action( 'add_meta_boxes', array( 'Bylines\Post_Editor', 'action_add_meta_boxes_late' ), 100 );
+add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_bylines_metabox' ), 10, 2 );
 
 if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 	require_once dirname( __FILE__ ) . '/vendor/autoload.php';
