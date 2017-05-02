@@ -13,3 +13,6 @@ ul.bylines-list li {
     z-index: 1; }
   ul.bylines-list li:hover, ul.bylines-list li.ui-sortable-helper {
     cursor: pointer; }
+
+.form-field.term-description-wrap {
+  display: none; }

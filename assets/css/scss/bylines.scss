@@ -21,3 +21,9 @@ ul.bylines-list {
 		}
 	}
 }
+
+.form-field {
+	&.term-description-wrap {
+		display: none;
+	}
+}
