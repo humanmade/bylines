@@ -1,0 +1,16 @@
+{
+    "name": "danielbachhuber/bylines",
+    "description": "Modern multi-author publishing for WordPress",
+    "type": "wordpress-plugin",
+    "license": "GPLv3",
+    "authors": [
+        {
+            "name": "Daniel Bachhuber",
+            "email": "daniel@handbuilt.co"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {"Bylines\\": "src/"}
+    }
+}
