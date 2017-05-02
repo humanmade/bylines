@@ -36,6 +36,14 @@ class Byline_Editor {
 	public static function action_byline_edit_form_fields( $term ) {
 		$byline = Byline::get_by_term_id( $term->term_id );
 		$fields = array(
+			'first_name'   => array(
+				'label'    => __( 'First Name', 'bylines' ),
+				'type'     => 'text',
+			),
+			'last_name'   => array(
+				'label'    => __( 'Last Name', 'bylines' ),
+				'type'     => 'text',
+			),
 			'user_email'   => array(
 				'label'    => __( 'Email', 'bylines' ),
 				'type'     => 'email',
