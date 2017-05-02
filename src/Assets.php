@@ -19,8 +19,8 @@ class Assets {
 
 		$screen = get_current_screen();
 		if ( ! $screen
-			|| 'post' !== $screen->base
-			|| ! in_array( $screen->post_type, Content_Model::get_byline_supported_post_types() ) ) {
+			|| ! ( ( 'post' === $screen->base && in_array( $screen->post_type, Content_Model::get_byline_supported_post_types() ) )
+			|| ( isset( $screen->taxonomy ) && 'byline' === $screen->taxonomy ) ) ) {
 			return;
 		}
 
@@ -30,7 +30,7 @@ class Assets {
 		wp_enqueue_style( 'bylines-select2', plugins_url( 'assets/lib/select2/css/select2.min.css', dirname( __FILE__ ) ), array(), '4.0.3' );
 
 		$mtime = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/js/bylines.js' );
-		wp_enqueue_script( 'bylines', plugins_url( 'assets/js/bylines.js?mtime=' . $mtime, dirname( __FILE__ ) ), array( 'jquery', 'bylines-select2', 'jquery-ui-core' ) );
+		wp_enqueue_script( 'bylines', plugins_url( 'assets/js/bylines.js?mtime=' . $mtime, dirname( __FILE__ ) ), array( 'jquery', 'bylines-select2', 'jquery-ui-core', 'jquery-ui-sortable' ) );
 		$mtime = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/css/bylines.css' );
 		wp_enqueue_style( 'bylines', plugins_url( 'assets/css/bylines.css?mtime=' . $mtime, dirname( __FILE__ ) ) );
 	}
