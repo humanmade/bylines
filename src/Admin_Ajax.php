@@ -50,6 +50,7 @@ class Admin_Ajax {
 					'term'          => (int) $term->term_id,
 					'display_name'  => $term->name,
 					'user_id'       => $byline->user_id,
+					'avatar_url'    => get_avatar_url( $byline->user_email, 32 ),
 				);
 			}
 		}
@@ -73,10 +74,11 @@ class Admin_Ajax {
 				// Select2 specific.
 				'id'            => 'u' . $user->ID,
 				'text'          => $user->display_name,
-				// Bylines specific.
+				// Bylines display specific.
 				'term'          => 'u' . $user->ID,
 				'display_name'  => $user->display_name,
 				'user_id'       => $user->ID,
+				'avatar_url'    => get_avatar_url( $user->user_email, 32 ),
 			);
 		}
 		// Sort alphabetically by display name.

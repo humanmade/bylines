@@ -35,6 +35,7 @@ class Post_Editor {
 			foreach ( get_bylines() as $byline ) {
 				echo self::get_rendered_byline_partial( array(
 					'display_name' => $byline->display_name,
+					'avatar_url'   => get_avatar_url( $byline->user_email, 32 ),
 					'term'         => $byline->term_id,
 				) );
 			}
@@ -44,6 +45,7 @@ class Post_Editor {
 		<script type="text/html" id="tmpl-bylines-byline-partial">
 			<?php echo self::get_rendered_byline_partial( array(
 				'display_name' => '{{ data.display_name }}',
+				'avatar_url'   => '{{ data.avatar_url }}',
 				'term'         => '{{ data.term }}',
 			) ); ?>
 		</script>
@@ -95,6 +97,7 @@ class Post_Editor {
 	private static function get_rendered_byline_partial( $args = array() ) {
 		$defaults = array(
 			'display_name'    => '',
+			'avatar_url'      => '',
 			'term'            => '',
 		);
 		$args = array_merge( $defaults, $args );
@@ -102,6 +105,9 @@ class Post_Editor {
 		?>
 		<li>
 			<span class="byline-remove">x</span>
+			<?php if ( ! empty( $args['avatar_url'] ) ) : ?>
+				<img height="16px" width="16px" src="<?php echo esc_attr( $args['avatar_url'] ); // Uses esc_attr() because can be JS template tag. ?>" >
+			<?php endif; ?>
 			<span class="display-name"><?php echo wp_kses_post( $args['display_name'] ); ?></span>
 			<input type="hidden" name="bylines[]" value="<?php echo esc_attr( $args['term'] ); ?>">
 		</li>
