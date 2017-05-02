@@ -20,7 +20,7 @@ class Byline_Editor {
 	 * @param array $columns Columns to render in the list table.
 	 * @return array
 	 */
-	public static function manage_edit_byline_columns( $columns ) {
+	public static function filter_manage_edit_byline_columns( $columns ) {
 		// Reserve the description for internal use.
 		if ( isset( $columns['description'] ) ) {
 			unset( $columns['description'] );
