@@ -6,6 +6,7 @@
  */
 
 use Bylines\Objects\Byline;
+use Bylines\Utils;
 
 /**
  * Test functionality related to bylines
@@ -96,12 +97,12 @@ class Test_Bylines extends WP_UnitTestCase {
 			'display_name' => 'Byline 2',
 		) );
 		$post_id = $this->factory->post->create();
-		wp_set_object_terms( $post_id, array( $b1->term_id, $b2->term_id ), 'byline' );
+		Utils::set_post_bylines( $post_id, array( $b1, $b2 ) );
 		$bylines = get_bylines( $post_id );
 		$this->assertCount( 2, $bylines );
 		$this->assertEquals( array( 'b1', 'b2' ), wp_list_pluck( $bylines, 'slug' ) );
 		// Ensure the order persists.
-		wp_set_object_terms( $post_id, array( $b2->term_id, $b1->term_id ), 'byline' );
+		Utils::set_post_bylines( $post_id, array( $b2, $b1 ) );
 		$bylines = get_bylines( $post_id );
 		$this->assertCount( 2, $bylines );
 		$this->assertEquals( array( 'b2', 'b1' ), wp_list_pluck( $bylines, 'slug' ) );
