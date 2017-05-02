@@ -50,7 +50,7 @@ add_filter( 'term_link', array( 'Bylines\Content_Model', 'filter_term_link' ), 1
 add_filter( 'update_term_metadata', array( 'Bylines\Content_Model', 'filter_update_term_metadata' ), 10, 4 );
 
 // Admin customizations.
-add_action( 'admin_init', array( 'Bylines\Admin', 'action_admin_init' ) );
+add_action( 'admin_init', array( 'Bylines\Content_Model', 'action_admin_init' ) );
 add_filter( 'manage_edit-byline_columns', array( 'Bylines\Byline_Editor', 'filter_manage_edit_byline_columns' ) );
 add_action( 'byline_edit_form_fields', array( 'Bylines\Byline_Editor', 'action_byline_edit_form_fields' ) );
 add_action( 'edited_byline', array( 'Bylines\Byline_Editor', 'action_edited_byline' ) );
