@@ -2,16 +2,24 @@ ul.bylines-list {
 	li {
 		border: 1px solid #ddd;
 		background-color: #FFF;
-		padding-top: 5px;
+		padding-top: 7px;
 		padding-bottom: 5px;
 		padding-left: 10px;
 		padding-right: 10px;
 		position: relative;
+		max-width: 250px;
 		.byline-remove {
 			position: absolute;
 			right: 5px;
-			width: 10px;
+			width: 16px;
 			z-index: 1;
+			top: 50%;
+			transform: translateY(-50%);
+			.dashicons {
+				height: 16px;
+				width: 16px;
+				font-size: 16px;
+			}
 		}
 		&:hover,
 		&.ui-sortable-helper {

@@ -161,7 +161,7 @@ class Post_Editor {
 		ob_start();
 		?>
 		<li>
-			<span class="byline-remove">x</span>
+			<span class="byline-remove"><span class="dashicons dashicons-no-alt"></span></span>
 			<?php if ( ! empty( $args['avatar_url'] ) ) : ?>
 				<img height="16px" width="16px" src="<?php echo esc_attr( $args['avatar_url'] ); // Uses esc_attr() because can be JS template tag. ?>" >
 			<?php endif; ?>
