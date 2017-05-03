@@ -60,7 +60,8 @@ class Byline_Editor {
 			$avatar = get_avatar( $byline->user_email, 32 );
 			// Such hack. Lets us reuse the rendering without duplicate code.
 			$term = get_term_by( 'id', $term_id, 'byline' );
-			$retval = $avatar . ' ' . $GLOBALS['wp_list_table']->column_name( $term );
+			$wp_list_table = _get_list_table( 'WP_Terms_List_Table' );
+			$retval = $avatar . ' ' . $wp_list_table->column_name( $term );
 		} elseif ( 'byline_user_email' === $column_name ) {
 			$byline = Byline::get_by_term_id( $term_id );
 			if ( $byline->user_email ) {
