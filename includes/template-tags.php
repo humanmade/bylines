@@ -23,16 +23,9 @@ function get_bylines( $post = null ) {
 		return array();
 	}
 	$taxonomy = 'byline';
-	$terms = get_object_term_cache( $post->ID, $taxonomy );
-	if ( false === $terms ) {
-		$terms = wp_get_object_terms( $post->ID, $taxonomy, array(
-			'orderby' => 'term_order',
-		) );
-		if ( ! is_wp_error( $terms ) ) {
-			$term_ids = wp_list_pluck( $terms, 'term_id' );
-			wp_cache_add( $post->ID, $term_ids, $taxonomy . '_relationships' );
-		}
-	}
+	$terms = wp_get_object_terms( $post->ID, $taxonomy, array(
+		'orderby' => 'term_order',
+	) );
 
 	/**
 	 * Filters the list of terms attached to the given post.
