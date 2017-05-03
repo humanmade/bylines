@@ -68,6 +68,10 @@ add_action( 'admin_enqueue_scripts', array( 'Bylines\Assets', 'action_admin_enqu
 add_action( 'add_meta_boxes', array( 'Bylines\Post_Editor', 'action_add_meta_boxes_late' ), 100 );
 add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_bylines_metabox' ), 10, 2 );
 
+// Integrations with other systems.
+add_filter( 'the_author', array( 'Bylines\Integrations\RSS', 'filter_the_author' ), 11 );
+add_action( 'rss2_item', array( 'Bylines\Integrations\RSS', 'action_rss2_item' ) );
+
 if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 	require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 }
