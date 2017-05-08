@@ -25,6 +25,9 @@ ul.bylines-list li {
 .form-field.term-description-wrap {
   display: none; }
 
+.bylines-select2-user-select {
+  min-width: 150px; }
+
 .column-byline_name img {
   float: left;
   margin-right: 10px;
