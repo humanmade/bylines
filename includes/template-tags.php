@@ -66,9 +66,10 @@ function the_bylines() {
  */
 function the_bylines_posts_links() {
 	echo bylines_render( get_bylines(), function( $byline ) {
+		$link = is_a( $byline, 'WP_User' ) ? get_author_posts_url( $byline->ID ) : $byline->link;
 		$args = array(
 			'before_html' => '',
-			'href' => $byline->link,
+			'href' => $link,
 			'rel' => 'author',
 			// translators: Posts by a given author.
 			'title' => sprintf( __( 'Posts by %1$s', 'bylines' ), apply_filters( 'the_author', $byline->display_name ) ),
