@@ -11,7 +11,7 @@ use Bylines\Objects\Byline;
  * Get all bylines for a post.
  *
  * @param WP_Post|null $post Post to fetch bylines for. Defaults to global post.
- * @return array
+ * @return array Array of Byline objects, a single WP_User object, or empty.
  */
 function get_bylines( $post = null ) {
 	if ( is_null( $post ) ) {
@@ -33,14 +33,19 @@ function get_bylines( $post = null ) {
 	 * @see get_the_terms()
 	 */
 	$terms = apply_filters( 'get_the_terms', $terms, $post->ID, $taxonomy );
-	if ( ! $terms || is_wp_error( $terms ) ) {
-		return array();
+	if ( $terms && ! is_wp_error( $terms ) ) {
+		$bylines = array();
+		foreach ( $terms as $term ) {
+			$bylines[] = Byline::get_by_term_id( $term->term_id );
+		}
+		return $bylines;
+	} elseif ( ! $terms ) {
+		$user = get_user_by( 'id', $post->post_author );
+		if ( $user ) {
+			return array( $user );
+		}
 	}
-	$bylines = array();
-	foreach ( $terms as $term ) {
-		$bylines[] = Byline::get_by_term_id( $term->term_id );
-	}
-	return $bylines;
+	return array();
 }
 
 /**
@@ -61,9 +66,10 @@ function the_bylines() {
  */
 function the_bylines_posts_links() {
 	echo bylines_render( get_bylines(), function( $byline ) {
+		$link = is_a( $byline, 'WP_User' ) ? get_author_posts_url( $byline->ID ) : $byline->link;
 		$args = array(
 			'before_html' => '',
-			'href' => $byline->link,
+			'href' => $link,
 			'rel' => 'author',
 			// translators: Posts by a given author.
 			'title' => sprintf( __( 'Posts by %1$s', 'bylines' ), apply_filters( 'the_author', $byline->display_name ) ),

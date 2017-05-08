@@ -90,10 +90,12 @@ class Post_Editor {
 		<ul class="bylines-list">
 			<?php
 			foreach ( get_bylines() as $byline ) {
+				$display_name = $byline->display_name;
+				$term = is_a( $byline, 'WP_User' ) ? 'u' . $byline->ID : $byline->term_id;
 				echo self::get_rendered_byline_partial( array(
-					'display_name' => $byline->display_name,
+					'display_name' => $display_name,
 					'avatar_url'   => get_avatar_url( $byline->user_email, 32 ),
-					'term'         => $byline->term_id,
+					'term'         => $term,
 				) );
 			}
 			?>
