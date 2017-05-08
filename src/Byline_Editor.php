@@ -169,7 +169,7 @@ class Byline_Editor {
 				<?php elseif ( 'ajax_user_select' === $args['type'] ) :
 					$user = ! empty( $args['value'] ) ? get_user_by( 'id', $args['value'] ) : false;
 				?>
-					<select placeholder="<?php esc_attr_e( 'Select a user', 'bylines' ); ?>" class="bylines-select2-user-select" name="<?php echo esc_attr( $key ); ?>">
+					<select data-nonce="<?php echo esc_attr( wp_create_nonce( 'bylines-user-search' ) ); ?>" placeholder="<?php esc_attr_e( 'Select a user', 'bylines' ); ?>" class="bylines-select2-user-select" name="<?php echo esc_attr( $key ); ?>">
 						<option></option>
 						<?php if ( $user ) : ?>
 							<option value="<?php echo (int) $user->ID; ?>" selected="selected"><?php echo esc_html( $user->display_name ); ?></option>

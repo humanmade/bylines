@@ -1,26 +1,28 @@
 (function($){
 
 	$(document).ready(function(){
-		var bylinesSearch = $('.bylines-select2.bylines-search').bylinesSelect2({
-			ajax: {
-				url: window.ajaxurl + '?action=bylines_search',
-				dataType: 'json',
-				data: function( params ) {
-					var ignored = [];
-					$('.bylines-list input').each(function(){
-						ignored.push( $(this).val() );
-					});
-					return {
-						q: params.term,
-						ignored: ignored,
-					};
+		$('.bylines-select2.bylines-search').each(function(){
+			var bylinesSearch = $(this).bylinesSelect2({
+				ajax: {
+					url: window.ajaxurl + '?action=bylines_search&nonce=' + $(this).data('nonce'),
+					dataType: 'json',
+					data: function( params ) {
+						var ignored = [];
+						$('.bylines-list input').each(function(){
+							ignored.push( $(this).val() );
+						});
+						return {
+							q: params.term,
+							ignored: ignored,
+						};
+					},
 				},
-			},
-		});
-		bylinesSearch.on('select2:select',function(e) {
-			var template = wp.template('bylines-byline-partial');
-			$('.bylines-list').append( template( e.params.data ) );
-			bylinesSearch.val(null).trigger('change');
+			});
+			bylinesSearch.on('select2:select',function(e) {
+				var template = wp.template('bylines-byline-partial');
+				$('.bylines-list').append( template( e.params.data ) );
+				bylinesSearch.val(null).trigger('change');
+			});
 		});
 		$('.bylines-list').sortable();
 		$('.bylines-list').on('click', '.byline-remove', function(){
@@ -33,7 +35,7 @@
 				allowClear: true,
 				placeholder: $(this).attr('placeholder'),
 				ajax: {
-					url: window.ajaxurl + '?action=bylines_users_search',
+					url: window.ajaxurl + '?action=bylines_users_search&nonce=' + $(this).data('nonce'),
 					dataType: 'json',
 					data: function( params ) {
 						return {

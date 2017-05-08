@@ -20,7 +20,11 @@ class Admin_Ajax {
 	public static function handle_bylines_search() {
 		header( 'Content-Type: application/javascript' );
 
-		// @todo capability check.
+		if ( empty( $_GET['nonce'] )
+			|| ! wp_verify_nonce( $_GET['nonce'], 'bylines-search' ) ) {
+			exit;
+		}
+
 		$bylines = array();
 		$term_args = array(
 			'taxonomy'    => 'byline',
@@ -97,6 +101,12 @@ class Admin_Ajax {
 	 */
 	public static function handle_users_search() {
 		header( 'Content-Type: application/javascript' );
+
+		if ( empty( $_GET['nonce'] )
+			|| ! wp_verify_nonce( $_GET['nonce'], 'bylines-user-search' ) ) {
+			exit;
+		}
+
 		$user_args = array(
 			'number' => 20,
 		);
