@@ -124,6 +124,11 @@ class Byline_Editor {
 				'label'    => __( 'Email', 'bylines' ),
 				'type'     => 'email',
 			),
+			'user_id'      => array(
+				'label'    => __( 'Mapped User', 'bylines' ),
+				'type'     => 'ajax_user_select',
+				'sanitize' => 'intval',
+			),
 			'user_url'     => array(
 				'label'    => __( 'Website', 'bylines' ),
 				'type'     => 'url',
@@ -161,6 +166,15 @@ class Byline_Editor {
 			<td>
 				<?php if ( 'textarea' === $args['type'] ) : ?>
 					<textarea name="<?php echo esc_attr( $key ); ?>"><?php echo esc_textarea( $args['value'] ); ?></textarea>
+				<?php elseif ( 'ajax_user_select' === $args['type'] ) :
+					$user = ! empty( $args['value'] ) ? get_user_by( 'id', $args['value'] ) : false;
+				?>
+					<select placeholder="<?php esc_attr_e( 'Select a user', 'bylines' ); ?>" class="bylines-select2-user-select" name="<?php echo esc_attr( $key ); ?>">
+						<option></option>
+						<?php if ( $user ) : ?>
+							<option value="<?php echo (int) $user->ID; ?>" selected="selected"><?php echo esc_html( $user->display_name ); ?></option>
+						<?php endif; ?>
+					</select>
 				<?php else : ?>
 					<input name="<?php echo esc_attr( $key ); ?>" type="<?php echo esc_attr( $args['type'] ); ?>" value="<?php echo esc_attr( $args['value'] ); ?>" />
 				<?php endif; ?>

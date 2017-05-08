@@ -27,6 +27,22 @@
 			var el = $(this);
 			el.closest('li').remove();
 		})
+
+		$('.bylines-select2-user-select').each(function(){
+			$(this).bylinesSelect2({
+				allowClear: true,
+				placeholder: $(this).attr('placeholder'),
+				ajax: {
+					url: window.ajaxurl + '?action=bylines_users_search',
+					dataType: 'json',
+					data: function( params ) {
+						return {
+							q: params.term,
+						};
+					},
+				},
+			});
+		});
 	});
 
 }(jQuery))

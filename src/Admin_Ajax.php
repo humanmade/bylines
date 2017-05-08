@@ -92,4 +92,30 @@ class Admin_Ajax {
 		exit;
 	}
 
+	/**
+	 * Handle an ajax request to search available users
+	 */
+	public static function handle_users_search() {
+		header( 'Content-Type: application/javascript' );
+		$user_args = array(
+			'number' => 20,
+		);
+		if ( ! empty( $_GET['q'] ) ) {
+			$user_args['search'] = sanitize_text_field( $_GET['q'] );
+		}
+		$users = get_users( $user_args );
+		$results = array();
+		foreach ( $users as $user ) {
+			$results[] = array(
+				'id'            => $user->ID,
+				'text'          => $user->display_name,
+			);
+		}
+		$response = array(
+			'results'    => $results,
+		);
+		echo wp_json_encode( $response );
+		exit;
+	}
+
 }
