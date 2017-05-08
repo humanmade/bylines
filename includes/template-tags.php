@@ -11,7 +11,7 @@ use Bylines\Objects\Byline;
  * Get all bylines for a post.
  *
  * @param WP_Post|null $post Post to fetch bylines for. Defaults to global post.
- * @return array
+ * @return array Array of Byline objects, a single WP_User object, or empty.
  */
 function get_bylines( $post = null ) {
 	if ( is_null( $post ) ) {
@@ -33,14 +33,19 @@ function get_bylines( $post = null ) {
 	 * @see get_the_terms()
 	 */
 	$terms = apply_filters( 'get_the_terms', $terms, $post->ID, $taxonomy );
-	if ( ! $terms || is_wp_error( $terms ) ) {
-		return array();
+	if ( $terms && ! is_wp_error( $terms ) ) {
+		$bylines = array();
+		foreach ( $terms as $term ) {
+			$bylines[] = Byline::get_by_term_id( $term->term_id );
+		}
+		return $bylines;
+	} elseif ( ! $terms ) {
+		$user = get_user_by( 'id', $post->post_author );
+		if ( $user ) {
+			return array( $user );
+		}
 	}
-	$bylines = array();
-	foreach ( $terms as $term ) {
-		$bylines[] = Byline::get_by_term_id( $term->term_id );
-	}
-	return $bylines;
+	return array();
 }
 
 /**
