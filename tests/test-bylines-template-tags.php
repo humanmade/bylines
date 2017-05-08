@@ -167,4 +167,19 @@ class Test_Bylines_Template_Tags extends WP_UnitTestCase {
 		the_bylines_posts_links();
 	}
 
+	/**
+	 * Render one user, with the link to its post
+	 */
+	public function test_template_tag_the_bylines_posts_links_one_user() {
+		global $post;
+		$user_id = $this->factory->user->create();
+		$post_id = $this->factory->post->create( array(
+			'post_author' => $user_id,
+		) );
+		$post = get_post( $post_id );
+		$user = get_user_by( 'id', $user_id );
+		$this->expectOutputString( '<a href="' . get_author_posts_url( $user_id ) . '" title="Posts by ' . $user->display_name . '" class="author url fn" rel="author">' . $user->display_name . '</a>' );
+		the_bylines_posts_links();
+	}
+
 }
