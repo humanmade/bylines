@@ -14,30 +14,6 @@ use Bylines\Utils;
 class Test_Bylines_Template_Tags extends WP_UnitTestCase {
 
 	/**
-	 * Getting bylines generically
-	 */
-	public function test_get_bylines() {
-		$b1 = Byline::create( array(
-			'slug'  => 'b1',
-			'display_name' => 'Byline 1',
-		) );
-		$b2 = Byline::create( array(
-			'slug'  => 'b2',
-			'display_name' => 'Byline 2',
-		) );
-		$post_id = $this->factory->post->create();
-		Utils::set_post_bylines( $post_id, array( $b1, $b2 ) );
-		$bylines = get_bylines( $post_id );
-		$this->assertCount( 2, $bylines );
-		$this->assertEquals( array( 'b1', 'b2' ), wp_list_pluck( $bylines, 'slug' ) );
-		// Ensure the order persists.
-		Utils::set_post_bylines( $post_id, array( $b2, $b1 ) );
-		$bylines = get_bylines( $post_id );
-		$this->assertCount( 2, $bylines );
-		$this->assertEquals( array( 'b2', 'b1' ), wp_list_pluck( $bylines, 'slug' ) );
-	}
-
-	/**
 	 * Render one byline, without the link to its post
 	 */
 	public function test_template_tag_the_bylines_one_byline() {
