@@ -100,15 +100,16 @@ class Post_Editor {
 			}
 			?>
 		</ul>
-		<select data-nonce="<?php echo esc_attr( wp_create_nonce( 'bylines-search' ) ); ?>" class="bylines-select2 bylines-search" style="min-width: 200px"></select>
-		<script type="text/html" id="tmpl-bylines-byline-partial">
-			<?php echo self::get_rendered_byline_partial( array(
-				'display_name' => '{{ data.display_name }}',
-				'avatar_url'   => '{{ data.avatar_url }}',
-				'term'         => '{{ data.term }}',
-			) ); ?>
-		</script>
-		<?php
+		<?php if ( current_user_can( get_taxonomy( 'byline' )->cap->assign_terms ) ) : ?>
+			<select data-nonce="<?php echo esc_attr( wp_create_nonce( 'bylines-search' ) ); ?>" class="bylines-select2 bylines-search" style="min-width: 200px"></select>
+			<script type="text/html" id="tmpl-bylines-byline-partial">
+				<?php echo self::get_rendered_byline_partial( array(
+					'display_name' => '{{ data.display_name }}',
+					'avatar_url'   => '{{ data.avatar_url }}',
+					'term'         => '{{ data.term }}',
+				) ); ?>
+			</script>
+		<?php endif;
 	}
 
 	/**
@@ -123,8 +124,7 @@ class Post_Editor {
 			return;
 		}
 
-		// @todo verify user can edit bylines on this post.
-		if ( ! isset( $_POST['bylines'] ) ) {
+		if ( ! isset( $_POST['bylines'] ) || ! current_user_can( get_taxonomy( 'byline' )->cap->assign_terms ) ) {
 			return;
 		}
 
