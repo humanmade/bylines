@@ -14,6 +14,20 @@ use Bylines\Utils;
 class Test_Bylines extends WP_UnitTestCase {
 
 	/**
+	 * Byline should be assigned when a new post is created
+	 */
+	public function test_create_post_assigns_initial_byline() {
+		$user_id = $this->factory->user->create( array(
+			'role' => 'author',
+		) );
+		$byline = Byline::create_from_user( $user_id );
+		$post_id = $this->factory->post->create( array(
+			'post_author' => $user_id,
+		) );
+		$this->assertEquals( array( $byline ), get_bylines( $post_id ) );
+	}
+
+	/**
 	 * Saving bylines generically
 	 */
 	public function test_save_bylines() {
@@ -37,7 +51,7 @@ class Test_Bylines extends WP_UnitTestCase {
 				$b2->term_id,
 			),
 		);
-		do_action( 'save_post', $post_id, get_post( $post_id ) );
+		do_action( 'save_post', $post_id, get_post( $post_id ), true );
 		$bylines = get_bylines( $post_id );
 		$this->assertCount( 2, $bylines );
 		$this->assertEquals( array( 'b1', 'b2' ), wp_list_pluck( $bylines, 'slug' ) );
@@ -68,7 +82,7 @@ class Test_Bylines extends WP_UnitTestCase {
 				$b1->term_id,
 			),
 		);
-		do_action( 'save_post', $post_id, get_post( $post_id ) );
+		do_action( 'save_post', $post_id, get_post( $post_id ), true );
 		$bylines = get_bylines( $post_id );
 		$this->assertCount( 2, $bylines );
 		$this->assertEquals( array( 'foobar', 'b1' ), wp_list_pluck( $bylines, 'slug' ) );
@@ -103,7 +117,7 @@ class Test_Bylines extends WP_UnitTestCase {
 				$b1->term_id,
 			),
 		);
-		do_action( 'save_post', $post_id, get_post( $post_id ) );
+		do_action( 'save_post', $post_id, get_post( $post_id ), true );
 		$bylines = get_bylines( $post_id );
 		$this->assertCount( 2, $bylines );
 		$this->assertEquals( array( 'foobar', 'b1' ), wp_list_pluck( $bylines, 'slug' ) );

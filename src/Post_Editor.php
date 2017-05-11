@@ -155,6 +155,38 @@ class Post_Editor {
 	}
 
 	/**
+	 * Assign a byline term when a post is initially created
+	 *
+	 * @param integer $post_id Post ID.
+	 * @param WP_Post $post    Post object.
+	 * @param boolean $update  Whether this is an update.
+	 */
+	public static function action_save_post_set_initial_byline( $post_id, $post, $update ) {
+		if ( $update ) {
+			return;
+		}
+		if ( ! in_array( $post->post_type, Content_Model::get_byline_supported_post_types(), true ) ) {
+			return;
+		}
+
+		$default_byline = false;
+		if ( $post->post_author ) {
+			$default_byline = Byline::get_by_user_id( $post->post_author );
+		}
+
+		/**
+		 * Filter the default byline assigned to the post.
+		 *
+		 * @param mixed   $default_byline Default byline, as calculated by plugin.
+		 * @param WP_Post $post           Post object.
+		 */
+		$default_byline = apply_filters( 'bylines_default_byline', $default_byline, $post );
+		if ( $default_byline ) {
+			Utils::set_post_bylines( $post_id, array( $default_byline ) );
+		}
+	}
+
+	/**
 	 * Get a rendered byline partial
 	 *
 	 * @param array $args Arguments to render in the partial.
