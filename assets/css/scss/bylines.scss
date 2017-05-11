@@ -18,8 +18,9 @@ ul.bylines-list {
 	&.bylines-current-user-can-assign li:hover {
 		cursor: pointer;
 	}
-	&.bylines-current-user-can-assign .byline-remove {
+	&.bylines-current-user-can-assign li .byline-remove {
 		position: absolute;
+		display: block;
 		right: 5px;
 		width: 16px;
 		z-index: 1;
