@@ -24,8 +24,8 @@
 				bylinesSearch.val(null).trigger('change');
 			});
 		});
-		$('.bylines-list').sortable();
-		$('.bylines-list').on('click', '.byline-remove', function(){
+		$('.bylines-list.bylines-current-user-can-assign').sortable();
+		$('.bylines-list.bylines-current-user-can-assign').on('click', '.byline-remove', function(){
 			var el = $(this);
 			el.closest('li').remove();
 		})

@@ -9,23 +9,26 @@ ul.bylines-list {
 		position: relative;
 		max-width: 250px;
 		.byline-remove {
-			position: absolute;
-			right: 5px;
-			width: 16px;
-			z-index: 1;
-			top: 50%;
-			transform: translateY(-50%);
-			.dashicons {
-				height: 16px;
-				width: 16px;
-				font-size: 16px;
-			}
+			display: none;
 		}
-		&:hover,
 		&.ui-sortable-helper {
 			cursor: pointer;
 		}
-		&.ui-sortable-helper {
+	}
+	&.bylines-current-user-can-assign li:hover {
+		cursor: pointer;
+	}
+	&.bylines-current-user-can-assign .byline-remove {
+		position: absolute;
+		right: 5px;
+		width: 16px;
+		z-index: 1;
+		top: 50%;
+		transform: translateY(-50%);
+		.dashicons {
+			height: 16px;
+			width: 16px;
+			font-size: 16px;
 		}
 	}
 }

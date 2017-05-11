@@ -8,19 +8,25 @@ ul.bylines-list li {
   position: relative;
   max-width: 250px; }
   ul.bylines-list li .byline-remove {
-    position: absolute;
-    right: 5px;
-    width: 16px;
-    z-index: 1;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-            transform: translateY(-50%); }
-    ul.bylines-list li .byline-remove .dashicons {
-      height: 16px;
-      width: 16px;
-      font-size: 16px; }
-  ul.bylines-list li:hover, ul.bylines-list li.ui-sortable-helper {
+    display: none; }
+  ul.bylines-list li.ui-sortable-helper {
     cursor: pointer; }
+
+ul.bylines-list.bylines-current-user-can-assign li:hover {
+  cursor: pointer; }
+
+ul.bylines-list.bylines-current-user-can-assign .byline-remove {
+  position: absolute;
+  right: 5px;
+  width: 16px;
+  z-index: 1;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%); }
+  ul.bylines-list.bylines-current-user-can-assign .byline-remove .dashicons {
+    height: 16px;
+    width: 16px;
+    font-size: 16px; }
 
 .form-field.term-description-wrap {
   display: none; }
