@@ -17,6 +17,10 @@ class Test_Bylines extends WP_UnitTestCase {
 	 * Saving bylines generically
 	 */
 	public function test_save_bylines() {
+		$user_id = $this->factory->user->create( array(
+			'role' => 'editor',
+		) );
+		wp_set_current_user( $user_id );
 		$post_id = $this->factory->post->create();
 		$b1 = Byline::create( array(
 			'slug'  => 'b1',
@@ -43,6 +47,10 @@ class Test_Bylines extends WP_UnitTestCase {
 	 * Saving bylines by creating a new user
 	 */
 	public function test_save_bylines_create_new_user() {
+		$user_id = $this->factory->user->create( array(
+			'role' => 'editor',
+		) );
+		wp_set_current_user( $user_id );
 		$post_id = $this->factory->post->create();
 		$b1 = Byline::create( array(
 			'slug'  => 'b1',
@@ -73,6 +81,10 @@ class Test_Bylines extends WP_UnitTestCase {
 	 * Saving bylines by repurposing an existing user
 	 */
 	public function test_save_bylines_existing_user() {
+		$user_id = $this->factory->user->create( array(
+			'role' => 'editor',
+		) );
+		wp_set_current_user( $user_id );
 		$post_id = $this->factory->post->create();
 		$b1 = Byline::create( array(
 			'slug'  => 'b1',

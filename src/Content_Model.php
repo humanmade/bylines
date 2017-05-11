@@ -43,6 +43,12 @@ class Content_Model {
 			'args'         => array(
 				'orderby' => 'term_order',
 			),
+			'capabilities' => array(
+				'manage_terms' => 'list_users',
+				'edit_terms'   => 'list_users',
+				'delete_terms' => 'list_users',
+				'assign_terms' => 'edit_others_posts',
+			),
 			'show_ui'      => true,
 			'show_in_quick_edit' => false,
 			'meta_box_cb'  => false,
