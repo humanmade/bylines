@@ -15,15 +15,16 @@ ul.bylines-list li {
 ul.bylines-list.bylines-current-user-can-assign li:hover {
   cursor: pointer; }
 
-ul.bylines-list.bylines-current-user-can-assign .byline-remove {
+ul.bylines-list.bylines-current-user-can-assign li .byline-remove {
   position: absolute;
+  display: block;
   right: 5px;
   width: 16px;
   z-index: 1;
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%); }
-  ul.bylines-list.bylines-current-user-can-assign .byline-remove .dashicons {
+  ul.bylines-list.bylines-current-user-can-assign li .byline-remove .dashicons {
     height: 16px;
     width: 16px;
     font-size: 16px; }
