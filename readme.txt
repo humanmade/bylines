@@ -3,7 +3,7 @@ Contributors: danielbachhuber
 Tags: authors, bylines, multiple authors, multi-author, publishing
 Requires at least: 4.4
 Tested up to: 4.7
-Stable tag: 0.0.0
+Stable tag: 0.1.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -26,5 +26,5 @@ Integrate the template tags into your theme to display assigned bylines on the f
 
 == Changelog ==
 
-= 0.1.0 (??? ??, ????) =
+= 0.1.0 (May 10, 2017) =
 * Initial release.
