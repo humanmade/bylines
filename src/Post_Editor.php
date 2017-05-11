@@ -86,8 +86,14 @@ class Post_Editor {
 	 * Render the Bylines meta box.
 	 */
 	public static function render_bylines_metabox() {
+		$classes = array(
+			'bylines-list',
+		);
+		if ( current_user_can( get_taxonomy( 'byline' )->cap->assign_terms ) ) {
+			$classes[] = 'bylines-current-user-can-assign';
+		}
 		?>
-		<ul class="bylines-list">
+		<ul class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
 			<?php
 			foreach ( get_bylines() as $byline ) {
 				$display_name = $byline->display_name;
