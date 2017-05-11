@@ -68,6 +68,7 @@ add_action( 'wp_ajax_bylines_users_search', array( 'Bylines\Admin_Ajax', 'handle
 add_action( 'admin_enqueue_scripts', array( 'Bylines\Assets', 'action_admin_enqueue_scripts' ) );
 add_action( 'add_meta_boxes', array( 'Bylines\Post_Editor', 'action_add_meta_boxes_late' ), 100 );
 add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_bylines_metabox' ), 10, 2 );
+add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_set_initial_byline' ), 10, 3 );
 
 // Integrations with other systems.
 add_filter( 'the_author', array( 'Bylines\Integrations\RSS', 'filter_the_author' ), 11 );
