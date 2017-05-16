@@ -72,6 +72,7 @@ add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_set_ini
 
 // Theme template tag filters.
 add_filter( 'get_the_archive_title', array( 'Bylines\Integrations\Theme', 'filter_get_the_archive_title' ) );
+add_filter( 'get_the_archive_description', array( 'Bylines\Integrations\Theme', 'filter_get_the_archive_description' ) );
 
 // Integrations with other systems.
 add_filter( 'the_author', array( 'Bylines\Integrations\RSS', 'filter_the_author' ), 11 );

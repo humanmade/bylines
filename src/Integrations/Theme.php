@@ -26,4 +26,17 @@ class Theme {
 		return sprintf( __( 'Author: %s', 'bylines' ), '<span class="vcard">' . get_queried_object()->display_name . '</span>' );
 	}
 
+	/**
+	 * Filter get_the_archive_description() to use byline on author archives
+	 *
+	 * @param string $description Original archive description.
+	 * @return string
+	 */
+	public static function filter_get_the_archive_description( $description ) {
+		if ( ! is_author() ) {
+			return $description;
+		}
+		return get_queried_object()->description;
+	}
+
 }
