@@ -36,11 +36,15 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		Utils::set_post_bylines( $this->post_id1, $bylines );
 		Utils::set_post_bylines( $this->post_id2, $bylines );
 		// User 1.
-		$this->go_to( get_author_posts_url( $this->user_id1 ) );
+		$this->go_to( '?author_name=' . $byline1->slug );
 		$this->assertEquals( 2, $GLOBALS['wp_query']->found_posts );
+		$this->assertEquals( $byline1, get_queried_object() );
+		$this->assertEquals( $byline1->term_id, get_queried_object_id() );
 		// User 2.
-		$this->go_to( get_author_posts_url( $this->user_id2 ) );
+		$this->go_to( '?author_name=' . $byline2->slug );
 		$this->assertEquals( 2, $GLOBALS['wp_query']->found_posts );
+		$this->assertEquals( $byline2, get_queried_object() );
+		$this->assertEquals( $byline2->term_id, get_queried_object_id() );
 	}
 
 	/**
@@ -90,16 +94,16 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 	 * Overload queried object for byline without a user attached and with posts.
 	 */
 	public function test_query_overload_byline_without_user_with_posts() {
-		$byline2 = Byline::create( array(
+		$byline = Byline::create( array(
 			'display_name'   => 'Byline 2',
 			'slug'           => 'byline-2',
 		) );
 		$this->post_id1 = $this->factory->post->create();
-		$bylines = array( $byline2->term_id );
-		Utils::set_post_bylines( $this->post_id1, array( $byline2 ) );
-		$this->go_to( '?author_name=' . $byline2->slug );
-		$this->assertEquals( $byline2, get_queried_object() );
-		$this->assertEquals( $byline2->term_id, get_queried_object_id() );
+		$bylines = array( $byline->term_id );
+		Utils::set_post_bylines( $this->post_id1, array( $byline ) );
+		$this->go_to( '?author_name=' . $byline->slug );
+		$this->assertEquals( $byline, get_queried_object() );
+		$this->assertEquals( $byline->term_id, get_queried_object_id() );
 		$this->assertEquals( 1, $GLOBALS['wp_query']->found_posts );
 	}
 
