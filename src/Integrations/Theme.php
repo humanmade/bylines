@@ -14,6 +14,9 @@ class Theme {
 
 	/**
 	 * Filter get_the_archive_title() to use byline on author archives
+	 *
+	 * @param string $title Original archive title.
+	 * @return string
 	 */
 	public static function filter_get_the_archive_title( $title ) {
 		if ( ! is_author() ) {

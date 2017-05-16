@@ -70,7 +70,7 @@ add_action( 'add_meta_boxes', array( 'Bylines\Post_Editor', 'action_add_meta_box
 add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_bylines_metabox' ), 10, 2 );
 add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_set_initial_byline' ), 10, 3 );
 
-// Theme template tag filters
+// Theme template tag filters.
 add_filter( 'get_the_archive_title', array( 'Bylines\Integrations\Theme', 'filter_get_the_archive_title' ) );
 
 // Integrations with other systems.
