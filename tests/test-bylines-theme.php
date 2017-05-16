@@ -14,7 +14,7 @@ use Bylines\Utils;
 class Test_Bylines_Themes extends WP_UnitTestCase {
 
 	/**
-	 * Filter the_archive_title() to use byline on author archives
+	 * Filter get_the_archive_title() to use byline on author archives
 	 */
 	public function test_filter_the_archive_title_byline_author_archives() {
 		$user_id = $this->factory->user->create( array(
