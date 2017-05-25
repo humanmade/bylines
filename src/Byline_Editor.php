@@ -72,6 +72,37 @@ class Byline_Editor {
 	}
 
 	/**
+	 * Add "Create byline" and "Edit byline" links for users
+	 *
+	 * @param array   $actions Existing user action links.
+	 * @param WP_User $user    User object.
+	 * @return array
+	 */
+	public function filter_user_row_actions( $actions, $user ) {
+		if ( is_network_admin()
+			|| ! current_user_can( get_taxonomy( 'byline' )->cap->manage_terms ) ) {
+			return $actions;
+		}
+
+		$new_actions = array();
+		$byline = Byline::get_by_user_id( $user->ID );
+		if ( $byline ) {
+			$link = get_edit_term_link( $byline->term_id, 'byline' );
+			$new_actions['edit-byline'] = '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Edit Byline', 'bylines' ) . '</a>';
+		} else {
+			$args = array(
+				'action'        => 'byline_create_from_user',
+				'user_id'       => $user->ID,
+				'nonce'         => wp_create_nonce( 'byline_create_from_user' . $user->ID ),
+			);
+			$link = add_query_arg( array_map( 'rawurlencode', $args ), admin_url( 'admin-ajax.php' ) );
+			$new_actions['create-byline'] = '<a href="' . esc_url( $link ) . '">' . esc_html__( 'Create Byline', 'bylines' ) . '</a>';
+		}
+
+		return $new_actions + $actions;
+	}
+
+	/**
 	 * Render fields for the byline profile editor
 	 *
 	 * @param WP_Term $term Byline term being edited.
