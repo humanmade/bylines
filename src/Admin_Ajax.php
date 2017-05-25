@@ -128,4 +128,24 @@ class Admin_Ajax {
 		exit;
 	}
 
+	/**
+	 * Handle a GET request to create a new byline from a user
+	 */
+	public static function handle_byline_create_from_user() {
+		if ( empty( $_GET['nonce'] )
+			|| empty( $_GET['user_id'] )
+			|| ! wp_verify_nonce( $_GET['nonce'], 'byline_create_from_user' . $_GET['user_id'] ) ) {
+			exit;
+		}
+
+		$user_id = (int) $_GET['user_id'];
+		$byline = Byline::create_from_user( $user_id );
+		if ( is_wp_error( $byline ) ) {
+			wp_die( $byline->get_error_message() );
+		}
+		$link = get_edit_term_link( $byline->term_id, 'byline' );
+		wp_safe_redirect( $link );
+		exit;
+	}
+
 }

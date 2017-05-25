@@ -54,6 +54,7 @@ add_action( 'admin_init', array( 'Bylines\Post_Editor', 'action_admin_init' ) );
 add_filter( 'manage_edit-byline_columns', array( 'Bylines\Byline_Editor', 'filter_manage_edit_byline_columns' ) );
 add_filter( 'list_table_primary_column', array( 'Bylines\Byline_Editor', 'filter_list_table_primary_column' ) );
 add_filter( 'manage_byline_custom_column', array( 'Bylines\Byline_Editor', 'filter_manage_byline_custom_column' ), 10, 3 );
+add_filter( 'user_row_actions', array( 'Bylines\Byline_Editor', 'filter_user_row_actions' ), 10, 2 );
 add_action( 'byline_edit_form_fields', array( 'Bylines\Byline_Editor', 'action_byline_edit_form_fields' ) );
 add_action( 'edited_byline', array( 'Bylines\Byline_Editor', 'action_edited_byline' ) );
 
@@ -65,6 +66,7 @@ add_filter( 'posts_groupby', array( 'Bylines\Query', 'filter_posts_groupby' ), 1
 
 add_action( 'wp_ajax_bylines_search', array( 'Bylines\Admin_Ajax', 'handle_bylines_search' ) );
 add_action( 'wp_ajax_bylines_users_search', array( 'Bylines\Admin_Ajax', 'handle_users_search' ) );
+add_action( 'wp_ajax_byline_create_from_user', array( 'Bylines\Admin_Ajax', 'handle_byline_create_from_user' ) );
 add_action( 'admin_enqueue_scripts', array( 'Bylines\Assets', 'action_admin_enqueue_scripts' ) );
 add_action( 'add_meta_boxes', array( 'Bylines\Post_Editor', 'action_add_meta_boxes_late' ), 100 );
 add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_bylines_metabox' ), 10, 2 );
