@@ -109,7 +109,7 @@ class Byline_Editor {
 	 */
 	public static function action_byline_edit_form_fields( $term ) {
 		$byline = Byline::get_by_term_id( $term->term_id );
-		foreach ( self::get_fields() as $key => $args ) {
+		foreach ( self::get_fields( $byline ) as $key => $args ) {
 			$args['key'] = $key;
 			$args['value'] = $byline->$key;
 			echo self::get_rendered_byline_partial( $args );
@@ -139,10 +139,11 @@ class Byline_Editor {
 	/**
 	 * Get the fields to be rendered in the byline editor
 	 *
+	 * @param Byline $byline Byline to be rendered.
 	 * @return array
 	 */
-	public static function get_fields() {
-		return array(
+	public static function get_fields( $byline ) {
+		$fields = array(
 			'first_name'   => array(
 				'label'    => __( 'First Name', 'bylines' ),
 				'type'     => 'text',
@@ -171,6 +172,14 @@ class Byline_Editor {
 				'sanitize' => 'wp_filter_post_kses',
 			),
 		);
+		/**
+		 * Customize fields presented in the byline editor.
+		 *
+		 * @param array  $fields Existing fields to display.
+		 * @param Byline $byline Byline to be rendered.
+		 */
+		$fields = apply_filters( 'bylines_editor_fields', $fields, $byline );
+		return $fields;
 	}
 
 	/**
