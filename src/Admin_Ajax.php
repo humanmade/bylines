@@ -125,6 +125,9 @@ class Admin_Ajax {
 					'user_id'       => $byline->user_id,
 					'avatar_url'    => get_avatar_url( $byline->user_email, 32 ),
 				);
+				if ( $byline->user_id ) {
+					$ignored[] = 'u' . $byline->user_id;
+				}
 			}
 		}
 		$user_args = array(
