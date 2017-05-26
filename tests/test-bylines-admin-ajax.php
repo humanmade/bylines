@@ -41,4 +41,23 @@ class Test_Bylines_Admin_Ajax extends WP_UnitTestCase {
 		), wp_list_pluck( $bylines, 'text' ) );
 	}
 
+	/**
+	 * When a byline is assigned to a post, its user should not appear.
+	 */
+	public function test_ajax_search_exclude_user_when_byline_assigned() {
+		$user_id1 = $this->factory->user->create( array(
+			'display_name' => 'A User 1',
+		) );
+		$byline1 = Byline::create_from_user( $user_id1 );
+		$user_id2 = $this->factory->user->create( array(
+			'display_name' => 'B User 2',
+		) );
+		// Default search should only include 'B User 2'
+		$bylines = Admin_Ajax::get_possible_bylines_for_search( '', array( $byline1->term_id ) );
+		$this->assertEquals( array(
+			'B User 2',
+			'admin',
+		), wp_list_pluck( $bylines, 'text' ) );
+	}
+
 }
