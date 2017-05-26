@@ -52,7 +52,7 @@ class Test_Bylines_Admin_Ajax extends WP_UnitTestCase {
 		$user_id2 = $this->factory->user->create( array(
 			'display_name' => 'B User 2',
 		) );
-		// Default search should only include 'B User 2'
+		// Default search should only include 'B User 2'.
 		$bylines = Admin_Ajax::get_possible_bylines_for_search( '', array( $byline1->term_id ) );
 		$this->assertEquals( array(
 			'B User 2',
