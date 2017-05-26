@@ -105,11 +105,17 @@ class Admin_Ajax {
 		}
 		if ( ! empty( $ignored ) ) {
 			$term_args['exclude'] = array();
+			$ignored_users = array();
 			foreach ( $ignored as $val ) {
 				if ( is_numeric( $val ) ) {
 					$term_args['exclude'][] = (int) $val;
+					$user_id = get_term_meta( $val, 'user_id', true );
+					if ( $user_id ) {
+						$ignored_users[] = 'u' . $user_id;
+					}
 				}
 			}
+			$ignored = array_merge( $ignored, $ignored_users );
 		}
 		$terms = get_terms( $term_args );
 		if ( $terms && ! is_wp_error( $terms ) ) {
