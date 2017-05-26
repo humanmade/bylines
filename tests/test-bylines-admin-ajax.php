@@ -36,7 +36,6 @@ class Test_Bylines_Admin_Ajax extends WP_UnitTestCase {
 			'A User 1',
 			'B User 2',
 			'C User 3',
-			'C User 3',
 			'D User 4',
 			'admin',
 		), wp_list_pluck( $bylines, 'text' ) );
