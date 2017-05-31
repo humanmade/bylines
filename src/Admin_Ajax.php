@@ -50,7 +50,7 @@ class Admin_Ajax {
 			'number' => 20,
 		);
 		if ( ! empty( $_GET['q'] ) ) {
-			$user_args['search'] = sanitize_text_field( $_GET['q'] );
+			$user_args['search'] = sanitize_text_field( '*' . $_GET['q'] . '*' );
 		}
 		$users = get_users( $user_args );
 		$results = array();
@@ -140,7 +140,7 @@ class Admin_Ajax {
 			'number' => 20,
 		);
 		if ( ! empty( $search ) ) {
-			$user_args['search'] = $search;
+			$user_args['search'] = '*' . $search . '*';
 		}
 		if ( ! empty( $ignored ) ) {
 			$user_args['exclude'] = array();
