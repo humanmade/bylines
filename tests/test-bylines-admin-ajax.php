@@ -39,6 +39,18 @@ class Test_Bylines_Admin_Ajax extends WP_UnitTestCase {
 			'D User 4',
 			'admin',
 		), wp_list_pluck( $bylines, 'text' ) );
+		// Search should default to wildcard.
+		$bylines = Admin_Ajax::get_possible_bylines_for_search( 'use' );
+		$this->assertEquals( array(
+			'A User 1',
+			'B User 2',
+			'C User 3',
+			'D User 4',
+		), wp_list_pluck( $bylines, 'text' ) );
+		$bylines = Admin_Ajax::get_possible_bylines_for_search( 'C U' );
+		$this->assertEquals( array(
+			'C User 3',
+		), wp_list_pluck( $bylines, 'text' ) );
 	}
 
 	/**
