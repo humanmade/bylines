@@ -95,6 +95,7 @@ class Admin_Ajax {
 	 * @return array
 	 */
 	public static function get_possible_bylines_for_search( $search, $ignored = array() ) {
+		$bylines = array();
 		$term_args = array(
 			'taxonomy'    => 'byline',
 			'hide_empty'  => false,
