@@ -11,7 +11,7 @@ use Bylines\Objects\Byline;
 /**
  * Test functionality related to admin ajax interactions
  */
-class Test_Bylines_Admin_Ajax extends WP_UnitTestCase {
+class Test_Bylines_Admin_Ajax extends Bylines_Testcase {
 
 	/**
 	 * Searching for potential bylines.

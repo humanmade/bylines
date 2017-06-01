@@ -11,7 +11,7 @@ use Bylines\Utils;
 /**
  * Class Test_Bylines_Permissions
  */
-class Test_Bylines_Permissions extends WP_UnitTestCase {
+class Test_Bylines_Permissions extends Bylines_Testcase {
 
 	/**
 	 * Contributors shouldn't be able to assign or edit bylines

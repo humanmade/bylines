@@ -11,7 +11,7 @@ use Bylines\Utils;
 /**
  * Test functionality related to the Bylines object
  */
-class Test_Bylines_Template_Tags extends WP_UnitTestCase {
+class Test_Bylines_Template_Tags extends Bylines_Testcase {
 
 	/**
 	 * Getting bylines generically
