@@ -41,7 +41,7 @@ class Query {
 			$byline = Byline::get_by_term_id( $term->term_id );
 			$query->queried_object = $byline;
 			$query->queried_object_id = $byline->term_id;
-		} elseif( is_object( $user ) ) {
+		} elseif ( is_object( $user ) ) {
 			$query->queried_object = $user;
 			$query->queried_object_id = $user->ID;
 		} else {
