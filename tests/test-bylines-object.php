@@ -10,7 +10,7 @@ use Bylines\Objects\Byline;
 /**
  * Test functionality related to the Bylines object
  */
-class Test_Bylines_Object extends WP_UnitTestCase {
+class Test_Bylines_Object extends Bylines_Testcase {
 
 	/**
 	 * Create a new byline from thin air

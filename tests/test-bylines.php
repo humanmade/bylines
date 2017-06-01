@@ -11,7 +11,7 @@ use Bylines\Utils;
 /**
  * Test functionality related to bylines
  */
-class Test_Bylines extends WP_UnitTestCase {
+class Test_Bylines extends Bylines_Testcase {
 
 	/**
 	 * Byline should be assigned when a new post is created

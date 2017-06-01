@@ -11,7 +11,7 @@ use Bylines\Utils;
 /**
  * Test functionality related to modifying the main query
  */
-class Test_Bylines_Query extends WP_UnitTestCase {
+class Test_Bylines_Query extends Bylines_Testcase {
 
 	/**
 	 * Two bylines assigned to a post should each have the post appear in their
@@ -36,12 +36,14 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		Utils::set_post_bylines( $this->post_id1, $bylines );
 		Utils::set_post_bylines( $this->post_id2, $bylines );
 		// User 1.
-		$this->go_to( '?author_name=' . $byline1->slug );
+		$this->go_to( $byline1->link );
+		$this->assertContains( 'author/', $GLOBALS['wp']->request );
 		$this->assertEquals( 2, $GLOBALS['wp_query']->found_posts );
 		$this->assertEquals( $byline1, get_queried_object() );
 		$this->assertEquals( $byline1->term_id, get_queried_object_id() );
 		// User 2.
-		$this->go_to( '?author_name=' . $byline2->slug );
+		$this->go_to( $byline2->link );
+		$this->assertContains( 'author/', $GLOBALS['wp']->request );
 		$this->assertEquals( 2, $GLOBALS['wp_query']->found_posts );
 		$this->assertEquals( $byline2, get_queried_object() );
 		$this->assertEquals( $byline2->term_id, get_queried_object_id() );
@@ -62,6 +64,7 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 			'post_author' => $this->user_id1,
 		) );
 		$this->go_to( get_author_posts_url( $this->user_id1 ) );
+		$this->assertContains( 'author/', $GLOBALS['wp']->request );
 		$this->assertEquals( 2, $GLOBALS['wp_query']->found_posts );
 		// Create a new post with a byline.
 		$this->post_id3 = $this->factory->post->create();
@@ -69,10 +72,12 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		$bylines = array( $byline1 );
 		Utils::set_post_bylines( $this->post_id3, $bylines );
 		$this->go_to( get_author_posts_url( $this->user_id1 ) );
+		$this->assertContains( 'author/', $GLOBALS['wp']->request );
 		$this->assertEquals( 3, $GLOBALS['wp_query']->found_posts );
 		// Apply the filter to disable MAX IF.
 		add_filter( 'bylines_query_post_author', '__return_false' );
 		$this->go_to( get_author_posts_url( $this->user_id1 ) );
+		$this->assertContains( 'author/', $GLOBALS['wp']->request );
 		$this->assertEquals( 1, $GLOBALS['wp_query']->found_posts );
 	}
 
@@ -84,7 +89,8 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 			'display_name'   => 'Byline 1',
 			'slug'           => 'byline-1',
 		) );
-		$this->go_to( '?author_name=' . $byline1->slug );
+		$this->go_to( $byline1->link );
+		$this->assertContains( 'author/', $GLOBALS['wp']->request );
 		$this->assertEquals( $byline1, get_queried_object() );
 		$this->assertEquals( $byline1->term_id, get_queried_object_id() );
 		$this->assertEquals( 0, $GLOBALS['wp_query']->found_posts );
@@ -101,7 +107,8 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		$this->post_id1 = $this->factory->post->create();
 		$bylines = array( $byline->term_id );
 		Utils::set_post_bylines( $this->post_id1, array( $byline ) );
-		$this->go_to( '?author_name=' . $byline->slug );
+		$this->go_to( $byline->link );
+		$this->assertContains( 'author/', $GLOBALS['wp']->request );
 		$this->assertEquals( $byline, get_queried_object() );
 		$this->assertEquals( $byline->term_id, get_queried_object_id() );
 		$this->assertEquals( 1, $GLOBALS['wp_query']->found_posts );
@@ -116,6 +123,7 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		) );
 		$user1 = get_user_by( 'id', $this->user_id1 );
 		$this->go_to( get_author_posts_url( $this->user_id1 ) );
+		$this->assertContains( 'author/', $GLOBALS['wp']->request );
 		$this->assertEquals( $user1, get_queried_object() );
 		$this->assertEquals( 0, $GLOBALS['wp_query']->found_posts );
 	}
@@ -132,6 +140,7 @@ class Test_Bylines_Query extends WP_UnitTestCase {
 		) );
 		$user2 = get_user_by( 'id', $this->user_id2 );
 		$this->go_to( get_author_posts_url( $this->user_id2 ) );
+		$this->assertContains( 'author/', $GLOBALS['wp']->request );
 		$this->assertEquals( $user2, get_queried_object() );
 		$this->assertEquals( 1, $GLOBALS['wp_query']->found_posts );
 	}

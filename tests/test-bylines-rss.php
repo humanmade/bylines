@@ -11,7 +11,7 @@ use Bylines\Utils;
 /**
  * Test automatic integration with RSS.
  */
-class Test_Bylines_RSS extends WP_UnitTestCase {
+class Test_Bylines_RSS extends Bylines_Testcase {
 
 	/**
 	 * Bylines should be added to RSS feed items

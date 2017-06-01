@@ -11,7 +11,7 @@ use Bylines\Utils;
 /**
  * Test automatic integration with themes.
  */
-class Test_Bylines_Themes extends WP_UnitTestCase {
+class Test_Bylines_Themes extends Bylines_Testcase {
 
 	/**
 	 * Filter get_the_archive_title() to use byline on author archives
