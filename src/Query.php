@@ -25,6 +25,7 @@ class Query {
 	 * @param WP_Query $query Query object.
 	 */
 	public static function action_pre_get_posts( $query ) {
+
 		if ( ! $query->is_author() ) {
 			return;
 		}
@@ -35,10 +36,14 @@ class Query {
 		}
 
 		$term = get_term_by( 'slug', $author_name, 'byline' );
+		$user = get_user_by( 'slug', $author_name );
 		if ( $term ) {
 			$byline = Byline::get_by_term_id( $term->term_id );
 			$query->queried_object = $byline;
 			$query->queried_object_id = $byline->term_id;
+		} elseif( is_object( $user ) ) {
+			$query->queried_object = $user;
+			$query->queried_object_id = $user->ID;
 		} else {
 			$query->queried_object = null;
 			$query->queried_object_id = null;
