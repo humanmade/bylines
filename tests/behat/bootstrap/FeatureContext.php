@@ -421,6 +421,13 @@ class FeatureContext extends BehatContext implements ClosuredContextInterface {
 		);
 
 		$this->proc( 'wp core install', $install_args, $subdir )->run_check();
+
+		// Place this plugin in the proper location
+		$plugin_dir = dirname( dirname( dirname( dirname( __FILE__ ) ) ) );
+		$base_dir = dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) );
+		$this->proc( 'cd ' . $base_dir . ';zip -r ' . $this->variables['RUN_DIR'] . '/bylines.zip ' . basename( $plugin_dir ) . ' -x ' . basename( $plugin_dir ) . '/node_modules/\* -x ' . basename( $plugin_dir ) . '/.git/\* ' )->run_check();
+		$this->proc( 'wp plugin install --activate bylines.zip' )->run_check();
+
 	}
 }
 
