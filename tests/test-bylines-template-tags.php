@@ -182,4 +182,25 @@ class Test_Bylines_Template_Tags extends Bylines_Testcase {
 		the_bylines_posts_links();
 	}
 
+	/**
+	 * Render two bylines, one with a custom URL and the other without
+	 */
+	public function test_template_tag_the_bylines_links_two_bylines() {
+		global $post;
+		$b1 = Byline::create( array(
+			'slug'  => 'b1',
+			'display_name' => 'Byline 1',
+		) );
+		$b2 = Byline::create( array(
+			'slug'  => 'b2',
+			'display_name' => 'Byline 2',
+		) );
+		update_term_meta( $b2->term_id, 'user_url', 'https://apple.com' );
+		$post_id = $this->factory->post->create();
+		$post = get_post( $post_id );
+		Utils::set_post_bylines( $post_id, array( $b2, $b1 ) );
+		$this->expectOutputString( '<a href="https://apple.com" title="Visit Byline 2&#8217;s website" rel="external">Byline 2</a> and Byline 1' );
+		the_bylines_links();
+	}
+
 }
