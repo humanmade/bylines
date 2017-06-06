@@ -46,6 +46,7 @@ before_script:
         cgr "phpunit/phpunit=5.7.*"
       fi
       bash bin/install-package-tests.sh
+      cgr wp-cli/wp-cli
       cgr "behat/behat=~2.5"
     fi
   - |
