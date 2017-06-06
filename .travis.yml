@@ -44,6 +44,8 @@ before_script:
       else
         composer global require "phpunit/phpunit=5.7.*"
       fi
+      bash bin/install-package-tests.sh
+      composer global require "behat/behat=~2.5"
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
@@ -56,6 +58,7 @@ script:
     if [[ ! -z "$WP_VERSION" ]] ; then
       phpunit
       WP_MULTISITE=1 phpunit
+      behat
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
