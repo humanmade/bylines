@@ -18,4 +18,8 @@
 		<exclude-pattern>*/src/*</exclude-pattern>
 	</rule>
 
+	<rule ref="Squiz.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern>*/src/CLI.php</exclude-pattern>
+	</rule>
+
 </ruleset>
