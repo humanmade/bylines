@@ -97,6 +97,26 @@ function the_bylines_posts_links() {
 }
 
 /**
+ * Renders the bylines display names, with their website link if it exists.
+ *
+ * Equivalent to the_author_link() template tag.
+ */
+function the_bylines_links() {
+	echo bylines_render( get_bylines(), function( $byline ) {
+		if ( $byline->user_url ) {
+			return sprintf( '<a href="%s" title="%s" rel="external">%s</a>',
+				esc_url( $byline->user_url ),
+				// Translators: refers to the byline's website.
+				esc_attr( sprintf( __( 'Visit %s&#8217;s website' ), $byline->display_name ) ),
+				$byline->display_name
+			);
+		} else {
+			return $byline->display_name;
+		}
+	} );
+}
+
+/**
  * Display one or more bylines, according to arguments provided.
  *
  * @param array    $bylines         Set of bylines to display.
