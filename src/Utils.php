@@ -69,6 +69,43 @@ class Utils {
 						$result->created++;
 					}
 					break;
+				case 'guest-author':
+					$byline = Byline::get_by_term_slug( $coauthor->user_nicename );
+					if ( $byline ) {
+						$bylines[] = $byline;
+						$result->existing++;
+					} else {
+						$args = array(
+							'display_name' => $coauthor->display_name,
+							'slug'         => $coauthor->user_nicename,
+						);
+						$byline = Byline::create( $args );
+						if ( is_wp_error( $byline ) ) {
+							return $byline;
+						}
+						$ignored = array(
+							'ID',
+							'display_name',
+							'user_nicename',
+							'user_login',
+						);
+						foreach( $coauthor as $key => $value ) {
+							if ( in_array( $key, $ignored, true ) ) {
+								continue;
+							}
+							if ( 'linked_account' === $key ) {
+								$key = 'user_id';
+								$user = get_user_by( 'login', $value );
+								$value = $user ? $user->ID : '';
+							}
+							if ( '' !== $value ) {
+								update_term_meta( $byline->term_id, $key, $value );
+							}
+						}
+						$bylines[] = $byline;
+						$result->created++;
+					}
+					break;
 			}
 		}
 		if ( empty( $bylines ) || count( $coauthors ) !== count( $bylines ) ) {

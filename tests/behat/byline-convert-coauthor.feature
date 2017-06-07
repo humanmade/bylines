@@ -204,3 +204,12 @@ Feature: Convert coauthors to bylines
       testauthor
       testeditor
       """
+
+    When I run `wp term list byline --slug=testauthor --field=term_id`
+    Then save STDOUT as {TERM_ONE}
+
+    When I run `wp term meta get {TERM_ONE} user_email`
+    Then STDOUT should be:
+      """
+      testauthor@example.com
+      """
