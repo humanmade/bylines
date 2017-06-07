@@ -138,7 +138,7 @@ Feature: Convert coauthors to bylines
     When I run `wp byline convert-coauthor {POST_ONE}`
     Then STDOUT should be:
       """
-      Created 2 byline and assigned to post {POST_ONE}.
+      Created 2 bylines and assigned to post {POST_ONE}.
       Success: Converted 1 of 1 co-author posts.
       """
 

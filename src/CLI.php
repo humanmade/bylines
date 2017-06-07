@@ -75,10 +75,18 @@ class CLI {
 				Utils::set_post_bylines( $post_id, $bylines );
 				$message = array();
 				if ( $created ) {
-					$message[] = "created {$created} byline";
+					$part = "created {$created} byline";
+					if ( $created > 1 ) {
+						$part .= 's';
+					}
+					$message[] = $part;
 				}
 				if ( $existing ) {
-					$message[] = "found {$existing} existing byline";
+					$part = "found {$existing} existing byline";
+					if ( $existing > 1 ) {
+						$part .= 's';
+					}
+					$message[] = $part;
 				}
 				$message = ucfirst( implode( ', ', $message ) );
 				WP_CLI::log( "{$message} and assigned to post {$post_id}." );
