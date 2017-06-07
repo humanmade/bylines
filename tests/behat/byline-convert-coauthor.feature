@@ -22,6 +22,13 @@ Feature: Convert coauthors to bylines
     When I run `wp post create --post_title='Test Post 1' --post_status=publish --post_author={USER_ONE} --porcelain`
     Then save STDOUT as {POST_ONE}
 
+    When I run `wp post term list {POST_ONE} author --fields=slug --format=csv`
+    Then STDOUT should be:
+      """
+      slug
+      cap-testauthor
+      """
+
     When I run `wp post term list {POST_ONE} byline --fields=slug --format=csv`
     Then STDOUT should be:
       """
@@ -30,6 +37,13 @@ Feature: Convert coauthors to bylines
 
     When I run `wp post create --post_title='Test Post 2' --post_status=publish --post_author={USER_TWO} --porcelain`
     Then save STDOUT as {POST_TWO}
+
+    When I run `wp post term list {POST_TWO} author --fields=slug --format=csv`
+    Then STDOUT should be:
+      """
+      slug
+      cap-testeditor
+      """
 
     When I run `wp post term list {POST_TWO} byline --fields=slug --format=csv`
     Then STDOUT should be:
@@ -61,6 +75,13 @@ Feature: Convert coauthors to bylines
       Created 1 byline and assigned to post {POST_TWO}.
       Found 1 existing byline and assigned to post {POST_THREE}.
       Success: Converted 4 of 4 co-author posts.
+      """
+
+    When I run `wp post term list {POST_ONE} author --fields=slug --format=csv`
+    Then STDOUT should be:
+      """
+      slug
+      cap-testauthor
       """
 
     When I run `wp post term list {POST_ONE} byline --fields=slug --format=csv`
