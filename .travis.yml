@@ -39,11 +39,15 @@ before_script:
     if [[ ! -z "$WP_VERSION" ]] ; then
       composer install
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
+      composer global require consolidation/cgr
       if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
-        composer global require "phpunit/phpunit=4.8.*"
+        cgr "phpunit/phpunit=4.8.*"
       else
-        composer global require "phpunit/phpunit=5.7.*"
+        cgr "phpunit/phpunit=5.7.*"
       fi
+      bash bin/install-package-tests.sh
+      cgr wp-cli/wp-cli
+      cgr "behat/behat=~2.5"
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
@@ -56,6 +60,7 @@ script:
     if [[ ! -z "$WP_VERSION" ]] ; then
       phpunit
       WP_MULTISITE=1 phpunit
+      behat
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then

@@ -1,0 +1,4 @@
+default:
+  paths:
+    features: tests/behat
+    bootstrap: %behat.paths.features%/bootstrap

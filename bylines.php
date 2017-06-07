@@ -84,6 +84,11 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
 	require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 }
 
+// WP-CLI needs to be registere after the autoloader.
+if ( defined( 'WP_CLI' ) && WP_CLI ) {
+	WP_CLI::add_command( 'byline', 'Bylines\CLI' );
+}
+
 require_once dirname( __FILE__ ) . '/includes/template-tags.php';
 if ( file_exists( dirname( __FILE__ ) . '/includes/dev.php' ) ) {
 	require_once dirname( __FILE__ ) . '/includes/dev.php';

@@ -20,7 +20,7 @@ define( 'BYLINES_IMPOSSIBLY_HIGH_NUMBER', 999999 );
  * Manually load the plugin being tested.
  */
 function _manually_load_plugin() {
-	require dirname( dirname( __FILE__ ) ) . '/bylines.php';
+	require dirname( dirname( dirname( __FILE__ ) ) ) . '/bylines.php';
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 
