@@ -52,7 +52,8 @@ class Utils {
 		$result->created = 0;
 		$result->existing = 0;
 		$result->post_id = 0;
-		foreach ( get_coauthors( $post_id ) as $coauthor ) {
+		$coauthors = get_coauthors( $post_id );
+		foreach ( $coauthors as $coauthor ) {
 			switch ( $coauthor->type ) {
 				case 'wpuser':
 					$byline = Byline::get_by_user_id( $coauthor->ID );
@@ -69,6 +70,9 @@ class Utils {
 					}
 					break;
 			}
+		}
+		if ( empty( $bylines ) || count( $coauthors ) !== count( $bylines ) ) {
+			return new WP_Error( 'bylines_post_missing_coauthors', "Failed to convert some bylines for post {$post_id}." );
 		}
 		Utils::set_post_bylines( $post_id, $bylines );
 		return $result;
