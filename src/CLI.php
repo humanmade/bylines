@@ -38,61 +38,30 @@ class CLI {
 		$failures = 0;
 		$total = count( $args );
 		foreach ( $args as $post_id ) {
-			$post = get_post( $post_id );
-			if ( ! $post ) {
-				WP_CLI::warning( "Invalid post: {$post_id}" );
+			$result = Utils::convert_post_coauthors( $post_id );
+			if ( is_wp_error( $result ) ) {
 				$failures++;
+				WP_CLI::warning( $result->get_error_message() );
 				continue;
 			}
-			$bylines = get_the_terms( $post_id, 'byline' );
-			if ( $bylines && ! is_wp_error( $bylines ) ) {
-				WP_CLI::warning( "Post {$post_id} already has bylines." );
-				$failures++;
-				continue;
-			}
-			$bylines = array();
-			$created = 0;
-			$existing = 0;
-			foreach ( get_coauthors( $post_id ) as $coauthor ) {
-				switch ( $coauthor->type ) {
-					case 'wpuser':
-						$byline = Byline::get_by_user_id( $coauthor->ID );
-						if ( $byline ) {
-							$bylines[] = $byline;
-							$existing++;
-						} else {
-							$byline = Byline::create_from_user( $coauthor->ID );
-							if ( is_wp_error( $byline ) ) {
-								WP_CLI::error( $byline->get_error_message() );
-							}
-							$bylines[] = $byline;
-							$created++;
-						}
-						break;
+
+			$message = array();
+			if ( $result->created ) {
+				$part = "created {$result->created} byline";
+				if ( $result->created > 1 ) {
+					$part .= 's';
 				}
+				$message[] = $part;
 			}
-			if ( $bylines ) {
-				Utils::set_post_bylines( $post_id, $bylines );
-				$message = array();
-				if ( $created ) {
-					$part = "created {$created} byline";
-					if ( $created > 1 ) {
-						$part .= 's';
-					}
-					$message[] = $part;
+			if ( $result->existing ) {
+				$part = "found {$result->existing} existing byline";
+				if ( $result->existing > 1 ) {
+					$part .= 's';
 				}
-				if ( $existing ) {
-					$part = "found {$existing} existing byline";
-					if ( $existing > 1 ) {
-						$part .= 's';
-					}
-					$message[] = $part;
-				}
-				$message = ucfirst( implode( ', ', $message ) );
-				WP_CLI::log( "{$message} and assigned to post {$post_id}." );
-			} else {
-				WP_CLI::log( "No bylines from co-authors to add to post {$post_id}." );
+				$message[] = $part;
 			}
+			$message = ucfirst( implode( ', ', $message ) );
+			WP_CLI::log( "{$message} and assigned to post {$post_id}." );
 			$successes++;
 		} // End foreach().
 
