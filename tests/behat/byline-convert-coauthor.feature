@@ -91,9 +91,61 @@ Feature: Convert coauthors to bylines
       testauthor
       """
 
+    When I run `wp post term list {POST_TWO} author --fields=slug --format=csv`
+    Then STDOUT should be:
+      """
+      slug
+      cap-testeditor
+      """
+
     When I run `wp post term list {POST_TWO} byline --fields=slug --format=csv`
     Then STDOUT should be:
       """
       slug
+      testeditor
+      """
+
+  Scenario: Converting co-authors persists order
+    Given a WP install
+    And I run `wp plugin install co-authors-plus --version=3.2 --activate`
+
+    When I run `wp user create testauthor testauthor@example.com --role=author --porcelain`
+    Then save STDOUT as {USER_ONE}
+
+    When I run `wp user create testeditor testeditor@example.com --role=editor --porcelain`
+    Then save STDOUT as {USER_TWO}
+
+    When I run `wp post create --post_title='Test Post 1' --post_status=publish --post_author={USER_ONE} --porcelain`
+    Then save STDOUT as {POST_ONE}
+
+    When I run `wp eval "wp_set_object_terms( {POST_ONE}, array( 'cap-testauthor', 'cap-testeditor' ), 'author' );"`
+    Then STDERR should be empty
+
+    When I run `wp post term list {POST_ONE} author --fields=slug --format=csv`
+    Then STDOUT should be:
+      """
+      slug
+      cap-testauthor
+      cap-testeditor
+      """
+
+    When I run `wp post term list {POST_ONE} byline --fields=slug --format=csv`
+    Then STDOUT should be:
+      """
+      slug
+      """
+
+    When I run `wp byline convert-coauthor {POST_ONE}`
+    Then STDOUT should be:
+      """
+      Created 2 byline and assigned to post {POST_ONE}.
+      Success: Converted 1 of 1 co-author posts.
+      """
+
+    When I run `wp post term list {POST_ONE} byline --fields=slug --format=csv`
+    Then STDOUT should be:
+      """
+      slug
+      testauthor
       testeditor
       """
