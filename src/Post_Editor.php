@@ -107,7 +107,9 @@ class Post_Editor {
 			?>
 		</ul>
 		<?php if ( current_user_can( get_taxonomy( 'byline' )->cap->assign_terms ) ) : ?>
-			<select data-nonce="<?php echo esc_attr( wp_create_nonce( 'bylines-search' ) ); ?>" class="bylines-select2 bylines-search" style="min-width: 200px"></select>
+			<select data-nonce="<?php echo esc_attr( wp_create_nonce( 'bylines-search' ) ); ?>" class="bylines-select2 bylines-search" data-placeholder="<?php esc_attr_e( 'Search for a byline', 'bylines' ); ?>" style="min-width: 200px">
+				<option></option>
+			</select>
 			<script type="text/html" id="tmpl-bylines-byline-partial">
 				<?php echo self::get_rendered_byline_partial( array(
 					'display_name' => '{{ data.display_name }}',

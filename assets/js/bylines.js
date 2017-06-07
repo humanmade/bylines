@@ -3,6 +3,7 @@
 	$(document).ready(function(){
 		$('.bylines-select2.bylines-search').each(function(){
 			var bylinesSearch = $(this).bylinesSelect2({
+				placeholder: $(this).data('placeholder'),
 				ajax: {
 					url: window.ajaxurl + '?action=bylines_search&nonce=' + $(this).data('nonce'),
 					dataType: 'json',
