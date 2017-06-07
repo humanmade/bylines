@@ -37,7 +37,10 @@ class CLI {
 		$successes = 0;
 		$failures = 0;
 		$total = count( $args );
-		foreach ( $args as $post_id ) {
+		foreach ( $args as $i => $post_id ) {
+			if ( $i && 0 === $i % 500 ) {
+				WP_CLI\Utils\wp_clear_object_cache();
+			}
 			$result = Utils::convert_post_coauthors( $post_id );
 			if ( is_wp_error( $result ) ) {
 				$failures++;
@@ -86,7 +89,10 @@ class CLI {
 		$successes = 0;
 		$failures = 0;
 		$total = count( $args );
-		foreach ( $args as $post_id ) {
+		foreach ( $args as $i => $post_id ) {
+			if ( $i && 0 === $i % 500 ) {
+				WP_CLI\Utils\wp_clear_object_cache();
+			}
 			$post = get_post( $post_id );
 			if ( ! $post ) {
 				WP_CLI::warning( "Invalid post: {$post_id}" );
