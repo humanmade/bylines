@@ -9,7 +9,6 @@ Feature: Convert coauthors to bylines
       Error: Co-Authors Plus must be installed and active.
       """
 
-  @daniel
   Scenario: Convert coauthors on existing posts
     Given a WP install
     And I run `wp plugin install co-authors-plus --version=3.2 --activate`
