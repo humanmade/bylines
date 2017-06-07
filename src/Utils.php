@@ -89,7 +89,7 @@ class Utils {
 							'user_nicename',
 							'user_login',
 						);
-						foreach( $coauthor as $key => $value ) {
+						foreach ( $coauthor as $key => $value ) {
 							if ( in_array( $key, $ignored, true ) ) {
 								continue;
 							}
@@ -106,8 +106,8 @@ class Utils {
 						$result->created++;
 					}
 					break;
-			}
-		}
+			} // End switch().
+		} // End foreach().
 		if ( empty( $bylines ) || count( $coauthors ) !== count( $bylines ) ) {
 			return new WP_Error( 'bylines_post_missing_coauthors', "Failed to convert some bylines for post {$post_id}." );
 		}
