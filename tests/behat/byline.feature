@@ -6,5 +6,5 @@ Feature: Manage bylines.
     When I run `wp byline`
     Then STDOUT should contain:
       """
-      wp byline generate-for-posts <post-id>...
+      wp byline convert-post-author <post-id>...
       """
