@@ -30,6 +30,8 @@ matrix:
       env: WP_VERSION=trunk
     - php: 5.6
       env: WP_TRAVISCI=phpcs
+    - php: 5.6
+      env: WP_TRAVISCI=behat
     - php: 5.3
       env: WP_VERSION=latest
 
@@ -39,15 +41,16 @@ before_script:
     if [[ ! -z "$WP_VERSION" ]] ; then
       composer install
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      composer global require consolidation/cgr
       if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
-        cgr "phpunit/phpunit=4.8.*"
+        composer global require "phpunit/phpunit=4.8.*"
       else
-        cgr "phpunit/phpunit=5.7.*"
+        composer global require "phpunit/phpunit=5.7.*"
       fi
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "behat" ]] ; then
+      composer global require wp-cli/wp-cli
       bash bin/install-package-tests.sh
-      cgr wp-cli/wp-cli
-      cgr "behat/behat=~2.5"
     fi
   - |
     if [[ "$WP_TRAVISCI" == "phpcs" ]] ; then
@@ -60,6 +63,9 @@ script:
     if [[ ! -z "$WP_VERSION" ]] ; then
       phpunit
       WP_MULTISITE=1 phpunit
+    fi
+  - |
+    if [[ "$WP_TRAVISCI" == "behat" ]] ; then
       behat
     fi
   - |
