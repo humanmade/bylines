@@ -23,16 +23,7 @@ function get_bylines( $post = null ) {
 		return array();
 	}
 	$taxonomy = 'byline';
-	$terms = wp_get_object_terms( $post->ID, $taxonomy, array(
-		'orderby' => 'term_order',
-	) );
-
-	/**
-	 * Filters the list of terms attached to the given post.
-	 *
-	 * @see get_the_terms()
-	 */
-	$terms = apply_filters( 'get_the_terms', $terms, $post->ID, $taxonomy );
+	$terms = get_the_terms( $post->ID, $taxonomy );
 	if ( $terms && ! is_wp_error( $terms ) ) {
 		$bylines = array();
 		foreach ( $terms as $term ) {
