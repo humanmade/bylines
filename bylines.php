@@ -57,7 +57,6 @@ add_filter( 'manage_byline_custom_column', array( 'Bylines\Byline_Editor', 'filt
 add_filter( 'user_row_actions', array( 'Bylines\Byline_Editor', 'filter_user_row_actions' ), 10, 2 );
 add_action( 'byline_edit_form_fields', array( 'Bylines\Byline_Editor', 'action_byline_edit_form_fields' ) );
 add_action( 'edited_byline', array( 'Bylines\Byline_Editor', 'action_edited_byline' ) );
-add_action( 'admin_enqueue_scripts', array( 'Bylines\Byline_Editor', 'admin_enqueue_scripts' ) );
 
 // Query modifications.
 add_action( 'pre_get_posts', array( 'Bylines\Query', 'action_pre_get_posts' ) );

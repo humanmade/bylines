@@ -47,13 +47,13 @@
 			});
 		});
 
-		$('.custom-img-wrapper').each(function(){
+		$('.byline-image-field-wrapper').each(function(){
 			var frame,
 			target = $(this), // Your meta box id here
-			deleteImgLink = target.find('.select-custom-img'),
-			delImgLink = target.find( '.delete-custom-img'),
-			imgContainer = target.find( '.custom-img-container'),
-			imgIdInput = target.find( '.custom-img-id' );
+			deleteImgLink = target.find('.select-byline-image-field'),
+			delImgLink = target.find( '.delete-byline-image-field'),
+			imgContainer = target.find( '.byline-image-field-container'),
+			imgIdInput = target.find( '.byline-image-field-id' );
 
 			deleteImgLink.on( 'click', function( event ){
 				event.preventDefault();
@@ -63,9 +63,9 @@
 					return;
 				}
 				frame = wp.media({
-					title: 'Select or Upload Image Of Your Chosen Person',
+					title: bylines.media_upload_title,
 					button: {
-						text: 'Use this image'
+						text: bylines.media_upload_button
 					},
 					multiple: false,
 					library : {
@@ -74,7 +74,9 @@
 				});
 				frame.on( 'select', function() {
 					var attachment = frame.state().get('selection').first().toJSON();
-					imgContainer.append( '<img src="'+attachment.sizes.thumbnail.url+'" />' );
+					var imgEl = $('<img />');
+					imgEl.attr('src', attachment.sizes.thumbnail.url );
+					imgContainer.append( imgEl );
 					imgIdInput.val( attachment.id );
 					deleteImgLink.addClass( 'hidden' );
 					delImgLink.removeClass( 'hidden' );

@@ -24,13 +24,22 @@ class Assets {
 			return;
 		}
 
+		if ( 'term' === $screen->base ) {
+			wp_enqueue_media();
+		}
+
 		wp_enqueue_script( 'bylines-select2', plugins_url( 'assets/lib/select2/js/select2.min.js', dirname( __FILE__ ) ), array( 'jquery' ), '4.0.3' );
 		wp_add_inline_script( 'bylines-select2', 'var existingSelect2 = jQuery.fn.select2 || null; if (existingSelect2) { delete jQuery.fn.select2; }', 'before' );
 		wp_add_inline_script( 'bylines-select2', 'jQuery.fn["bylinesSelect2"] = jQuery.fn.select2; if (existingSelect2) { delete jQuery.fn.select2; jQuery.fn.select2 = existingSelect2; }', 'after' );
 		wp_enqueue_style( 'bylines-select2', plugins_url( 'assets/lib/select2/css/select2.min.css', dirname( __FILE__ ) ), array(), '4.0.3' );
 
+		$bylines_script_translation = array(
+			'media_upload_title' => __( 'Select or Upload Image to Your Chosen Byline', 'bylines' ),
+			'media_upload_button' => __( 'Use this image', 'bylines' ),
+		);
 		$mtime = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/js/bylines.js' );
 		wp_enqueue_script( 'bylines', plugins_url( 'assets/js/bylines.js?mtime=' . $mtime, dirname( __FILE__ ) ), array( 'jquery', 'bylines-select2', 'jquery-ui-core', 'jquery-ui-sortable' ) );
+		wp_localize_script( 'bylines', 'bylines', $bylines_script_translation );
 		$mtime = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/css/bylines.css' );
 		wp_enqueue_style( 'bylines', plugins_url( 'assets/css/bylines.css?mtime=' . $mtime, dirname( __FILE__ ) ) );
 	}
