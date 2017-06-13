@@ -163,8 +163,8 @@ class Byline_Editor {
 				'label'    => __( 'Email', 'bylines' ),
 				'type'     => 'email',
 			),
-			'user_image'   => array(
-				'label'    => __( 'Image', 'bylines' ),
+			'user_avatar'   => array(
+				'label'    => __( 'Avatar', 'bylines' ),
 				'type'     => 'image',
 			),
 			'user_id'      => array(
@@ -216,11 +216,11 @@ class Byline_Editor {
 			</th>
 			<td>
 				<?php if ( 'image' === $args['type'] ) :
-					$custom_img = wp_get_attachment_image_src( $args['value'], 'thumbnail' ); ?>
+					$custom_img = wp_get_attachment_image_url( $args['value'], 'thumbnail' ); ?>
 					<div class="custom-img-wrapper">
 						<div class="custom-img-container">
 						<?php if ( $custom_img ) : ?>
-							<img src="<?php echo esc_url( $custom_img[0] ); ?>" alt="" />
+							<img src="<?php echo esc_url( $custom_img ); ?>" alt="" />
 						<?php endif; ?>
 						</div>
 						<p class="hide-if-no-js">

@@ -63,9 +63,9 @@
 					return;
 				}
 				frame = wp.media({
-					title: 'Select or Upload Media Of Your Chosen Persuasion',
+					title: 'Select or Upload Image Of Your Chosen Person',
 					button: {
-						text: 'Use this media'
+						text: 'Use this image'
 					},
 					multiple: false,
 					library : {
@@ -73,7 +73,6 @@
 					}
 				});
 				frame.on( 'select', function() {
-					console.log(frame);
 					var attachment = frame.state().get('selection').first().toJSON();
 					imgContainer.append( '<img src="'+attachment.sizes.thumbnail.url+'" />' );
 					imgIdInput.val( attachment.id );
