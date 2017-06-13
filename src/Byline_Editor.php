@@ -15,6 +15,13 @@ use Bylines\Objects\Byline;
 class Byline_Editor {
 
 	/**
+	 * Enque media scripts
+	 */
+	public static function admin_enqueue_scripts() {
+		wp_enqueue_media();
+	}
+
+	/**
 	 * Customize the term table to look more like the users table.
 	 *
 	 * @param array $columns Columns to render in the list table.
@@ -142,7 +149,7 @@ class Byline_Editor {
 	 * @param Byline $byline Byline to be rendered.
 	 * @return array
 	 */
-	public static function get_fields( $byline ) {
+	public static function get_fields( $byline = null ) {
 		$fields = array(
 			'first_name'   => array(
 				'label'    => __( 'First Name', 'bylines' ),
@@ -155,6 +162,10 @@ class Byline_Editor {
 			'user_email'   => array(
 				'label'    => __( 'Email', 'bylines' ),
 				'type'     => 'email',
+			),
+			'user_image'   => array(
+				'label'    => __( 'Image', 'bylines' ),
+				'type'     => 'image',
 			),
 			'user_id'      => array(
 				'label'    => __( 'Mapped User', 'bylines' ),
@@ -204,7 +215,25 @@ class Byline_Editor {
 				<?php endif; ?>
 			</th>
 			<td>
-				<?php if ( 'textarea' === $args['type'] ) : ?>
+				<?php if ( 'image' === $args['type'] ) :
+					$custom_img = wp_get_attachment_image_src( $args['value'], 'thumbnail' ); ?>
+					<div class="custom-img-wrapper">
+						<div class="custom-img-container">
+						<?php if ( $custom_img ) : ?>
+							<img src="<?php echo esc_url( $custom_img[0] ); ?>" alt="" />
+						<?php endif; ?>
+						</div>
+						<p class="hide-if-no-js">
+							<a class="select-custom-img <?php if ( $custom_img ) { echo 'hidden'; } ?>" href="#">
+								<?php _e('Select image', 'bylines'); ?>
+							</a>
+							<a class="delete-custom-img <?php if ( ! $custom_img ) { echo 'hidden'; } ?>" href="#">
+								<?php _e('Remove this image', 'bylines') ?>
+							</a>
+						</p>
+						<input name="<?php echo esc_attr( $key ); ?>" class="custom-img-id" type="hidden" value="<?php echo esc_attr( $args['value'] ); ?>" />
+					</div>
+				<?php elseif ( 'textarea' === $args['type'] ) : ?>
 					<textarea name="<?php echo esc_attr( $key ); ?>"><?php echo esc_textarea( $args['value'] ); ?></textarea>
 				<?php elseif ( 'ajax_user_select' === $args['type'] ) :
 					$user = ! empty( $args['value'] ) ? get_user_by( 'id', $args['value'] ) : false;

@@ -46,6 +46,54 @@
 				},
 			});
 		});
+
+		$('.custom-img-wrapper').each(function(){
+			var frame,
+			target = $(this), // Your meta box id here
+			deleteImgLink = target.find('.select-custom-img'),
+			delImgLink = target.find( '.delete-custom-img'),
+			imgContainer = target.find( '.custom-img-container'),
+			imgIdInput = target.find( '.custom-img-id' );
+
+			deleteImgLink.on( 'click', function( event ){
+				event.preventDefault();
+
+				if ( frame ) {
+					frame.open();
+					return;
+				}
+				frame = wp.media({
+					title: 'Select or Upload Media Of Your Chosen Persuasion',
+					button: {
+						text: 'Use this media'
+					},
+					multiple: false,
+					library : {
+						type : 'image'
+					}
+				});
+				frame.on( 'select', function() {
+					console.log(frame);
+					var attachment = frame.state().get('selection').first().toJSON();
+					imgContainer.append( '<img src="'+attachment.sizes.thumbnail.url+'" />' );
+					imgIdInput.val( attachment.id );
+					deleteImgLink.addClass( 'hidden' );
+					delImgLink.removeClass( 'hidden' );
+				});
+
+				frame.open();
+			});
+
+			delImgLink.on( 'click', function( event ){
+				event.preventDefault();
+				imgContainer.html( '' );
+				deleteImgLink.removeClass( 'hidden' );
+				delImgLink.addClass( 'hidden' );
+				imgIdInput.val( '' );
+			});
+		
+		});
+	
 	});
 
 }(jQuery))
