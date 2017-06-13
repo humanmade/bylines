@@ -225,10 +225,10 @@ class Byline_Editor {
 						</div>
 						<p class="hide-if-no-js">
 							<a class="select-custom-img <?php if ( $custom_img ) { echo 'hidden'; } ?>" href="#">
-								<?php _e('Select image', 'bylines'); ?>
+								<?php _e( 'Select image', 'bylines' ); ?>
 							</a>
 							<a class="delete-custom-img <?php if ( ! $custom_img ) { echo 'hidden'; } ?>" href="#">
-								<?php _e('Remove this image', 'bylines') ?>
+								<?php _e( 'Remove this image', 'bylines' ) ?>
 							</a>
 						</p>
 						<input name="<?php echo esc_attr( $key ); ?>" class="custom-img-id" type="hidden" value="<?php echo esc_attr( $args['value'] ); ?>" />
