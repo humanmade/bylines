@@ -127,7 +127,8 @@ class Byline_Editor {
 			|| ! wp_verify_nonce( $_POST['byline-edit-nonce'], 'byline-edit' ) ) {
 			return;
 		}
-		foreach ( self::get_fields() as $key => $args ) {
+		$byline = Byline::get_by_term_id( $term->term_id );
+		foreach ( self::get_fields( $byline ) as $key => $args ) {
 			if ( ! isset( $_POST[ 'bylines-' . $key ] ) ) {
 				continue;
 			}
@@ -204,7 +205,25 @@ class Byline_Editor {
 				<?php endif; ?>
 			</th>
 			<td>
-				<?php if ( 'textarea' === $args['type'] ) : ?>
+				<?php if ( 'image' === $args['type'] ) :
+					$byline_image = wp_get_attachment_image_url( $args['value'], 'thumbnail' ); ?>
+					<div class="byline-image-field-wrapper">
+						<div class="byline-image-field-container">
+						<?php if ( $byline_image ) : ?>
+							<img src="<?php echo esc_url( $byline_image ); ?>" alt="" />
+						<?php endif; ?>
+						</div>
+						<p class="hide-if-no-js">
+							<a class="select-byline-image-field <?php if ( $byline_image ) { echo 'hidden'; } ?>" href="#">
+								<?php _e( 'Select image', 'bylines' ); ?>
+							</a>
+							<a class="delete-byline-image-field <?php if ( ! $byline_image ) { echo 'hidden'; } ?>" href="#">
+								<?php _e( 'Remove this image', 'bylines' ) ?>
+							</a>
+						</p>
+						<input name="<?php echo esc_attr( $key ); ?>" class="byline-image-field-id" type="hidden" value="<?php echo esc_attr( $args['value'] ); ?>" />
+					</div>
+				<?php elseif ( 'textarea' === $args['type'] ) : ?>
 					<textarea name="<?php echo esc_attr( $key ); ?>"><?php echo esc_textarea( $args['value'] ); ?></textarea>
 				<?php elseif ( 'ajax_user_select' === $args['type'] ) :
 					$user = ! empty( $args['value'] ) ? get_user_by( 'id', $args['value'] ) : false;
