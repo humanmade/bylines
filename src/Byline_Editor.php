@@ -127,7 +127,7 @@ class Byline_Editor {
 			|| ! wp_verify_nonce( $_POST['byline-edit-nonce'], 'byline-edit' ) ) {
 			return;
 		}
-		$byline = Byline::get_by_term_id( $term->term_id );
+		$byline = Byline::get_by_term_id( $term_id );
 		foreach ( self::get_fields( $byline ) as $key => $args ) {
 			if ( ! isset( $_POST[ 'bylines-' . $key ] ) ) {
 				continue;
