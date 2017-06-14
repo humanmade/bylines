@@ -46,6 +46,55 @@
 				},
 			});
 		});
+
+		$('.byline-image-field-wrapper').each(function(){
+			var frame,
+			target = $(this), // Your meta box id here
+			deleteImgLink = target.find('.select-byline-image-field'),
+			delImgLink = target.find( '.delete-byline-image-field'),
+			imgContainer = target.find( '.byline-image-field-container'),
+			imgIdInput = target.find( '.byline-image-field-id' );
+
+			deleteImgLink.on( 'click', function( event ){
+				event.preventDefault();
+
+				if ( frame ) {
+					frame.open();
+					return;
+				}
+				frame = wp.media({
+					title: bylines.media_upload_title,
+					button: {
+						text: bylines.media_upload_button
+					},
+					multiple: false,
+					library : {
+						type : 'image'
+					}
+				});
+				frame.on( 'select', function() {
+					var attachment = frame.state().get('selection').first().toJSON();
+					var imgEl = $('<img />');
+					imgEl.attr('src', attachment.sizes.thumbnail.url );
+					imgContainer.append( imgEl );
+					imgIdInput.val( attachment.id );
+					deleteImgLink.addClass( 'hidden' );
+					delImgLink.removeClass( 'hidden' );
+				});
+
+				frame.open();
+			});
+
+			delImgLink.on( 'click', function( event ){
+				event.preventDefault();
+				imgContainer.html( '' );
+				deleteImgLink.removeClass( 'hidden' );
+				delImgLink.addClass( 'hidden' );
+				imgIdInput.val( '' );
+			});
+		
+		});
+	
 	});
 
 }(jQuery))
