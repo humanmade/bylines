@@ -39,3 +39,7 @@ ul.bylines-list.bylines-current-user-can-assign li .byline-remove {
   float: left;
   margin-right: 10px;
   margin-top: 1px; }
+
+.byline-image-field-container img {
+  max-width: 150px;
+  height: auto; }
