@@ -78,7 +78,7 @@ class Byline_Editor {
 	 * @param WP_User $user    User object.
 	 * @return array
 	 */
-	public function filter_user_row_actions( $actions, $user ) {
+	public static function filter_user_row_actions( $actions, $user ) {
 		if ( is_network_admin()
 			|| ! current_user_can( get_taxonomy( 'byline' )->cap->manage_terms ) ) {
 			return $actions;
