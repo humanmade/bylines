@@ -74,8 +74,9 @@
 				});
 				frame.on( 'select', function() {
 					var attachment = frame.state().get('selection').first().toJSON();
+					var attachment_src = ( "undefined" === typeof attachment.sizes.thumbnail ? attachment.url : attachment.sizes.thumbnail.url );
 					var imgEl = $('<img />');
-					imgEl.attr('src', attachment.sizes.thumbnail.url );
+					imgEl.attr('src', attachment_src );
 					imgContainer.append( imgEl );
 					imgIdInput.val( attachment.id );
 					deleteImgLink.addClass( 'hidden' );
