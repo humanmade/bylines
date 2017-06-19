@@ -7,13 +7,13 @@
  * Author URI:      https://handbuilt.co
  * Text Domain:     bylines
  * Domain Path:     /languages
- * Version:         0.2.0
+ * Version:         0.3.0-alpha
  * License:         GPL v3
  *
  * @package         Bylines
  */
 
-define( 'BYLINES_VERSION', '0.2.0' );
+define( 'BYLINES_VERSION', '0.3.0-alpha' );
 
 /**
  * Bylines Plugin
