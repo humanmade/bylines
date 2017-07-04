@@ -130,7 +130,12 @@ class Content_Model {
 				unset( $post_types_with_authors[ $key ] );
 			}
 		}
-		return $post_types_with_authors;
+		/**
+		 * Modify post types that use bylines.
+		 *
+		 * @param array $post_types_with_authors Post types that support authors.
+		 */
+		return apply_filters( 'bylines_post_types', $post_types_with_authors );
 	}
 
 }
