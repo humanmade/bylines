@@ -205,8 +205,10 @@ class Byline_Editor {
 				<?php endif; ?>
 			</th>
 			<td>
-				<?php if ( 'image' === $args['type'] ) :
-					$byline_image = wp_get_attachment_image_url( $args['value'], 'thumbnail' ); ?>
+				<?php
+				if ( 'image' === $args['type'] ) :
+					$byline_image = wp_get_attachment_image_url( $args['value'], 'thumbnail' );
+					?>
 					<div class="byline-image-field-wrapper">
 						<div class="byline-image-field-container">
 						<?php if ( $byline_image ) : ?>
@@ -214,18 +216,29 @@ class Byline_Editor {
 						<?php endif; ?>
 						</div>
 						<p class="hide-if-no-js">
-							<a class="select-byline-image-field <?php if ( $byline_image ) { echo 'hidden'; } ?>" href="#">
+							<a class="select-byline-image-field 
+							<?php
+							if ( $byline_image ) {
+								echo 'hidden'; }
+?>
+" href="#">
 								<?php _e( 'Select image', 'bylines' ); ?>
 							</a>
-							<a class="delete-byline-image-field <?php if ( ! $byline_image ) { echo 'hidden'; } ?>" href="#">
-								<?php _e( 'Remove this image', 'bylines' ) ?>
+							<a class="delete-byline-image-field 
+							<?php
+							if ( ! $byline_image ) {
+								echo 'hidden'; }
+?>
+" href="#">
+								<?php _e( 'Remove this image', 'bylines' ); ?>
 							</a>
 						</p>
 						<input name="<?php echo esc_attr( $key ); ?>" class="byline-image-field-id" type="hidden" value="<?php echo esc_attr( $args['value'] ); ?>" />
 					</div>
 				<?php elseif ( 'textarea' === $args['type'] ) : ?>
 					<textarea name="<?php echo esc_attr( $key ); ?>"><?php echo esc_textarea( $args['value'] ); ?></textarea>
-				<?php elseif ( 'ajax_user_select' === $args['type'] ) :
+				<?php
+				elseif ( 'ajax_user_select' === $args['type'] ) :
 					$user = ! empty( $args['value'] ) ? get_user_by( 'id', $args['value'] ) : false;
 				?>
 					<select data-nonce="<?php echo esc_attr( wp_create_nonce( 'bylines-user-search' ) ); ?>" placeholder="<?php esc_attr_e( 'Select a user', 'bylines' ); ?>" class="bylines-select2-user-select" name="<?php echo esc_attr( $key ); ?>">

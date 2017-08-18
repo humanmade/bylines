@@ -16,10 +16,12 @@ class Test_Bylines_Object extends Bylines_Testcase {
 	 * Create a new byline from thin air
 	 */
 	public function test_create_byline() {
-		$byline = Byline::create( array(
-			'display_name' => 'Foo Bar',
-			'slug'         => 'foobar',
-		) );
+		$byline = Byline::create(
+			array(
+				'display_name' => 'Foo Bar',
+				'slug'         => 'foobar',
+			)
+		);
 		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
 		$this->assertEquals( 'Foo Bar', $byline->display_name );
 		$this->assertEquals( 'foobar', $byline->slug );
@@ -32,9 +34,11 @@ class Test_Bylines_Object extends Bylines_Testcase {
 		$byline = Byline::create( array() );
 		$this->assertInstanceOf( 'WP_Error', $byline );
 		$this->assertEquals( 'missing-slug', $byline->get_error_code() );
-		$byline = Byline::create( array(
-			'slug' => 'foobar',
-		) );
+		$byline = Byline::create(
+			array(
+				'slug' => 'foobar',
+			)
+		);
 		$this->assertInstanceOf( 'WP_Error', $byline );
 		$this->assertEquals( 'missing-display_name', $byline->get_error_code() );
 	}
@@ -43,13 +47,15 @@ class Test_Bylines_Object extends Bylines_Testcase {
 	 * Creating a byline from an existing user
 	 */
 	public function test_create_byline_from_user() {
-		$user_id = $this->factory->user->create( array(
-			'display_name'    => 'Foo Bar',
-			'first_name'      => 'Foo',
-			'last_name'       => 'Bar',
-			'user_email'      => 'foobar@gmail.com',
-			'user_login'      => 'foobar',
-		) );
+		$user_id = $this->factory->user->create(
+			array(
+				'display_name'    => 'Foo Bar',
+				'first_name'      => 'Foo',
+				'last_name'       => 'Bar',
+				'user_email'      => 'foobar@gmail.com',
+				'user_login'      => 'foobar',
+			)
+		);
 		$byline = Byline::create_from_user( $user_id );
 		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
 		$this->assertEquals( $user_id, $byline->user_id );
@@ -87,16 +93,18 @@ class Test_Bylines_Object extends Bylines_Testcase {
 	 * Bylines object should look roughly like a WP_User object
 	 */
 	public function test_bylines_object_looks_like_wp_user_object() {
-		$user_id = $this->factory->user->create( array(
-			'display_name'   => 'Test Author',
-			'first_name'     => 'Test',
-			'last_name'      => 'Author',
-			'user_email'     => 'test@example.org',
-			'user_login'     => 'test-author',
-			'user_nicename'  => 'testauthor',
-			'user_url'       => 'http://example.org',
-			'description'    => 'This is a description',
-		) );
+		$user_id = $this->factory->user->create(
+			array(
+				'display_name'   => 'Test Author',
+				'first_name'     => 'Test',
+				'last_name'      => 'Author',
+				'user_email'     => 'test@example.org',
+				'user_login'     => 'test-author',
+				'user_nicename'  => 'testauthor',
+				'user_url'       => 'http://example.org',
+				'description'    => 'This is a description',
+			)
+		);
 		$user = get_user_by( 'id', $user_id );
 		$byline = Byline::create_from_user( $user );
 		// Field: display_name.
@@ -135,40 +143,46 @@ class Test_Bylines_Object extends Bylines_Testcase {
 		$this->assertEquals( $user_id1, $byline->user_id );
 		$metas = get_term_meta( $byline->term_id );
 		$metas = array_keys( $metas );
-		$this->assertEquals( array(
-			'user_id_' . $user_id1,
-			'user_id',
-			'first_name',
-			'last_name',
-			'user_email',
-			'user_login',
-			'user_url',
-			'description',
-		), $metas );
+		$this->assertEquals(
+			array(
+				'user_id_' . $user_id1,
+				'user_id',
+				'first_name',
+				'last_name',
+				'user_email',
+				'user_login',
+				'user_url',
+				'description',
+			), $metas
+		);
 		update_term_meta( $byline->term_id, 'user_id', $user_id2 );
 		$this->assertEquals( $user_id2, $byline->user_id );
 		$metas = get_term_meta( $byline->term_id );
 		$metas = array_keys( $metas );
-		$this->assertEquals( array(
-			'user_id',
-			'first_name',
-			'last_name',
-			'user_email',
-			'user_login',
-			'user_url',
-			'description',
-			'user_id_' . $user_id2,
-		), $metas );
+		$this->assertEquals(
+			array(
+				'user_id',
+				'first_name',
+				'last_name',
+				'user_email',
+				'user_login',
+				'user_url',
+				'description',
+				'user_id_' . $user_id2,
+			), $metas
+		);
 	}
 
 	/**
 	 * Verify a byline can be fetched by its slug.
 	 */
 	public function test_byline_get_by_term_slug() {
-		$byline = Byline::create( array(
-			'slug'         => 'foo',
-			'display_name' => 'Foo',
-		) );
+		$byline = Byline::create(
+			array(
+				'slug'         => 'foo',
+				'display_name' => 'Foo',
+			)
+		);
 		$this->assertEquals( $byline, Byline::get_by_term_slug( 'foo' ) );
 	}
 

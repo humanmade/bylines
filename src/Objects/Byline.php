@@ -34,9 +34,11 @@ class Byline {
 		if ( empty( $args['display_name'] ) ) {
 			return new WP_Error( 'missing-display_name', __( "'display_name' is a required argument", 'bylines' ) );
 		}
-		$term = wp_insert_term( $args['display_name'], 'byline', array(
-			'slug'     => $args['slug'],
-		) );
+		$term = wp_insert_term(
+			$args['display_name'], 'byline', array(
+				'slug'     => $args['slug'],
+			)
+		);
 		if ( is_wp_error( $term ) ) {
 			return $term;
 		}
@@ -61,10 +63,12 @@ class Byline {
 		if ( $existing ) {
 			return new WP_Error( 'existing-byline', __( 'User already has a byline.', 'bylines' ) );
 		}
-		$byline = self::create( array(
-			'display_name'    => $user->display_name,
-			'slug'            => $user->user_nicename,
-		) );
+		$byline = self::create(
+			array(
+				'display_name'    => $user->display_name,
+				'slug'            => $user->user_nicename,
+			)
+		);
 		if ( is_wp_error( $byline ) ) {
 			return $byline;
 		}
