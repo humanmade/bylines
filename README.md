@@ -6,3 +6,5 @@ Bylines
 Bylines is a commercial plugin available from https://bylines.io. The plugin is hosted here on a public GitHub repository in order to better facilitate community contributions from developers and users alike.
 
 If you're using the plugin on a live site, please [purchase a valid license](https://bylines.io). Only those holding a valid license key are eligible for support.
+
+For usage information, including integrating into your theme, Co-Authors Plus migration, etc., [please see the documentation portal](https://bylines.io/docs/).
