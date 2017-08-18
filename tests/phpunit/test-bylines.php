@@ -17,13 +17,17 @@ class Test_Bylines extends Bylines_Testcase {
 	 * Byline should be assigned when a new post is created
 	 */
 	public function test_create_post_assigns_initial_byline() {
-		$user_id = $this->factory->user->create( array(
-			'role' => 'author',
-		) );
+		$user_id = $this->factory->user->create(
+			array(
+				'role' => 'author',
+			)
+		);
 		$byline = Byline::create_from_user( $user_id );
-		$post_id = $this->factory->post->create( array(
-			'post_author' => $user_id,
-		) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_author' => $user_id,
+			)
+		);
 		$this->assertEquals( array( $byline ), get_bylines( $post_id ) );
 	}
 
@@ -31,19 +35,25 @@ class Test_Bylines extends Bylines_Testcase {
 	 * Saving bylines generically
 	 */
 	public function test_save_bylines() {
-		$user_id = $this->factory->user->create( array(
-			'role' => 'editor',
-		) );
+		$user_id = $this->factory->user->create(
+			array(
+				'role' => 'editor',
+			)
+		);
 		wp_set_current_user( $user_id );
 		$post_id = $this->factory->post->create();
-		$b1 = Byline::create( array(
-			'slug'  => 'b1',
-			'display_name' => 'Byline 1',
-		) );
-		$b2 = Byline::create( array(
-			'slug'  => 'b2',
-			'display_name' => 'Byline 2',
-		) );
+		$b1 = Byline::create(
+			array(
+				'slug'  => 'b1',
+				'display_name' => 'Byline 1',
+			)
+		);
+		$b2 = Byline::create(
+			array(
+				'slug'  => 'b2',
+				'display_name' => 'Byline 2',
+			)
+		);
 		// Mock a POST request.
 		$_POST = array(
 			'bylines' => array(
@@ -61,19 +71,25 @@ class Test_Bylines extends Bylines_Testcase {
 	 * Saving bylines by creating a new user
 	 */
 	public function test_save_bylines_create_new_user() {
-		$user_id = $this->factory->user->create( array(
-			'role' => 'editor',
-		) );
+		$user_id = $this->factory->user->create(
+			array(
+				'role' => 'editor',
+			)
+		);
 		wp_set_current_user( $user_id );
 		$post_id = $this->factory->post->create();
-		$b1 = Byline::create( array(
-			'slug'  => 'b1',
-			'display_name' => 'Byline 1',
-		) );
-		$user_id = $this->factory->user->create( array(
-			'display_name'  => 'Foo Bar',
-			'user_nicename' => 'foobar',
-		) );
+		$b1 = Byline::create(
+			array(
+				'slug'  => 'b1',
+				'display_name' => 'Byline 1',
+			)
+		);
+		$user_id = $this->factory->user->create(
+			array(
+				'display_name'  => 'Foo Bar',
+				'user_nicename' => 'foobar',
+			)
+		);
 		$this->assertFalse( Byline::get_by_user_id( $user_id ) );
 		// Mock a POST request.
 		$_POST = array(
@@ -95,19 +111,25 @@ class Test_Bylines extends Bylines_Testcase {
 	 * Saving bylines by repurposing an existing user
 	 */
 	public function test_save_bylines_existing_user() {
-		$user_id = $this->factory->user->create( array(
-			'role' => 'editor',
-		) );
+		$user_id = $this->factory->user->create(
+			array(
+				'role' => 'editor',
+			)
+		);
 		wp_set_current_user( $user_id );
 		$post_id = $this->factory->post->create();
-		$b1 = Byline::create( array(
-			'slug'  => 'b1',
-			'display_name' => 'Byline 1',
-		) );
-		$user_id = $this->factory->user->create( array(
-			'display_name'  => 'Foo Bar',
-			'user_nicename' => 'foobar',
-		) );
+		$b1 = Byline::create(
+			array(
+				'slug'  => 'b1',
+				'display_name' => 'Byline 1',
+			)
+		);
+		$user_id = $this->factory->user->create(
+			array(
+				'display_name'  => 'Foo Bar',
+				'user_nicename' => 'foobar',
+			)
+		);
 		$byline = Byline::create_from_user( $user_id );
 		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
 		// Mock a POST request.

@@ -111,13 +111,16 @@ class Post_Editor {
 				<option></option>
 			</select>
 			<script type="text/html" id="tmpl-bylines-byline-partial">
-				<?php echo self::get_rendered_byline_partial( array(
+				<?php
+				echo self::get_rendered_byline_partial( array(
 					'display_name' => '{{ data.display_name }}',
 					'avatar_url'   => '{{ data.avatar_url }}',
 					'term'         => '{{ data.term }}',
-				) ); ?>
+				) );
+				?>
 			</script>
-		<?php endif;
+		<?php
+		endif;
 	}
 
 	/**
@@ -205,7 +208,7 @@ class Post_Editor {
 		<li>
 			<span class="byline-remove"><span class="dashicons dashicons-no-alt"></span></span>
 			<?php if ( ! empty( $args['avatar_url'] ) ) : ?>
-				<img height="16px" width="16px" src="<?php echo esc_attr( $args['avatar_url'] ); // Uses esc_attr() because can be JS template tag. ?>" >
+				<img height="16px" width="16px" src="<?php echo esc_attr( $args['avatar_url'] ); ?>" >
 			<?php endif; ?>
 			<span class="display-name"><?php echo wp_kses_post( $args['display_name'] ); ?></span>
 			<input type="hidden" name="bylines[]" value="<?php echo esc_attr( $args['term'] ); ?>">
