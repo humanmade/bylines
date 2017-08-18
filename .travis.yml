@@ -40,18 +40,20 @@ before_script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       composer install
+      composer global require consolidation/cgr
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
       if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
-        composer global require "phpunit/phpunit=4.8.*"
+        cgr -n "phpunit/phpunit=4.8.*"
       else
-        composer global require "phpunit/phpunit=5.7.*"
+        cgr -n "phpunit/phpunit=5.7.*"
       fi
     fi
   - |
     if [[ "$WP_TRAVISCI" == "behat" ]] ; then
       composer install
-      composer global require wp-cli/wp-cli
-      composer global require "behat/behat=~2.5"
+      composer global require consolidation/cgr
+      cgr -n wp-cli/wp-cli
+      cgr -n "behat/behat=~2.5"
       bash bin/install-package-tests.sh
     fi
   - |
