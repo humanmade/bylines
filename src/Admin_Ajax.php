@@ -165,9 +165,11 @@ class Admin_Ajax {
 			);
 		}
 		// Sort alphabetically by display name.
-		usort( $bylines, function( $a, $b ) {
-			return strcmp( $a['display_name'], $b['display_name'] );
-		});
+		usort(
+			$bylines, function( $a, $b ) {
+				return strcmp( $a['display_name'], $b['display_name'] );
+			}
+		);
 		return $bylines;
 	}
 

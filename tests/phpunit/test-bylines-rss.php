@@ -17,13 +17,17 @@ class Test_Bylines_RSS extends Bylines_Testcase {
 	 * Bylines should be added to RSS feed items
 	 */
 	public function test_bylines_rss_added_feed_items() {
-		$b1 = Byline::create( array(
-			'slug'  => 'b1',
-			'display_name' => 'Byline 1',
-		) );
-		$post_id = $this->factory->post->create( array(
-			'post_status' => 'publish',
-		) );
+		$b1 = Byline::create(
+			array(
+				'slug'  => 'b1',
+				'display_name' => 'Byline 1',
+			)
+		);
+		$post_id = $this->factory->post->create(
+			array(
+				'post_status' => 'publish',
+			)
+		);
 		Utils::set_post_bylines( $post_id, array( $b1 ) );
 		$this->expectOutputRegex( '#<dc:creator><!\[CDATA\[Byline 1\]\]></dc:creator>#' );
 		// @codingStandardsIgnoreStart
