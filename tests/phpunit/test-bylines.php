@@ -60,6 +60,7 @@ class Test_Bylines extends Bylines_Testcase {
 				$b1->term_id,
 				$b2->term_id,
 			),
+			'bylines-save' => wp_create_nonce( 'bylines-save' ),
 		);
 		do_action( 'save_post', $post_id, get_post( $post_id ), true );
 		$bylines = get_bylines( $post_id );
@@ -97,6 +98,7 @@ class Test_Bylines extends Bylines_Testcase {
 				'u' . $user_id,
 				$b1->term_id,
 			),
+			'bylines-save' => wp_create_nonce( 'bylines-save' ),
 		);
 		do_action( 'save_post', $post_id, get_post( $post_id ), true );
 		$bylines = get_bylines( $post_id );
@@ -138,11 +140,39 @@ class Test_Bylines extends Bylines_Testcase {
 				'u' . $user_id,
 				$b1->term_id,
 			),
+			'bylines-save' => wp_create_nonce( 'bylines-save' ),
 		);
 		do_action( 'save_post', $post_id, get_post( $post_id ), true );
 		$bylines = get_bylines( $post_id );
 		$this->assertCount( 2, $bylines );
 		$this->assertEquals( array( 'foobar', 'b1' ), wp_list_pluck( $bylines, 'slug' ) );
+	}
+
+	/**
+	 * Saving a post without any bylines
+	 */
+	public function test_save_bylines_none() {
+		$user_id = $this->factory->user->create(
+			array(
+				'role' => 'editor',
+			)
+		);
+		wp_set_current_user( $user_id );
+		$post_id = $this->factory->post->create( array(
+			'post_author' => $user_id,
+		) );
+		$this->assertEquals( $user_id, get_post( $post_id )->post_author );
+		$bylines = get_bylines( $post_id );
+		$this->assertCount( 1, $bylines );
+		// Mock a POST request.
+		$_POST = array(
+			'bylines' => array(),
+			'bylines-save' => wp_create_nonce( 'bylines-save' ),
+		);
+		do_action( 'save_post', $post_id, get_post( $post_id ), true );
+		$bylines = get_bylines( $post_id );
+		$this->assertCount( 0, $bylines );
+		$this->assertEquals( 0, get_post( $post_id )->post_author );
 	}
 
 }
