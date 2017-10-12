@@ -106,6 +106,7 @@ class Post_Editor {
 			}
 			?>
 		</ul>
+		<?php wp_nonce_field( 'bylines-save', 'bylines-save' ); ?>
 		<?php if ( current_user_can( get_taxonomy( 'byline' )->cap->assign_terms ) ) : ?>
 			<select data-nonce="<?php echo esc_attr( wp_create_nonce( 'bylines-search' ) ); ?>" class="bylines-select2 bylines-search" data-placeholder="<?php esc_attr_e( 'Search for a byline', 'bylines' ); ?>" style="min-width: 200px">
 				<option></option>
@@ -130,16 +131,19 @@ class Post_Editor {
 	 * @param WP_Post $post Object for the post being saved.
 	 */
 	public static function action_save_post_bylines_metabox( $post_id, $post ) {
+		global $wpdb;
 
 		if ( ! in_array( $post->post_type, Content_Model::get_byline_supported_post_types(), true ) ) {
 			return;
 		}
 
-		if ( ! isset( $_POST['bylines'] ) || ! current_user_can( get_taxonomy( 'byline' )->cap->assign_terms ) ) {
+		if ( ! isset( $_POST['bylines-save'] )
+			|| ! wp_verify_nonce( $_POST['bylines-save'], 'bylines-save' )
+			|| ! current_user_can( get_taxonomy( 'byline' )->cap->assign_terms ) ) {
 			return;
 		}
 
-		$dirty_bylines = $_POST['bylines'];
+		$dirty_bylines = isset( $_POST['bylines'] ) ? $_POST['bylines'] : array();
 		$bylines = array();
 		foreach ( $dirty_bylines as $dirty_byline ) {
 			if ( is_numeric( $dirty_byline ) ) {
@@ -157,6 +161,17 @@ class Post_Editor {
 			}
 		}
 		Utils::set_post_bylines( $post_id, $bylines );
+		if ( empty( $bylines ) ) {
+			$wpdb->update(
+				$wpdb->posts,
+				array(
+					'post_author' => 0,
+				), array(
+					'ID' => $post_id,
+				)
+			);
+			clean_post_cache( $post_id );
+		}
 	}
 
 	/**
