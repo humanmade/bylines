@@ -45,7 +45,16 @@ function get_bylines( $post = null ) {
  * Equivalent to the_author() template tag.
  */
 function the_bylines() {
-	echo bylines_render(
+	echo get_the_bylines();
+}
+
+/**
+ * Gets the bylines display names, without links to their posts.
+ *
+ * Equivalent to get_the_author() template tag.
+ */
+function get_the_bylines() {
+	return bylines_render(
 		get_bylines(), function( $byline ) {
 			return $byline->display_name;
 		}
@@ -58,7 +67,14 @@ function the_bylines() {
  * Equivalent to the_author_posts_link() template tag.
  */
 function the_bylines_posts_links() {
-	echo bylines_render(
+	echo get_the_bylines_posts_links();
+}
+
+/**
+ * Renders the bylines display names, with links to their posts.
+ */
+function get_the_bylines_posts_links() {
+	return bylines_render(
 		get_bylines(), function( $byline ) {
 			$link = is_a( $byline, 'WP_User' ) ? get_author_posts_url( $byline->ID ) : $byline->link;
 			$args = array(
@@ -72,11 +88,11 @@ function the_bylines_posts_links() {
 				'after_html' => '',
 			);
 			/**
-		 * Arguments for determining the display of bylines with posts links
-		 *
-		 * @param array  $args   Arguments determining the rendering of the byline.
-		 * @param Byline $byline The byline to be rendered.
-		 */
+			 * Arguments for determining the display of bylines with posts links
+			 *
+			 * @param array  $args   Arguments determining the rendering of the byline.
+			 * @param Byline $byline The byline to be rendered.
+			 */
 			$args = apply_filters( 'bylines_posts_links', $args, $byline );
 			$single_link = sprintf(
 				'<a href="%1$s" title="%2$s" class="%3$s" rel="%4$s">%5$s</a>',
@@ -97,7 +113,14 @@ function the_bylines_posts_links() {
  * Equivalent to the_author_link() template tag.
  */
 function the_bylines_links() {
-	echo bylines_render(
+	echo get_the_bylines_links();
+}
+
+/**
+ * Renders the bylines display names, with their website link if it exists.
+ */
+function get_the_bylines_links() {
+	return bylines_render(
 		get_bylines(), function( $byline ) {
 			if ( $byline->user_url ) {
 				return sprintf(
