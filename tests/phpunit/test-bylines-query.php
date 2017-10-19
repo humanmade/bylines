@@ -194,7 +194,7 @@ class Test_Bylines_Query extends Bylines_Testcase {
 		$byline = Byline::create_from_user( $this->user_id );
 		Utils::set_post_bylines( $this->post_id, array( $byline ) );
 
-		//Change byline slug to something else than user_nicename.
+		// Change byline slug to something else than user_nicename.
 		wp_update_term( $byline->term_id, 'byline', array(
 			'slug' => 'nondefaultbylineslug',
 		) );

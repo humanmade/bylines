@@ -45,12 +45,15 @@ class Bylines_Testcase extends WP_UnitTestCase {
 
 	/**
 	 * Capture any redirects
+	 *
+	 * @param string  $location The path to redirect to.
+	 * @param integer $status   Status code to use.
 	 */
 	public function filter_wp_redirect( $location, $status ) {
 		$this->final_redirect_location = $location;
 		$this->go_to( $location );
 
-		// Prevent the redirect from happening
+		// Prevent the redirect from happening.
 		return false;
 	}
 

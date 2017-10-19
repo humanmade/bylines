@@ -149,7 +149,7 @@ class Content_Model {
 			return $query;
 		}
 
-		// No redirection needed on admin requests
+		// No redirection needed on admin requests.
 		if ( is_admin() ) {
 			return $query;
 		}
