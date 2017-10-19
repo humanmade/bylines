@@ -177,4 +177,32 @@ class Test_Bylines_Query extends Bylines_Testcase {
 		$this->assertTrue( ! isset( $GLOBALS['wp_query']->bylines_having_terms ) );
 	}
 
+	/**
+	 * Redirect to byline slug if user has mapped byline with a slug that differs from user_nicename.
+	 */
+	public function test_user_with_mapped_byline_with_different_slug_should_redirect_to_byline_slug() {
+		$this->user_id = $this->factory->user->create(
+			array(
+				'display_name'   => 'User',
+			)
+		);
+		$this->post_id = $this->factory->post->create(
+			array(
+				'post_author' => $this->user_id,
+			)
+		);
+		$byline = Byline::create_from_user( $this->user_id );
+		Utils::set_post_bylines( $this->post_id, array( $byline ) );
+
+		//Change byline slug to something else than user_nicename.
+		wp_update_term( $byline->term_id, 'byline', array(
+			'slug' => 'nondefaultbylineslug',
+		) );
+
+		$this->go_to( get_author_posts_url( $this->user_id ) );
+
+		// $this->final_redirect_location is set in Bylines_Testcase::filter_wp_redirect
+		$this->assertEquals( $this->final_redirect_location, $byline->link );
+	}
+
 }
