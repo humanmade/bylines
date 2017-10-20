@@ -11,6 +11,14 @@
 class Bylines_Testcase extends WP_UnitTestCase {
 
 	/**
+	 * If a redirect occurs this will be set to the redirect location.
+	 *
+	 * @var string
+	 * @access protected
+	 */
+	protected $final_redirect_location = '';
+
+	/**
 	 * Set up the tests
 	 */
 	public function setUp() {
