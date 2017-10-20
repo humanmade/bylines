@@ -144,7 +144,7 @@ class Content_Model {
 	 *
 	 * @param WP $query Current WordPress environment instance.
 	 */
-	public static function action_parse_query( $query ) {
+	public static function action_parse_request( $query ) {
 		if ( ! isset( $query->query_vars['author_name'] ) ) {
 			return $query;
 		}

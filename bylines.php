@@ -50,7 +50,7 @@ add_action( 'init', array( 'Bylines\Content_Model', 'action_init_register_taxono
 add_action( 'init', array( 'Bylines\Content_Model', 'action_init_late_register_taxonomy_for_object_type' ), 100 );
 add_filter( 'term_link', array( 'Bylines\Content_Model', 'filter_term_link' ), 10, 3 );
 add_filter( 'update_term_metadata', array( 'Bylines\Content_Model', 'filter_update_term_metadata' ), 10, 4 );
-add_action( 'parse_request', array( 'Bylines\Content_Model', 'action_parse_query' ) );
+add_action( 'parse_request', array( 'Bylines\Content_Model', 'action_parse_request' ) );
 
 // Admin customizations.
 add_action( 'admin_init', array( 'Bylines\Post_Editor', 'action_admin_init' ) );
