@@ -138,4 +138,33 @@ class Content_Model {
 		return apply_filters( 'bylines_post_types', $post_types_with_authors );
 	}
 
+	/**
+	 * Redirect mapped accounts. If user_nicename and byline slug doesn't match,
+	 * redirect from the user_nicename to the byline slug.
+	 *
+	 * @param WP $query Current WordPress environment instance.
+	 */
+	public static function action_parse_query( $query ) {
+		if ( ! isset( $query->query_vars['author_name'] ) ) {
+			return $query;
+		}
+
+		// No redirection needed on admin requests.
+		if ( is_admin() ) {
+			return $query;
+		}
+
+		$author = get_user_by( 'slug', sanitize_title( $query->query_vars['author_name'] ) );
+		if ( is_a( $author, 'WP_User' ) ) {
+			$byline = Byline::get_by_user_id( $author->ID );
+			if ( $byline && $query->query_vars['author_name'] !== $byline->slug ) {
+				if ( wp_safe_redirect( $byline->link ) ) {
+					exit;
+				}
+			}
+		}
+
+		return $query;
+	}
+
 }
