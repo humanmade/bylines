@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.1-cli-node-browsers
+      - image: circleci/php:7-apache-stretch-node-browsers
 
     branches:
       only:
@@ -11,38 +11,13 @@ jobs:
 
     working_directory: ~/project
     steps:
-      # Update git:
-      - run:
-          name: Update git
-          command: |
-            sudo apt-get update
-            sudo apt-get install git -y
-
-      # Install composer:
-      - restore_cache:
-          key: composer
-      - run:
-          name: Install composer
-          working_directory: ~/
-          command: |
-            if [ ! -f "composer.phar" ]; then
-              php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-              php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
-              php composer-setup.php
-              php -r "unlink('composer-setup.php');"
-            fi
-      - save_cache:
-          key: composer
-          paths:
-            - ~/composer.phar
-
       # Checkout repo:
       - checkout
 
       # Build steps:
       - restore_cache:
           key: build_cache
-      - run: ~/composer.phar install
+      - run: composer install
       - run: npm install
       - run: npm install grunt-cli
       - save_cache:
@@ -50,6 +25,7 @@ jobs:
           paths:
             - ~/.npm
             - ~/.composer
+            - ~/.node-gyp
       - run: node_modules/.bin/grunt styles
 
       # Run the deploy:
