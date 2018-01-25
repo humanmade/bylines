@@ -1,0 +1,45 @@
+ul.bylines-list li {
+  border: 1px solid #ddd;
+  background-color: #FFF;
+  padding-top: 7px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  max-width: 250px; }
+  ul.bylines-list li .byline-remove {
+    display: none; }
+  ul.bylines-list li.ui-sortable-helper {
+    cursor: pointer; }
+
+ul.bylines-list.bylines-current-user-can-assign li:hover {
+  cursor: pointer; }
+
+ul.bylines-list.bylines-current-user-can-assign li .byline-remove {
+  position: absolute;
+  display: block;
+  right: 5px;
+  width: 16px;
+  z-index: 1;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%); }
+  ul.bylines-list.bylines-current-user-can-assign li .byline-remove .dashicons {
+    height: 16px;
+    width: 16px;
+    font-size: 16px; }
+
+.form-field.term-description-wrap {
+  display: none; }
+
+.bylines-select2-user-select {
+  min-width: 150px; }
+
+.column-byline_name img {
+  float: left;
+  margin-right: 10px;
+  margin-top: 1px; }
+
+.byline-image-field-container img {
+  max-width: 150px;
+  height: auto; }
