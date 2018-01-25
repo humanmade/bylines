@@ -11,6 +11,13 @@ jobs:
 
     working_directory: ~/project
     steps:
+      # Update git:
+      - run:
+          name: Update git
+          command: |
+            apt-get update
+            apt-get install git -y
+
       # Install composer:
       - restore_cache:
           key: composer
