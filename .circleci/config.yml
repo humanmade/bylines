@@ -9,14 +9,14 @@ jobs:
         # Whitelist branches to build for.
         - master
 
-    working_directory: ~/build
+    working_directory: ~/project
     steps:
       # Install composer:
       - restore_cache:
           key: composer
       - run:
           name: Install composer
-          working_directory: ~
+          working_directory: ~/
           command: |
             if [ ! -f "composer.phar" ]; then
               php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
