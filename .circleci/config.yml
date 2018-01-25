@@ -8,6 +8,8 @@ jobs:
       only:
         # Whitelist branches to build for.
         - master
+
+    working_directory: ~/build
     steps:
       # Install composer:
       - restore_cache:
