@@ -37,6 +37,7 @@ jobs:
           key: build_cache
       - run: ~/composer.phar install
       - run: npm install
+      - run: npm install grunt-cli
       - run: grunt styles
       - save_cache:
           key: build_cache
