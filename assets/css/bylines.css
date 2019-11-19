@@ -22,8 +22,7 @@ ul.bylines-list.bylines-current-user-can-assign li .byline-remove {
   width: 16px;
   z-index: 1;
   top: 50%;
-  -webkit-transform: translateY(-50%);
-          transform: translateY(-50%); }
+  transform: translateY(-50%); }
   ul.bylines-list.bylines-current-user-can-assign li .byline-remove .dashicons {
     height: 16px;
     width: 16px;
