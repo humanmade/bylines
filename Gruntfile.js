@@ -20,6 +20,7 @@ module.exports = function( grunt ) {
 
 		sass: {
 			options: {
+				implementation: require( 'node-sass' ),
 				sourceComments: false
 			},
 			compile: {
