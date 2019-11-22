@@ -52,6 +52,7 @@ class Admin_Ajax {
 		if ( ! empty( $_GET['q'] ) ) {
 			$user_args['search'] = sanitize_text_field( '*' . $_GET['q'] . '*' );
 		}
+		$user_args = apply_filters( 'bylines_user_search_args', $user_args );
 		$users = get_users( $user_args );
 		$results = array();
 		foreach ( $users as $user ) {
@@ -151,6 +152,7 @@ class Admin_Ajax {
 				}
 			}
 		}
+		$user_args = apply_filters( 'bylines_user_search_args', $user_args );
 		$users = get_users( $user_args );
 		foreach ( $users as $user ) {
 			$bylines[] = array(
