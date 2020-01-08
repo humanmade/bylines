@@ -86,6 +86,15 @@ class Byline {
 			update_term_meta( $byline->term_id, $field, $user->$field );
 		}
 		$meta = get_term_meta( $byline->term_id );
+
+		/**
+		 * Fires when a byline term is created from a WP user object.
+		 *
+		 * @param Bylines\Objects\Byline $byline Byline term created.
+		 * @param WP_User                $user   WordPress user.
+		 */
+		$byline = apply_filters( 'byline_created_from_user', $byline, $user );
+
 		return $byline;
 	}
 
