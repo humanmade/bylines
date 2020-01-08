@@ -93,7 +93,7 @@ class Byline {
 		 * @param Bylines\Objects\Byline $byline Byline term created.
 		 * @param WP_User                $user   WordPress user.
 		 */
-		$byline = apply_filters( 'byline_created_from_user', $byline, $user );
+		$byline = apply_filters( 'bylines_byline_created_from_user', $byline, $user );
 
 		return $byline;
 	}
