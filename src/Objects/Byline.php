@@ -43,6 +43,15 @@ class Byline {
 			return $term;
 		}
 		$byline = new Byline( $term['term_id'] );
+
+		/*
+		 * Fires when a byline is created from an arguments array.
+		 *
+		 * @param Bylines\Objects\Byline $byline Newly created byline term.
+		 * @param []                     $args   Array of args.
+		 */
+		$byline = apply_filters( 'bylines_byline_created', $byline, $args );
+
 		return $byline;
 	}
 
@@ -86,6 +95,15 @@ class Byline {
 			update_term_meta( $byline->term_id, $field, $user->$field );
 		}
 		$meta = get_term_meta( $byline->term_id );
+
+		/*
+		 * Fires when a byline term is created from a WP user object.
+		 *
+		 * @param Bylines\Objects\Byline $byline Byline term created.
+		 * @param WP_User                $user   WordPress user.
+		 */
+		$byline = apply_filters( 'bylines_byline_created_from_user', $byline, $user );
+
 		return $byline;
 	}
 
