@@ -190,4 +190,17 @@ class Byline {
 		return get_term_meta( $this->term_id, $attribute, true );
 	}
 
+	/**
+	 * Retrieve the value of a property or meta key.
+	 *
+	 * This method exists for compatability with the `WP_User::get()` method, to
+	 * ensure that code which uses it to get properties of authors doesn't
+	 * cause fatal errors.
+	 *
+	 * @param string $attribute Property.
+	 * @return mixed
+	 */
+	function get( $attribute ) {
+		return $this->__get( $attribute );
+	}
 }
