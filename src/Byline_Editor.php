@@ -207,7 +207,7 @@ class Byline_Editor {
 			<td>
 				<?php
 				if ( 'image' === $args['type'] ) :
-					$byline_image = wp_get_attachment_image_url( $args['value'], 'thumbnail' );
+					$byline_image = wp_get_attachment_image_url( (int) $args['value'], 'thumbnail' );
 					?>
 					<div class="byline-image-field-wrapper">
 						<div class="byline-image-field-container">
