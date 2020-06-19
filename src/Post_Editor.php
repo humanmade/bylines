@@ -98,11 +98,22 @@ class Post_Editor {
 			foreach ( get_bylines() as $byline ) {
 				$display_name = $byline->display_name;
 				$term = is_a( $byline, 'WP_User' ) ? 'u' . $byline->ID : $byline->term_id;
-				echo self::get_rendered_byline_partial( array(
+
+				$byline_display_data = array(
 					'display_name' => $display_name,
 					'avatar_url'   => get_avatar_url( $byline->user_email, 32 ),
 					'term'         => $term,
-				) );
+				);
+
+				/**
+				 * Modify the data passed when displaying a Byline in the post Edit screen.
+				 *
+				 * @param array           $byline_display_data Data to display about a Byline.
+				 * @param \WP_User|Byline $byline              Byline object.
+				 */
+				$byline_display_data = apply_filters( 'bylines_post_editor_display_data', $byline_display_data, $byline );
+
+				echo self::get_rendered_byline_partial( $byline_display_data );
 			}
 			?>
 		</ul>
