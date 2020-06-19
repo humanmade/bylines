@@ -172,6 +172,15 @@ class Admin_Ajax {
 				return strcmp( $a['display_name'], $b['display_name'] );
 			}
 		);
+
+		/**
+		 * Filter that allows search results to be modified or enhanced.
+		 *
+		 * @param array $bylines Results for bylines search
+		 * @param string $search Search query
+		 */
+		$bylines = apply_filters( 'bylines_search_results', $bylines, $search );
+
 		return $bylines;
 	}
 
