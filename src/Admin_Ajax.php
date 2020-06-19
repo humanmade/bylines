@@ -122,19 +122,30 @@ class Admin_Ajax {
 		$terms = get_terms( $term_args );
 		if ( $terms && ! is_wp_error( $terms ) ) {
 			foreach ( $terms as $term ) {
-				$byline = Byline::get_by_term_id( $term->term_id );
-				$bylines[] = array(
+				$byline_object = Byline::get_by_term_id( $term->term_id );
+
+				$byline_data = array(
 					// Select2 specific.
 					'id'            => (int) $term->term_id,
 					'text'          => $term->name,
 					// Bylines specific.
 					'term'          => (int) $term->term_id,
 					'display_name'  => $term->name,
-					'user_id'       => $byline->user_id,
-					'avatar_url'    => get_avatar_url( $byline->user_email, 32 ),
+					'user_id'       => $byline_object->user_id,
+					'avatar_url'    => get_avatar_url( $byline_object->user_email, 32 ),
 				);
-				if ( $byline->user_id ) {
-					$ignored[] = 'u' . $byline->user_id;
+
+				/**
+				 * Filter that allows search results to be modified or enhanced individually.
+				 *
+				 * @param array           $byline_data   Results for bylines search
+				 * @param Byline|\WP_User $byline_object Object with stored data about the byline.
+				 * @param string          $search        Search query
+				 */
+				$bylines[] = apply_filters( 'bylines_search_result_data', $byline_data, $byline_object, $search );
+
+				if ( $byline_object->user_id ) {
+					$ignored[] = 'u' . $byline_object->user_id;
 				}
 			}
 		}
@@ -155,7 +166,7 @@ class Admin_Ajax {
 		$user_args = apply_filters( 'bylines_user_search_args', $user_args );
 		$users = get_users( $user_args );
 		foreach ( $users as $user ) {
-			$bylines[] = array(
+			$byline_data = array(
 				// Select2 specific.
 				'id'            => 'u' . $user->ID,
 				'text'          => $user->display_name,
@@ -165,6 +176,11 @@ class Admin_Ajax {
 				'user_id'       => $user->ID,
 				'avatar_url'    => get_avatar_url( $user->user_email, 32 ),
 			);
+
+			/**
+			 * Documented above.
+			 */
+			$bylines[] = apply_filters( 'bylines_search_result_data', $byline_data, $user, $search );
 		}
 		// Sort alphabetically by display name.
 		usort(
