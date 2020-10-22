@@ -78,7 +78,7 @@ class Post_Editor {
 		foreach ( Content_Model::get_byline_supported_post_types() as $post_type ) {
 			remove_meta_box( 'authordiv', $post_type, 'normal' );
 			// @todo only register meta box when user can assign authors
-			add_meta_box( 'bylines', __( 'Bylines', 'bylines' ), array( __CLASS__, 'render_bylines_metabox' ), $post_type, 'normal', 'high' );
+			add_meta_box( 'bylines', __( 'Bylines', 'bylines' ), array( __CLASS__, 'render_bylines_metabox' ), $post_type, 'normal', 'high', array( '__back_compat_meta_box' => apply_filters( 'bylines_use_native_block_editor_meta_box', false ) ) );
 		}
 	}
 

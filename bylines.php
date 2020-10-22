@@ -67,13 +67,31 @@ add_filter( 'posts_where', array( 'Bylines\Query', 'filter_posts_where' ), 10, 2
 add_filter( 'posts_join', array( 'Bylines\Query', 'filter_posts_join' ), 10, 2 );
 add_filter( 'posts_groupby', array( 'Bylines\Query', 'filter_posts_groupby' ), 10, 2 );
 
+// Editor integrations.
 add_action( 'wp_ajax_bylines_search', array( 'Bylines\Admin_Ajax', 'handle_bylines_search' ) );
 add_action( 'wp_ajax_bylines_users_search', array( 'Bylines\Admin_Ajax', 'handle_users_search' ) );
 add_action( 'wp_ajax_byline_create_from_user', array( 'Bylines\Admin_Ajax', 'handle_byline_create_from_user' ) );
 add_action( 'admin_enqueue_scripts', array( 'Bylines\Assets', 'action_admin_enqueue_scripts' ) );
+add_action( 'enqueue_block_editor_assets', array( 'Bylines\Assets', 'action_enqueue_block_editor_assets' ) );
 add_action( 'add_meta_boxes', array( 'Bylines\Post_Editor', 'action_add_meta_boxes_late' ), 100 );
 add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_bylines_metabox' ), 10, 2 );
 add_action( 'save_post', array( 'Bylines\Post_Editor', 'action_save_post_set_initial_byline' ), 10, 3 );
+
+// Rest functionality for block editor integrations.
+add_action(
+	'init',
+	function() {
+		if ( ! apply_filters( 'bylines_use_native_block_editor_meta_box', false ) ) {
+			return;
+		}
+		add_action( 'init', array( 'Bylines\Rest', 'register_meta' ) );
+		add_action( 'init', array( 'Bylines\Rest', 'save_bylines' ) );
+		add_filter( 'get_post_metadata', array( 'Bylines\Rest', 'filter_meta' ), 10, 3 );
+		add_action( 'rest_api_init', array( 'Bylines\Rest', 'register_route' ) );
+		add_action( 'rest_prepare_post', array( 'Bylines\Rest', 'remove_authors_dropdown' ) );
+	},
+	1
+);
 
 // Theme template tag filters.
 add_filter( 'get_the_archive_title', array( 'Bylines\Integrations\Theme', 'filter_get_the_archive_title' ) );
