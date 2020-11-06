@@ -55,8 +55,8 @@ class Post_Editor {
 		if ( 'bylines' !== $column ) {
 			return;
 		}
-		$bylines = get_bylines( $post_id );
-		$post_type = get_post_type( $post_id );
+		$bylines     = get_bylines( $post_id );
+		$post_type   = get_post_type( $post_id );
 		$bylines_str = array();
 		foreach ( $bylines as $byline ) {
 			$args = array(
@@ -65,7 +65,7 @@ class Post_Editor {
 			if ( 'post' !== $post_type ) {
 				$args['post_type'] = $post_type;
 			}
-			$url = add_query_arg( array_map( 'rawurlencode', $args ), admin_url( 'edit.php' ) );
+			$url           = add_query_arg( array_map( 'rawurlencode', $args ), admin_url( 'edit.php' ) );
 			$bylines_str[] = '<a href="' . esc_url( $url ) . '">' . esc_html( $byline->display_name ) . '</a>';
 		}
 		echo implode( ', ', $bylines_str );
@@ -97,7 +97,7 @@ class Post_Editor {
 			<?php
 			foreach ( get_bylines() as $byline ) {
 				$display_name = $byline->display_name;
-				$term = is_a( $byline, 'WP_User' ) ? 'u' . $byline->ID : $byline->term_id;
+				$term         = is_a( $byline, 'WP_User' ) ? 'u' . $byline->ID : $byline->term_id;
 
 				$byline_display_data = array(
 					'display_name' => $display_name,
@@ -124,14 +124,16 @@ class Post_Editor {
 			</select>
 			<script type="text/html" id="tmpl-bylines-byline-partial">
 				<?php
-				echo self::get_rendered_byline_partial( array(
-					'display_name' => '{{ data.display_name }}',
-					'avatar_url'   => '{{ data.avatar_url }}',
-					'term'         => '{{ data.term }}',
-				) );
+				echo self::get_rendered_byline_partial(
+					array(
+						'display_name' => '{{ data.display_name }}',
+						'avatar_url'   => '{{ data.avatar_url }}',
+						'term'         => '{{ data.term }}',
+					)
+				);
 				?>
 			</script>
-		<?php
+			<?php
 		endif;
 	}
 
@@ -155,13 +157,13 @@ class Post_Editor {
 		}
 
 		$dirty_bylines = isset( $_POST['bylines'] ) ? $_POST['bylines'] : array();
-		$bylines = array();
+		$bylines       = array();
 		foreach ( $dirty_bylines as $dirty_byline ) {
 			if ( is_numeric( $dirty_byline ) ) {
 				$bylines[] = Byline::get_by_term_id( $dirty_byline );
 			} elseif ( 'u' === $dirty_byline[0] ) {
 				$user_id = (int) substr( $dirty_byline, 1 );
-				$byline = Byline::get_by_user_id( $user_id );
+				$byline  = Byline::get_by_user_id( $user_id );
 				if ( ! $byline ) {
 					$byline = Byline::create_from_user( $user_id );
 					if ( is_wp_error( $byline ) ) {
@@ -177,7 +179,8 @@ class Post_Editor {
 				$wpdb->posts,
 				array(
 					'post_author' => 0,
-				), array(
+				),
+				array(
 					'ID' => $post_id,
 				)
 			);
@@ -224,11 +227,11 @@ class Post_Editor {
 	 */
 	private static function get_rendered_byline_partial( $args = array() ) {
 		$defaults = array(
-			'display_name'    => '',
-			'avatar_url'      => '',
-			'term'            => '',
+			'display_name' => '',
+			'avatar_url'   => '',
+			'term'         => '',
 		);
-		$args = array_merge( $defaults, $args );
+		$args     = array_merge( $defaults, $args );
 		ob_start();
 		?>
 		<li>

@@ -38,17 +38,17 @@ class Query {
 		$term = get_term_by( 'slug', $author_name, 'byline' );
 		$user = get_user_by( 'slug', $author_name );
 		if ( $term ) {
-			$byline = Byline::get_by_term_id( $term->term_id );
-			$query->queried_object = $byline;
+			$byline                   = Byline::get_by_term_id( $term->term_id );
+			$query->queried_object    = $byline;
 			$query->queried_object_id = $byline->term_id;
 		} elseif ( is_object( $user ) ) {
-			$query->queried_object = $user;
+			$query->queried_object    = $user;
 			$query->queried_object_id = $user->ID;
 		} else {
-			$query->queried_object = null;
+			$query->queried_object    = null;
 			$query->queried_object_id = null;
-			$query->is_author = false;
-			$query->is_archive = false;
+			$query->is_author         = false;
+			$query->is_archive        = false;
 		}
 	}
 
@@ -69,7 +69,7 @@ class Query {
 		$author_name = $query->get( 'author_name' );
 		if ( ! $author_name ) {
 			$author_id = $query->get( 'author' );
-			$user = get_user_by( 'id', $author_id );
+			$user      = get_user_by( 'id', $author_id );
 			if ( ! $author_id || ! $user ) {
 				return $where;
 			}
@@ -77,7 +77,7 @@ class Query {
 		}
 
 		$terms = array();
-		$term = get_term_by( 'slug', $author_name, 'byline' );
+		$term  = get_term_by( 'slug', $author_name, 'byline' );
 		if ( $term ) {
 			$terms[] = $term;
 		}
@@ -93,13 +93,13 @@ class Query {
 		$maybe_both_query = $maybe_both ? '$1 OR' : '';
 
 		if ( ! empty( $terms ) ) {
-			$terms_implode = '';
+			$terms_implode               = '';
 			$query->bylines_having_terms = '';
 			foreach ( $terms as $term ) {
-				$terms_implode .= '(' . $wpdb->term_taxonomy . '.taxonomy = "byline" AND ' . $wpdb->term_taxonomy . '.term_id = \'' . $term->term_id . '\') OR ';
+				$terms_implode               .= '(' . $wpdb->term_taxonomy . '.taxonomy = "byline" AND ' . $wpdb->term_taxonomy . '.term_id = \'' . $term->term_id . '\') OR ';
 				$query->bylines_having_terms .= ' ' . $wpdb->term_taxonomy . '.term_id = \'' . $term->term_id . '\' OR ';
 			}
-			$terms_implode = rtrim( $terms_implode, ' OR' );
+			$terms_implode               = rtrim( $terms_implode, ' OR' );
 			$query->bylines_having_terms = rtrim( $query->bylines_having_terms, ' OR' );
 			// post_author = 2 OR post_author IN (2).
 			$regex = '/(\b(?:' . $wpdb->posts . '\.)?post_author\s*(=\s*[\d]+|IN\s*\([\d]+\)))/';
@@ -124,8 +124,8 @@ class Query {
 
 		// Check to see that JOIN hasn't already been added. Props michaelingp and nbaxley.
 		$term_relationship_inner_join = " INNER JOIN {$wpdb->term_relationships} ON ({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
-		$term_relationship_left_join = " LEFT JOIN {$wpdb->term_relationships} ON ({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
-		$term_taxonomy_join = " INNER JOIN {$wpdb->term_taxonomy} ON ( {$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id )";
+		$term_relationship_left_join  = " LEFT JOIN {$wpdb->term_relationships} ON ({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
+		$term_taxonomy_join           = " INNER JOIN {$wpdb->term_taxonomy} ON ( {$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id )";
 
 		// 4.6+ uses a LEFT JOIN for tax queries so we need to check for both.
 		if ( false === strpos( $join, trim( $term_relationship_inner_join ) )
@@ -153,7 +153,7 @@ class Query {
 			return $groupby;
 		}
 
-		$having = 'MAX( IF ( ' . $wpdb->term_taxonomy . '.taxonomy = "byline", IF ( ' . $query->bylines_having_terms . ',2,1 ),0 ) ) <> 1 ';
+		$having  = 'MAX( IF ( ' . $wpdb->term_taxonomy . '.taxonomy = "byline", IF ( ' . $query->bylines_having_terms . ',2,1 ),0 ) ) <> 1 ';
 		$groupby = $wpdb->posts . '.ID HAVING ' . $having;
 		return $groupby;
 	}

@@ -25,11 +25,11 @@ class Admin_Ajax {
 			exit;
 		}
 
-		$search = ! empty( $_GET['q'] ) ? sanitize_text_field( $_GET['q'] ) : '';
-		$ignored = ! empty( $_GET['ignored'] ) ? array_map( 'sanitize_text_field', $_GET['ignored'] ) : array();
-		$bylines = self::get_possible_bylines_for_search( $search, $ignored );
+		$search   = ! empty( $_GET['q'] ) ? sanitize_text_field( $_GET['q'] ) : '';
+		$ignored  = ! empty( $_GET['ignored'] ) ? array_map( 'sanitize_text_field', $_GET['ignored'] ) : array();
+		$bylines  = self::get_possible_bylines_for_search( $search, $ignored );
 		$response = array(
-			'results'    => $bylines,
+			'results' => $bylines,
 		);
 		echo wp_json_encode( $response );
 		exit;
@@ -53,16 +53,16 @@ class Admin_Ajax {
 			$user_args['search'] = sanitize_text_field( '*' . $_GET['q'] . '*' );
 		}
 		$user_args = apply_filters( 'bylines_user_search_args', $user_args );
-		$users = get_users( $user_args );
-		$results = array();
+		$users     = get_users( $user_args );
+		$results   = array();
 		foreach ( $users as $user ) {
 			$results[] = array(
-				'id'            => $user->ID,
-				'text'          => $user->display_name,
+				'id'   => $user->ID,
+				'text' => $user->display_name,
 			);
 		}
 		$response = array(
-			'results'    => $results,
+			'results' => $results,
 		);
 		echo wp_json_encode( $response );
 		exit;
@@ -79,7 +79,7 @@ class Admin_Ajax {
 		}
 
 		$user_id = (int) $_GET['user_id'];
-		$byline = Byline::create_from_user( $user_id );
+		$byline  = Byline::create_from_user( $user_id );
 		if ( is_wp_error( $byline ) ) {
 			wp_die( $byline->get_error_message() );
 		}
@@ -96,22 +96,22 @@ class Admin_Ajax {
 	 * @return array
 	 */
 	public static function get_possible_bylines_for_search( $search, $ignored = array() ) {
-		$bylines = array();
+		$bylines   = array();
 		$term_args = array(
-			'taxonomy'    => 'byline',
-			'hide_empty'  => false,
-			'number'      => 20,
+			'taxonomy'   => 'byline',
+			'hide_empty' => false,
+			'number'     => 20,
 		);
 		if ( ! empty( $search ) ) {
 			$term_args['search'] = $search;
 		}
 		if ( ! empty( $ignored ) ) {
 			$term_args['exclude'] = array();
-			$ignored_users = array();
+			$ignored_users        = array();
 			foreach ( $ignored as $val ) {
 				if ( is_numeric( $val ) ) {
 					$term_args['exclude'][] = (int) $val;
-					$user_id = get_term_meta( $val, 'user_id', true );
+					$user_id                = get_term_meta( $val, 'user_id', true );
 					if ( $user_id ) {
 						$ignored_users[] = 'u' . $user_id;
 					}
@@ -126,13 +126,13 @@ class Admin_Ajax {
 
 				$byline_data = array(
 					// Select2 specific.
-					'id'            => (int) $term->term_id,
-					'text'          => $term->name,
+					'id'           => (int) $term->term_id,
+					'text'         => $term->name,
 					// Bylines specific.
-					'term'          => (int) $term->term_id,
-					'display_name'  => $term->name,
-					'user_id'       => $byline_object->user_id,
-					'avatar_url'    => get_avatar_url( $byline_object->user_email, 32 ),
+					'term'         => (int) $term->term_id,
+					'display_name' => $term->name,
+					'user_id'      => $byline_object->user_id,
+					'avatar_url'   => get_avatar_url( $byline_object->user_email, 32 ),
 				);
 
 				/**
@@ -164,17 +164,17 @@ class Admin_Ajax {
 			}
 		}
 		$user_args = apply_filters( 'bylines_user_search_args', $user_args );
-		$users = get_users( $user_args );
+		$users     = get_users( $user_args );
 		foreach ( $users as $user ) {
 			$byline_data = array(
 				// Select2 specific.
-				'id'            => 'u' . $user->ID,
-				'text'          => $user->display_name,
+				'id'           => 'u' . $user->ID,
+				'text'         => $user->display_name,
 				// Bylines display specific.
-				'term'          => 'u' . $user->ID,
-				'display_name'  => $user->display_name,
-				'user_id'       => $user->ID,
-				'avatar_url'    => get_avatar_url( $user->user_email, 32 ),
+				'term'         => 'u' . $user->ID,
+				'display_name' => $user->display_name,
+				'user_id'      => $user->ID,
+				'avatar_url'   => get_avatar_url( $user->user_email, 32 ),
 			);
 
 			/**
@@ -184,7 +184,8 @@ class Admin_Ajax {
 		}
 		// Sort alphabetically by display name.
 		usort(
-			$bylines, function( $a, $b ) {
+			$bylines,
+			function( $a, $b ) {
 				return strcmp( $a['display_name'], $b['display_name'] );
 			}
 		);

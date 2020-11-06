@@ -35,8 +35,8 @@ class CLI {
 		}
 
 		$successes = 0;
-		$failures = 0;
-		$total = count( $args );
+		$failures  = 0;
+		$total     = count( $args );
 		foreach ( $args as $i => $post_id ) {
 			if ( $i && 0 === $i % 500 ) {
 				WP_CLI\Utils\wp_clear_object_cache();
@@ -87,8 +87,8 @@ class CLI {
 	public function convert_post_author( $args, $assoc_args ) {
 
 		$successes = 0;
-		$failures = 0;
-		$total = count( $args );
+		$failures  = 0;
+		$total     = count( $args );
 		foreach ( $args as $i => $post_id ) {
 			if ( $i && 0 === $i % 500 ) {
 				WP_CLI\Utils\wp_clear_object_cache();

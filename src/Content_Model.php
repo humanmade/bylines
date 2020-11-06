@@ -19,7 +19,7 @@ class Content_Model {
 	 */
 	public static function action_init_register_taxonomies() {
 		$args = array(
-			'labels'       => array(
+			'labels'             => array(
 				'name'                       => _x( 'Bylines', 'taxonomy general name', 'bylines' ),
 				'singular_name'              => _x( 'Byline', 'taxonomy singular name', 'bylines' ),
 				'search_items'               => __( 'Search bylines', 'bylines' ),
@@ -37,21 +37,21 @@ class Content_Model {
 				'not_found'                  => __( 'No bylines found.', 'bylines' ),
 				'menu_name'                  => __( 'Bylines', 'bylines' ),
 			),
-			'public'       => false,
-			'hierarchical' => false,
-			'sort'         => true,
-			'args'         => array(
+			'public'             => false,
+			'hierarchical'       => false,
+			'sort'               => true,
+			'args'               => array(
 				'orderby' => 'term_order',
 			),
-			'capabilities' => array(
+			'capabilities'       => array(
 				'manage_terms' => 'list_users',
 				'edit_terms'   => 'list_users',
 				'delete_terms' => 'list_users',
 				'assign_terms' => 'edit_others_posts',
 			),
-			'show_ui'      => true,
+			'show_ui'            => true,
 			'show_in_quick_edit' => false,
-			'meta_box_cb'  => false,
+			'meta_box_cb'        => false,
 		);
 		register_taxonomy( 'byline', null, $args );
 	}
@@ -79,9 +79,9 @@ class Content_Model {
 		if ( 'byline' !== $taxonomy ) {
 			return $link;
 		}
-		$byline = Byline::get_by_term_id( $term->term_id );
+		$byline          = Byline::get_by_term_id( $term->term_id );
 		$author_nicename = $byline ? $byline->slug : '';
-		$permastruct = $wp_rewrite->get_author_permastruct();
+		$permastruct     = $wp_rewrite->get_author_permastruct();
 		if ( $permastruct ) {
 			$link = str_replace( '%author%', $author_nicename, $permastruct );
 			$link = home_url( user_trailingslashit( $link ) );

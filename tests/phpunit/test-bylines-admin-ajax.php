@@ -37,7 +37,7 @@ class Test_Bylines_Admin_Ajax extends Bylines_Testcase {
 				'display_name' => 'D User 4',
 			)
 		);
-		$byline1 = Byline::create_from_user( $user_id3 );
+		$byline1  = Byline::create_from_user( $user_id3 );
 		// Empty search should return all users.
 		$bylines = Admin_Ajax::get_possible_bylines_for_search( '' );
 		$this->assertEquals(
@@ -47,7 +47,8 @@ class Test_Bylines_Admin_Ajax extends Bylines_Testcase {
 				'C User 3',
 				'D User 4',
 				'admin',
-			), wp_list_pluck( $bylines, 'text' )
+			),
+			wp_list_pluck( $bylines, 'text' )
 		);
 		// Search should default to wildcard.
 		$bylines = Admin_Ajax::get_possible_bylines_for_search( 'use' );
@@ -57,13 +58,15 @@ class Test_Bylines_Admin_Ajax extends Bylines_Testcase {
 				'B User 2',
 				'C User 3',
 				'D User 4',
-			), wp_list_pluck( $bylines, 'text' )
+			),
+			wp_list_pluck( $bylines, 'text' )
 		);
 		$bylines = Admin_Ajax::get_possible_bylines_for_search( 'C U' );
 		$this->assertEquals(
 			array(
 				'C User 3',
-			), wp_list_pluck( $bylines, 'text' )
+			),
+			wp_list_pluck( $bylines, 'text' )
 		);
 	}
 
@@ -76,7 +79,7 @@ class Test_Bylines_Admin_Ajax extends Bylines_Testcase {
 				'display_name' => 'A User 1',
 			)
 		);
-		$byline1 = Byline::create_from_user( $user_id1 );
+		$byline1  = Byline::create_from_user( $user_id1 );
 		$user_id2 = $this->factory->user->create(
 			array(
 				'display_name' => 'B User 2',
@@ -88,7 +91,8 @@ class Test_Bylines_Admin_Ajax extends Bylines_Testcase {
 			array(
 				'B User 2',
 				'admin',
-			), wp_list_pluck( $bylines, 'text' )
+			),
+			wp_list_pluck( $bylines, 'text' )
 		);
 	}
 

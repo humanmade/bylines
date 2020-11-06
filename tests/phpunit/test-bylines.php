@@ -22,7 +22,7 @@ class Test_Bylines extends Bylines_Testcase {
 				'role' => 'author',
 			)
 		);
-		$byline = Byline::create_from_user( $user_id );
+		$byline  = Byline::create_from_user( $user_id );
 		$post_id = $this->factory->post->create(
 			array(
 				'post_author' => $user_id,
@@ -42,21 +42,21 @@ class Test_Bylines extends Bylines_Testcase {
 		);
 		wp_set_current_user( $user_id );
 		$post_id = $this->factory->post->create();
-		$b1 = Byline::create(
+		$b1      = Byline::create(
 			array(
-				'slug'  => 'b1',
+				'slug'         => 'b1',
 				'display_name' => 'Byline 1',
 			)
 		);
-		$b2 = Byline::create(
+		$b2      = Byline::create(
 			array(
-				'slug'  => 'b2',
+				'slug'         => 'b2',
 				'display_name' => 'Byline 2',
 			)
 		);
 		// Mock a POST request.
 		$_POST = array(
-			'bylines' => array(
+			'bylines'      => array(
 				$b1->term_id,
 				$b2->term_id,
 			),
@@ -79,9 +79,9 @@ class Test_Bylines extends Bylines_Testcase {
 		);
 		wp_set_current_user( $user_id );
 		$post_id = $this->factory->post->create();
-		$b1 = Byline::create(
+		$b1      = Byline::create(
 			array(
-				'slug'  => 'b1',
+				'slug'         => 'b1',
 				'display_name' => 'Byline 1',
 			)
 		);
@@ -94,7 +94,7 @@ class Test_Bylines extends Bylines_Testcase {
 		$this->assertFalse( Byline::get_by_user_id( $user_id ) );
 		// Mock a POST request.
 		$_POST = array(
-			'bylines' => array(
+			'bylines'      => array(
 				'u' . $user_id,
 				$b1->term_id,
 			),
@@ -120,9 +120,9 @@ class Test_Bylines extends Bylines_Testcase {
 		);
 		wp_set_current_user( $user_id );
 		$post_id = $this->factory->post->create();
-		$b1 = Byline::create(
+		$b1      = Byline::create(
 			array(
-				'slug'  => 'b1',
+				'slug'         => 'b1',
 				'display_name' => 'Byline 1',
 			)
 		);
@@ -132,11 +132,11 @@ class Test_Bylines extends Bylines_Testcase {
 				'user_nicename' => 'foobar',
 			)
 		);
-		$byline = Byline::create_from_user( $user_id );
+		$byline  = Byline::create_from_user( $user_id );
 		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
 		// Mock a POST request.
 		$_POST = array(
-			'bylines' => array(
+			'bylines'      => array(
 				'u' . $user_id,
 				$b1->term_id,
 			),
@@ -158,15 +158,17 @@ class Test_Bylines extends Bylines_Testcase {
 			)
 		);
 		wp_set_current_user( $user_id );
-		$post_id = $this->factory->post->create( array(
-			'post_author' => $user_id,
-		) );
+		$post_id = $this->factory->post->create(
+			array(
+				'post_author' => $user_id,
+			)
+		);
 		$this->assertEquals( $user_id, get_post( $post_id )->post_author );
 		$bylines = get_bylines( $post_id );
 		$this->assertCount( 1, $bylines );
 		// Mock a POST request.
 		$_POST = array(
-			'bylines' => array(),
+			'bylines'      => array(),
 			'bylines-save' => wp_create_nonce( 'bylines-save' ),
 		);
 		do_action( 'save_post', $post_id, get_post( $post_id ), true );

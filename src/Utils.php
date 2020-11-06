@@ -47,12 +47,12 @@ class Utils {
 		if ( $bylines && ! is_wp_error( $bylines ) ) {
 			return new WP_Error( 'bylines_post_has_bylines', "Post {$post_id} already has bylines." );
 		}
-		$bylines = array();
-		$result = new \stdClass;
-		$result->created = 0;
+		$bylines          = array();
+		$result           = new \stdClass;
+		$result->created  = 0;
 		$result->existing = 0;
-		$result->post_id = 0;
-		$coauthors = get_coauthors( $post_id );
+		$result->post_id  = 0;
+		$coauthors        = get_coauthors( $post_id );
 		foreach ( $coauthors as $coauthor ) {
 			switch ( $coauthor->type ) {
 				case 'wpuser':
@@ -75,7 +75,7 @@ class Utils {
 						$bylines[] = $byline;
 						$result->existing++;
 					} else {
-						$args = array(
+						$args   = array(
 							'display_name' => $coauthor->display_name,
 							'slug'         => $coauthor->user_nicename,
 						);
@@ -94,8 +94,8 @@ class Utils {
 								continue;
 							}
 							if ( 'linked_account' === $key ) {
-								$key = 'user_id';
-								$user = get_user_by( 'login', $value );
+								$key   = 'user_id';
+								$user  = get_user_by( 'login', $value );
 								$value = $user ? $user->ID : '';
 							}
 							if ( '' !== $value ) {

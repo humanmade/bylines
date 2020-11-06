@@ -19,7 +19,7 @@ class Assets {
 
 		$screen = get_current_screen();
 		if ( ! $screen
-			|| ! ( ( 'post' === $screen->base && in_array( $screen->post_type, Content_Model::get_byline_supported_post_types() ) )
+			|| ! ( ( 'post' === $screen->base && in_array( $screen->post_type, Content_Model::get_byline_supported_post_types(), true ) )
 			|| ( isset( $screen->taxonomy ) && 'byline' === $screen->taxonomy ) ) ) {
 			return;
 		}
@@ -34,10 +34,10 @@ class Assets {
 		wp_enqueue_style( 'bylines-select2', plugins_url( 'assets/lib/select2/css/select2.min.css', dirname( __FILE__ ) ), array(), '4.0.3' );
 
 		$bylines_script_translation = array(
-			'media_upload_title' => __( 'Select or Upload Image to Your Chosen Byline', 'bylines' ),
+			'media_upload_title'  => __( 'Select or Upload Image to Your Chosen Byline', 'bylines' ),
 			'media_upload_button' => __( 'Use this image', 'bylines' ),
 		);
-		$mtime = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/js/bylines.js' );
+		$mtime                      = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/js/bylines.js' );
 		wp_enqueue_script( 'bylines', plugins_url( 'assets/js/bylines.js?mtime=' . $mtime, dirname( __FILE__ ) ), array( 'jquery', 'bylines-select2', 'jquery-ui-core', 'jquery-ui-sortable' ) );
 		wp_localize_script( 'bylines', 'bylines', $bylines_script_translation );
 		$mtime = filemtime( dirname( dirname( __FILE__ ) ) . '/assets/css/bylines.css' );
