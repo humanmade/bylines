@@ -126,7 +126,7 @@ class Content_Model {
 		$post_types_with_authors = array_values( get_post_types() );
 		foreach ( $post_types_with_authors as $key => $name ) {
 			if ( ! post_type_supports( $name, 'author' )
-				|| in_array( $name, array( 'revision', 'attachment' ), true ) ) {
+				|| in_array( $name, array( 'revision', 'attachment', 'customize_changeset' ), true ) ) {
 				unset( $post_types_with_authors[ $key ] );
 			}
 		}
