@@ -158,7 +158,7 @@ class Admin_Ajax {
 		if ( ! empty( $ignored ) ) {
 			$user_args['exclude'] = array();
 			foreach ( $ignored as $val ) {
-				if ( 'u' === $val[0] ) {
+				if ( ! is_numeric( $val ) && 'u' === $val[0] ) {
 					$user_args['exclude'][] = (int) substr( $val, 1 );
 				}
 			}
