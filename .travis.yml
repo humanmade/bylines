@@ -38,7 +38,7 @@ matrix:
       dist: precise
 
 before_script:
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       composer install
