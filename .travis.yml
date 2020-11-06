@@ -1,4 +1,4 @@
-sudo: false
+os: linux
 dist: trusty
 
 language: php
@@ -17,7 +17,7 @@ cache:
     - vendor
     - $HOME/.composer/cache
 
-matrix:
+jobs:
   include:
     - php: 7.1
       env: WP_VERSION=latest
@@ -39,20 +39,14 @@ before_script:
   - |
     if [[ ! -z "$WP_VERSION" ]] ; then
       composer install
-      composer global require consolidation/cgr
       bash bin/install-wp-tests.sh wordpress_test root '' localhost $WP_VERSION
-      if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then
-        cgr -n "phpunit/phpunit=4.8.*"
-      else
-        cgr -n "phpunit/phpunit=5.7.*"
-      fi
+      composer global require "phpunit/phpunit=5.7.*"
     fi
   - |
     if [[ "$WP_TRAVISCI" == "behat" ]] ; then
       composer install
-      composer global require consolidation/cgr
-      cgr -n wp-cli/wp-cli
-      cgr -n "behat/behat=~2.5"
+      composer global require wp-cli/wp-cli-bundle
+      composer global require "behat/behat=~2.5" -w
       bash bin/install-package-tests.sh
     fi
   - |
