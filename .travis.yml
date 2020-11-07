@@ -22,20 +22,18 @@ cache:
 
 jobs:
   include:
-    - php: 7.1
+    - php: 7.2
       env: WP_VERSION=latest
-    - php: 7.0
-      env: WP_VERSION=latest
+    - php: 7.2
+      env: WP_VERSION=trunk
+    - php: 7.2
+      env: WP_TRAVISCI=phpcs
+    - php: 7.2
+      env: WP_TRAVISCI=behat
     - php: 5.6
       env: WP_VERSION=4.4
     - php: 5.6
       env: WP_VERSION=latest
-    - php: 5.6
-      env: WP_VERSION=trunk
-    - php: 5.6
-      env: WP_TRAVISCI=phpcs
-    - php: 5.6
-      env: WP_TRAVISCI=behat
 
 before_script:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
