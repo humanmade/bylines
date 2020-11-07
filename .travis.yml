@@ -1,5 +1,8 @@
 os: linux
-dist: trusty
+dist: xenial
+
+services:
+  - mysql
 
 language: php
 
