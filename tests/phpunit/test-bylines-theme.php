@@ -19,19 +19,19 @@ class Test_Bylines_Themes extends Bylines_Testcase {
 	public function test_filter_the_archive_title_byline_author_archives() {
 		$user_id = $this->factory->user->create(
 			array(
-				'display_name'   => 'User 1',
+				'display_name' => 'User 1',
 			)
 		);
-		$byline = Byline::create(
+		$byline  = Byline::create(
 			array(
-				'display_name'   => 'Byline 1',
-				'slug'           => 'byline-1',
+				'display_name' => 'Byline 1',
+				'slug'         => 'byline-1',
 			)
 		);
 		// Post has $user_id as post_author, but a set byline.
 		$post_id = $this->factory->post->create(
 			array(
-				'post_author'    => $user_id,
+				'post_author' => $user_id,
 			)
 		);
 		Utils::set_post_bylines( $post_id, array( $byline ) );
@@ -48,21 +48,21 @@ class Test_Bylines_Themes extends Bylines_Testcase {
 	public function test_filter_the_archive_description_byline_author_archives() {
 		$user_id = $this->factory->user->create(
 			array(
-				'display_name'   => 'User 1',
-				'description'    => 'User description 1',
+				'display_name' => 'User 1',
+				'description'  => 'User description 1',
 			)
 		);
-		$byline = Byline::create(
+		$byline  = Byline::create(
 			array(
-				'display_name'   => 'Byline 1',
-				'slug'           => 'byline-1',
+				'display_name' => 'Byline 1',
+				'slug'         => 'byline-1',
 			)
 		);
 		update_term_meta( $byline->term_id, 'description', 'Byline description 1' );
 		// Post has $user_id as post_author, but a set byline.
 		$post_id = $this->factory->post->create(
 			array(
-				'post_author'    => $user_id,
+				'post_author' => $user_id,
 			)
 		);
 		Utils::set_post_bylines( $post_id, array( $byline ) );

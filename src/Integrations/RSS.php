@@ -25,7 +25,7 @@ class RSS {
 		}
 
 		$bylines = get_bylines();
-		$first = array_shift( $bylines );
+		$first   = array_shift( $bylines );
 		return ! empty( $first ) ? $first->display_name : '';
 	}
 

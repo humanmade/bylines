@@ -17,9 +17,9 @@ class Test_Bylines_RSS extends Bylines_Testcase {
 	 * Bylines should be added to RSS feed items
 	 */
 	public function test_bylines_rss_added_feed_items() {
-		$b1 = Byline::create(
+		$b1      = Byline::create(
 			array(
-				'slug'  => 'b1',
+				'slug'         => 'b1',
 				'display_name' => 'Byline 1',
 			)
 		);

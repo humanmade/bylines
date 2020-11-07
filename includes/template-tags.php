@@ -23,7 +23,7 @@ function get_bylines( $post = null ) {
 		return array();
 	}
 	$taxonomy = 'byline';
-	$terms = get_the_terms( $post->ID, $taxonomy );
+	$terms    = get_the_terms( $post->ID, $taxonomy );
 	if ( $terms && ! is_wp_error( $terms ) ) {
 		$bylines = array();
 		foreach ( $terms as $term ) {
@@ -55,7 +55,8 @@ function the_bylines() {
  */
 function get_the_bylines() {
 	return bylines_render(
-		get_bylines(), function( $byline ) {
+		get_bylines(),
+		function( $byline ) {
 			return $byline->display_name;
 		}
 	);
@@ -75,17 +76,18 @@ function the_bylines_posts_links() {
  */
 function get_the_bylines_posts_links() {
 	return bylines_render(
-		get_bylines(), function( $byline ) {
+		get_bylines(),
+		function( $byline ) {
 			$link = is_a( $byline, 'WP_User' ) ? get_author_posts_url( $byline->ID ) : $byline->link;
 			$args = array(
 				'before_html' => '',
-				'href' => $link,
-				'rel' => 'author',
+				'href'        => $link,
+				'rel'         => 'author',
 				// translators: Posts by a given author.
-				'title' => sprintf( __( 'Posts by %1$s', 'bylines' ), apply_filters( 'the_author', $byline->display_name ) ),
-				'class' => 'author url fn',
-				'text' => apply_filters( 'the_author', $byline->display_name ),
-				'after_html' => '',
+				'title'       => sprintf( __( 'Posts by %1$s', 'bylines' ), apply_filters( 'the_author', $byline->display_name ) ),
+				'class'       => 'author url fn',
+				'text'        => apply_filters( 'the_author', $byline->display_name ),
+				'after_html'  => '',
 			);
 			/**
 			 * Arguments for determining the display of bylines with posts links
@@ -93,7 +95,7 @@ function get_the_bylines_posts_links() {
 			 * @param array  $args   Arguments determining the rendering of the byline.
 			 * @param Byline $byline The byline to be rendered.
 			 */
-			$args = apply_filters( 'bylines_posts_links', $args, $byline );
+			$args        = apply_filters( 'bylines_posts_links', $args, $byline );
 			$single_link = sprintf(
 				'<a href="%1$s" title="%2$s" class="%3$s" rel="%4$s">%5$s</a>',
 				esc_url( $args['href'] ),
@@ -121,7 +123,8 @@ function the_bylines_links() {
  */
 function get_the_bylines_links() {
 	return bylines_render(
-		get_bylines(), function( $byline ) {
+		get_bylines(),
+		function( $byline ) {
 			if ( $byline->user_url ) {
 				return sprintf(
 					'<a href="%s" title="%s" rel="external">%s</a>',
@@ -155,10 +158,10 @@ function bylines_render( $bylines, $render_callback, $args = array() ) {
 		'between_last_two'  => __( ' and ', 'bylines' ),
 		'between_last_many' => __( ', and ', 'bylines' ),
 	);
-	$args = array_merge( $defaults, $args );
-	$total = count( $bylines );
-	$current = 0;
-	$output = '';
+	$args     = array_merge( $defaults, $args );
+	$total    = count( $bylines );
+	$current  = 0;
+	$output   = '';
 	foreach ( $bylines as $byline ) {
 		$current++;
 		if ( $current > 1 ) {

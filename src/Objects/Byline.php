@@ -35,8 +35,10 @@ class Byline {
 			return new WP_Error( 'missing-display_name', __( "'display_name' is a required argument", 'bylines' ) );
 		}
 		$term = wp_insert_term(
-			$args['display_name'], 'byline', array(
-				'slug'     => $args['slug'],
+			$args['display_name'],
+			'byline',
+			array(
+				'slug' => $args['slug'],
 			)
 		);
 		if ( is_wp_error( $term ) ) {
@@ -74,8 +76,8 @@ class Byline {
 		}
 		$byline = self::create(
 			array(
-				'display_name'    => $user->display_name,
-				'slug'            => $user->user_nicename,
+				'display_name' => $user->display_name,
+				'slug'         => $user->user_nicename,
 			)
 		);
 		if ( is_wp_error( $byline ) ) {

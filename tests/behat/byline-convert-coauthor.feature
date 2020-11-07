@@ -60,9 +60,9 @@ Feature: Convert coauthors to bylines
       Now inspecting or updating 5 total posts.
       1/5) Added - Post #1 'Hello world!' now has an author term for: admin
       2/5) Added - Post #2 'Sample Page' now has an author term for: admin
-      3/5) Skipping - Post #3 'Test Post 1' already has these terms: testauthor
-      4/5) Skipping - Post #4 'Test Post 2' already has these terms: testeditor
-      5/5) Skipping - Post #5 'Test Post 3' already has these terms: testauthor
+      3/5) Skipping - Post #4 'Test Post 1' already has these terms: testauthor
+      4/5) Skipping - Post #5 'Test Post 2' already has these terms: testeditor
+      5/5) Skipping - Post #6 'Test Post 3' already has these terms: testauthor
       Updating author terms with new counts
       Success: Done! Of 5 posts, 2 now have author terms.
       """

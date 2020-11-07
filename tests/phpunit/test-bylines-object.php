@@ -49,14 +49,14 @@ class Test_Bylines_Object extends Bylines_Testcase {
 	public function test_create_byline_from_user() {
 		$user_id = $this->factory->user->create(
 			array(
-				'display_name'    => 'Foo Bar',
-				'first_name'      => 'Foo',
-				'last_name'       => 'Bar',
-				'user_email'      => 'foobar@gmail.com',
-				'user_login'      => 'foobar',
+				'display_name' => 'Foo Bar',
+				'first_name'   => 'Foo',
+				'last_name'    => 'Bar',
+				'user_email'   => 'foobar@gmail.com',
+				'user_login'   => 'foobar',
 			)
 		);
-		$byline = Byline::create_from_user( $user_id );
+		$byline  = Byline::create_from_user( $user_id );
 		$this->assertInstanceOf( 'Bylines\Objects\Byline', $byline );
 		$this->assertEquals( $user_id, $byline->user_id );
 		$this->assertEquals( 'Foo Bar', $byline->display_name );
@@ -95,18 +95,18 @@ class Test_Bylines_Object extends Bylines_Testcase {
 	public function test_bylines_object_looks_like_wp_user_object() {
 		$user_id = $this->factory->user->create(
 			array(
-				'display_name'   => 'Test Author',
-				'first_name'     => 'Test',
-				'last_name'      => 'Author',
-				'user_email'     => 'test@example.org',
-				'user_login'     => 'test-author',
-				'user_nicename'  => 'testauthor',
-				'user_url'       => 'http://example.org',
-				'description'    => 'This is a description',
+				'display_name'  => 'Test Author',
+				'first_name'    => 'Test',
+				'last_name'     => 'Author',
+				'user_email'    => 'test@example.org',
+				'user_login'    => 'test-author',
+				'user_nicename' => 'testauthor',
+				'user_url'      => 'http://example.org',
+				'description'   => 'This is a description',
 			)
 		);
-		$user = get_user_by( 'id', $user_id );
-		$byline = Byline::create_from_user( $user );
+		$user    = get_user_by( 'id', $user_id );
+		$byline  = Byline::create_from_user( $user );
 		// Field: display_name.
 		$this->assertEquals( $user->display_name, $byline->display_name );
 		$this->assertEquals( 'Test Author', $byline->display_name );
@@ -139,7 +139,7 @@ class Test_Bylines_Object extends Bylines_Testcase {
 	public function test_byline_reassign_user_remaining_meta() {
 		$user_id1 = $this->factory->user->create();
 		$user_id2 = $this->factory->user->create();
-		$byline = Byline::create_from_user( $user_id1 );
+		$byline   = Byline::create_from_user( $user_id1 );
 		$this->assertEquals( $user_id1, $byline->user_id );
 		$metas = get_term_meta( $byline->term_id );
 		$metas = array_keys( $metas );
@@ -153,7 +153,8 @@ class Test_Bylines_Object extends Bylines_Testcase {
 				'user_login',
 				'user_url',
 				'description',
-			), $metas
+			),
+			$metas
 		);
 		update_term_meta( $byline->term_id, 'user_id', $user_id2 );
 		$this->assertEquals( $user_id2, $byline->user_id );
@@ -169,7 +170,8 @@ class Test_Bylines_Object extends Bylines_Testcase {
 				'user_url',
 				'description',
 				'user_id_' . $user_id2,
-			), $metas
+			),
+			$metas
 		);
 	}
 
