@@ -93,6 +93,3 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 }
 
 require_once dirname( __FILE__ ) . '/includes/template-tags.php';
-if ( file_exists( dirname( __FILE__ ) . '/includes/dev.php' ) ) {
-	require_once dirname( __FILE__ ) . '/includes/dev.php';
-}
